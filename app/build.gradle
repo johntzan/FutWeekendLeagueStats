@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        release {
+            keyAlias 'futChampionsReleaseKey'
+            keyPassword 'futchamps'
+            storeFile file('./releaseKey.jks')
+            storePassword 'futchamps'
+        }
+    }
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
+    defaultConfig {
+        applicationId "com.weekendleague.stats"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            debuggable false
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+//            minifyEnabled true //Cannot run proguard with espresso tests
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            testProguardFile 'proguard-project-test.pro'
+            testCoverageEnabled true
+        }
+    }
+    productFlavors {
+        prod {
+            minSdkVersion 15
+            applicationId 'com.weekendleague.stats.prod'
+            signingConfig signingConfigs.release
+            proguardFile 'proguard-rules.pro'
+            targetSdkVersion 25
+            versionCode 3
+            versionName '1.0'
+            resValue "string", "app_name", "FUT Weekend League Stats"
+        }
+        staging {
+            minSdkVersion 15
+            applicationId 'com.weekendleague.stats.staging'
+            signingConfig signingConfigs.debug
+            proguardFile 'proguard-rules.pro'
+            targetSdkVersion 25
+            versionCode 1
+            versionName '1.0'
+            resValue "string", "app_name", "FUT Weekend League Stats"
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+
+
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
+
+}

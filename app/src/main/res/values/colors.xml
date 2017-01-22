@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#96061a</color>
+    <color name="colorPrimaryDark">#96061a</color>
+    <color name="colorAccent">#fedb17</color>
+
+    <color name="truetransparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="true_blue1">#0064c8</color>
+    <color name="azure1">#0078f0</color>
+    <color name="dark_cyan">#009688</color>
+    <color name="azure">#0096ff</color>
+    <color name="azureTransparent">#800096ff</color>
+    <color name="azure90Transparent">#E60096ff</color>
+    <color name="deep_sky_blue">#00b4ff</color>
+    <color name="true_blue">#1478c8</color>
+    <color name="dark_jungle_green">#231f20</color>
+    <color name="charcoal">#37474f</color>
+    <color name="feldgrau">#455a64</color>
+    <color name="outer_space">#4a4a4a</color>
+    <color name="united_nations_blue">#4a90e2</color>
+    <color name="verdigris">#4cb5ab</color>
+    <color name="indigo">#501478</color>
+    <color name="davy_grey">#5b565656</color>
+    <color name="dark_magenta">#96148c</color>
+    <color name="mordant_red_19">#b41400</color>
+    <color name="silver">#bbbbbb</color>
+    <color name="timberwolf">#d7d7d7</color>
+    <color name="platinum">#e4e7e8</color>
+    <color name="munsell">#eceff0</color>
+    <color name="electric_crimson">#f0003c</color>
+    <color name="scarlet">#96061a</color>
+    <color name="ucla_gold1">#fedb17</color>
+    <color name="ucla_gold">#ffb300</color>
+    <color name="ucla_gold2">#ffb400</color>
+    <color name="white">#ffffff</color>
+    <color name="whiteTransparent">#80ffffff</color>
+
+</resources>
