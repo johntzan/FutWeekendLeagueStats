@@ -12,14 +12,6 @@
         <item name="editTextColor">@color/white</item>
         <item name="android:textAllCaps">false</item>
 
-        <item name="android:alertDialogTheme">@style/AlertDialogTheme</item>
-        <item name="android:alertDialogStyle">@style/AlertDialogTheme</item>
-    </style>
-
-    <style name="AlertDialogTheme">
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorAccent">@color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

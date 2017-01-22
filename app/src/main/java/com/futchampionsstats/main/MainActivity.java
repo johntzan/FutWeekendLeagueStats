@@ -1,18 +1,15 @@
 package com.futchampionsstats.main;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.Utils.Utils;
@@ -23,6 +20,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnMainFragmentInteractionListener,
         WLFragment.OnNewWLFragmentInteractionListener, NewGameFragment.OnNewGameFragmentInteractionListener,
@@ -117,32 +116,35 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             }
             if(args.containsKey(Constants.NEW_WL)){
                 final WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.NEW_WL);
-                new AlertDialog.Builder(this)
-                        .setTitle("Start New Weekend League?")
-                        .setMessage("Are you sure you would like to start a new Weekend League?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Log.d(TAG, "onClick: yes");
-                                Log.d(TAG, "onNewWLFragmentInteraction: ");
-                                if(wlFragment!=null && weekendLeague!=null){
-                                    wlFragment.clearWeekendLeague(weekendLeague);
-                                }
-                                else{
-                                    Log.d(TAG, "onNewWLFragmentInteraction: nulls");
-                                }
-                                dialog.dismiss();
-
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Log.d(TAG, "onClick: no");
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .setCancelable(true)
-                        .create().show();
+                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("Start New Weekend League?");
+                pDialog.setContentText("Are you sure you would like to start a new Weekend League?");
+                pDialog.setConfirmText("Yes");
+                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        Log.d(TAG, "onClick: yes");
+                        if(wlFragment!=null && weekendLeague!=null){
+                            wlFragment.clearWeekendLeague(weekendLeague);
+                        }
+                        else{
+                            Log.d(TAG, "onNewWLFragmentInteraction: nulls");
+                        }
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                pDialog.setCancelText("No");
+                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        Log.d(TAG, "onClick: no");
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                pDialog.setCancelable(true);
+                pDialog.setCanceledOnTouchOutside(true);
+                pDialog.show();
 
             }
 

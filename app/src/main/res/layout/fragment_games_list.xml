@@ -1,6 +1,4 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.view.View"/>
         <variable
@@ -68,16 +66,32 @@
                 android:scrollbars="vertical" />
 
         </ScrollView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:padding="10dp"
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:visibility="@{weekendLeague.weekendLeague.size()==0 ? View.VISIBLE : View.GONE}"
-            android:text="@string/no_games_have_been_added_to_this_weekend_league"
-            />
+            android:paddingRight="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:padding="10dp"
+                android:text="@string/no_games_have_been_added_to_this_weekend_league"
+                />
+
+        </RelativeLayout>
+
     </LinearLayout>
     </RelativeLayout>
 

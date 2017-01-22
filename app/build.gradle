@@ -40,8 +40,8 @@ android {
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
-            versionCode 3
-            versionName '1.0'
+            versionCode 4
+            versionName '1.0.5'
             resValue "string", "app_name", "FUT Weekend League Stats"
         }
         staging {
@@ -51,7 +51,7 @@ android {
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
             versionCode 1
-            versionName '1.0'
+            versionName '1.0.5'
             resValue "string", "app_name", "FUT Weekend League Stats"
         }
     }
@@ -76,5 +76,6 @@ dependencies {
 
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'cn.pedant.sweetalert:library:1.3'
 
 }

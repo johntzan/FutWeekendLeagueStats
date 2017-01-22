@@ -26,6 +26,11 @@
     public static int e(...);
 }
 
+# Sweet Alert Dialog
+-keep class cn.pedant.SweetAlert.Rotate3dAnimation {
+  public <init>(...);
+}
+
 # OkHttp
 -keepattributes Signature
 -keepattributes *Annotation*
