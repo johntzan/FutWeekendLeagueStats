@@ -14,16 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.futchampionsstats.Adapters.GamesListAdapter;
 import com.futchampionsstats.R;
 import com.futchampionsstats.Utils.Constants;
+import com.futchampionsstats.adapters.GamesListAdapter;
 import com.futchampionsstats.databinding.FragmentGamesListBinding;
 import com.futchampionsstats.models.WeekendLeague;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 public class ViewGamesFragment extends Fragment {
 

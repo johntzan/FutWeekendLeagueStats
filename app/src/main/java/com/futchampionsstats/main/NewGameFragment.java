@@ -4,7 +4,6 @@ import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -16,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -27,7 +28,7 @@ import com.futchampionsstats.databinding.FragmentNewGameBinding;
 import com.futchampionsstats.models.Game;
 import com.google.gson.Gson;
 
-import java.util.Random;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.ContentValues.TAG;
 
@@ -36,7 +37,7 @@ public class NewGameFragment extends Fragment {
 
 
     private static OnNewGameFragmentInteractionListener mListener;
-    private static Game mGame;
+    private static boolean warningShown = false;
 
     public NewGameFragment() {
         // Required empty public constructor
@@ -64,7 +65,7 @@ public class NewGameFragment extends Fragment {
         // Inflate the layout for this fragment
         FragmentNewGameBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_game, container, false);
         NewGameHandlers handlers = new NewGameHandlers();
-        mGame = new Game();
+        Game mGame = new Game();
         binding.setGame(mGame);
         binding.setHandlers(handlers);
 
@@ -104,7 +105,7 @@ public class NewGameFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (s.length() == 2) {
+                        if (s.length() > 0) {
                             int userPoss = Integer.parseInt(s.toString());
                             int oppPoss = Math.abs(userPoss - 100);
                             game.setOpp_possession(Integer.toString(oppPoss));
@@ -131,7 +132,7 @@ public class NewGameFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (s.length() == 2) {
+                        if (s.length() > 0) {
                             int oppPoss = Integer.parseInt(s.toString());
                             int userPoss = Math.abs(oppPoss - 100);
                             game.setUser_possession(Integer.toString(userPoss));
@@ -178,6 +179,26 @@ public class NewGameFragment extends Fragment {
 
         }
 
+        @BindingAdapter({"GameDisconnectWatcher"})
+        public static void gameDisconnectWatcher(final CheckBox checkbox, final Game game) {
+
+            if (game != null && checkbox != null) {
+                checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(checkbox.isChecked()){
+                            game.setGame_disconnected(true);
+                            showDisconnectWarning(checkbox);
+                        }
+                        else{
+                            game.setGame_disconnected(false);
+                        }
+                    }
+                });
+            }
+
+        }
+
         @BindingAdapter({"OnGameFinished"})
         public static void onGameFinished(final Button btn, final Game game) {
             btn.setOnClickListener(new View.OnClickListener() {
@@ -211,6 +232,12 @@ public class NewGameFragment extends Fragment {
                             b.putSerializable(Constants.NEW_GAME, game);
                             if(mListener!=null) mListener.onNewGameFragmentInteraction(b);
                         }
+                        else if(gameDataCheck.equals("Disconnect")){
+                            game.setUser_won(false);
+                            Bundle b = new Bundle();
+                            b.putSerializable(Constants.NEW_GAME, game);
+                            if(mListener!=null) mListener.onNewGameFragmentInteraction(b);
+                        }
                         else{
                             Toast.makeText(btn.getContext(), gameDataCheck, Toast.LENGTH_LONG).show();
                         }
@@ -225,11 +252,10 @@ public class NewGameFragment extends Fragment {
     }
 
     private static String checkIfGameDataCorrect(Game game){
-        if(game.getUser_goals()!=null && game.getOpp_goals()!=null && game.getUser_shots()!=null && game.getOpp_shots()!=null &&
-                game.getUser_sog()!=null && game.getOpp_sog()!=null && game.getUser_possession()!=null && game.getOpp_possession()!=null &&
-                game.getUser_tackles()!=null && game.getOpp_tackles()!=null && game.getUser_corners()!=null && game.getOpp_corners()!=null &&
-                game.getUser_team()!=null && game.getOpp_team()!=null && game.getUser_formation()!=null && game.getOpp_formation()!=null &&
-                game.getUser_team_rating()!=null && game.getOpp_team_rating()!=null && game.getOpp_name()!=null){
+        if(game.getGame_disconnected()){
+            return "Disconnect";
+        }
+        else if(game.checkIfNotNull()){
             if(game.getUser_goals().equals(game.getOpp_goals())){
                 if(!game.isPenalties()){
                     //game score is tie, but penalties not set, return error
@@ -271,6 +297,30 @@ public class NewGameFragment extends Fragment {
                 R.array.formations_array, android.R.layout.simple_spinner_item);
         opponent_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         opponentFormationSpinner.setAdapter(opponent_adapter);
+    }
+
+    private static void showDisconnectWarning(View v) {
+
+        if (!warningShown) {
+
+            SweetAlertDialog pDialog = new SweetAlertDialog(v.getContext(), SweetAlertDialog.NORMAL_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Disconnected from EA Servers?");
+            pDialog.setContentText("If checked, this game's stats will not count towards averages and are not needed to complete this game but you may still add stats in for your own information.");
+            pDialog.setConfirmText("OK");
+            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    Log.d(TAG, "onClick: ok");
+                    warningShown = true;
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+            pDialog.setCancelable(true);
+            pDialog.setCanceledOnTouchOutside(true);
+            pDialog.show();
+
+        }
     }
 
     @Override

@@ -42,6 +42,38 @@ public class WeekendLeague extends BaseObservable implements Serializable{
         return Integer.toString(gamesWon);
     }
 
+    @Bindable
+    public String getDisconnectTotal(){
+        int gamesDisconnected = 0;
+        if(this.weekendLeague.size()>0){
+            int i = 0;
+            while(i<this.weekendLeague.size()){
+                Game currGame = this.weekendLeague.get(i);
+                if(currGame.getGame_disconnected()){
+                    gamesDisconnected++;
+                }
+                i++;
+            }
+        }
+        return Integer.toString(gamesDisconnected);
+    }
+
+    @Bindable
+    public String getQuitTotal(){
+        int totalQuits = 0;
+        if(this.weekendLeague.size()>0){
+            int i = 0;
+            while(i<this.weekendLeague.size()){
+                Game currGame = this.weekendLeague.get(i);
+                if(currGame.isRage_quit()){
+                    totalQuits++;
+                }
+                i++;
+            }
+        }
+        return Integer.toString(totalQuits);
+    }
+
     public void clearWL(){
         this.weekendLeague.clear();
         notifyPropertyChanged(BR._all);

@@ -2,12 +2,11 @@ package com.futchampionsstats.main;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,9 +25,10 @@ import com.futchampionsstats.R;
 import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.Utils.Utils;
 import com.futchampionsstats.databinding.FragmentEditGameBinding;
-import com.futchampionsstats.databinding.FragmentNewGameBinding;
 import com.futchampionsstats.models.Game;
 import com.google.gson.Gson;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.ContentValues.TAG;
 
@@ -40,6 +41,7 @@ public class EditGameFragment extends Fragment {
     private static OnEditGameFragmentInteractionListener mListener;
     private static Game mGame;
     private static int game_pos;
+    private static boolean warningShown = false;
 
     public EditGameFragment() {
         // Required empty public constructor
@@ -82,10 +84,10 @@ public class EditGameFragment extends Fragment {
 
     public static class EditGameHandlers {
 
-        public void onClick(View view){
+        public void onClick(View view) {
 
             Bundle b = new Bundle();
-            switch(view.getId()) {
+            switch (view.getId()) {
                 case R.id.back_btn:
                     Utils.hideKeyboard(view.getContext(), view.getWindowToken());
                     b.putSerializable(Constants.BACK_BTN, Constants.BACK_BTN);
@@ -96,7 +98,7 @@ public class EditGameFragment extends Fragment {
                     break;
 
             }
-            if(mListener!=null) mListener.onEditGameFragmentInteraction(b);
+            if (mListener != null) mListener.onEditGameFragmentInteraction(b);
         }
 
         @BindingAdapter({"UserPossessionWatcher"})
@@ -115,7 +117,7 @@ public class EditGameFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (s.length() == 2) {
+                        if (s.length() > 0) {
                             int userPoss = Integer.parseInt(s.toString());
                             int oppPoss = Math.abs(userPoss - 100);
                             game.setOpp_possession(Integer.toString(oppPoss));
@@ -142,7 +144,7 @@ public class EditGameFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if (s.length() == 2) {
+                        if (s.length() > 0) {
                             int oppPoss = Integer.parseInt(s.toString());
                             int userPoss = Math.abs(oppPoss - 100);
                             game.setUser_possession(Integer.toString(userPoss));
@@ -189,6 +191,26 @@ public class EditGameFragment extends Fragment {
 
         }
 
+        @BindingAdapter({"GameDisconnectWatcher"})
+        public static void gameDisconnectWatcher(final CheckBox checkbox, final Game game) {
+
+            if (game != null && checkbox != null) {
+                if(!game.getGame_disconnected()){
+                    checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                            if (checkbox.isChecked()) {
+                                game.setGame_disconnected(true);
+                                showDisconnectWarning(checkbox);
+                            } else {
+                                game.setGame_disconnected(false);
+                            }
+                        }
+                    });
+                }
+            }
+
+        }
     }
 
     private static void saveGame(Game game, int pos, View v){
@@ -223,6 +245,14 @@ public class EditGameFragment extends Fragment {
                 b.putInt(Constants.SAVE_GAME_POS, pos);
                 if(mListener!=null) mListener.onEditGameFragmentInteraction(b);
             }
+            else if(gameDataCheck.equals("Disconnect")){
+                game.setUser_won(false);
+                Log.d(TAG, "FinishedOnClick: " + new Gson().toJson(game));
+                Bundle b = new Bundle();
+                b.putSerializable(Constants.SAVE_GAME, game);
+                b.putInt(Constants.SAVE_GAME_POS, pos);
+                if(mListener!=null) mListener.onEditGameFragmentInteraction(b);
+            }
             else{
                 Toast.makeText(v.getContext(), gameDataCheck, Toast.LENGTH_LONG).show();
             }
@@ -236,11 +266,10 @@ public class EditGameFragment extends Fragment {
 
 
     private static String checkIfGameDataCorrect(Game game){
-        if(!game.getUser_goals().equals("") && !game.getOpp_goals().equals("") && !game.getUser_shots().equals("") && !game.getOpp_shots().equals("") &&
-                !game.getUser_sog().equals("") && !game.getOpp_sog().equals("") && !game.getUser_possession().equals("") && !game.getOpp_possession().equals("") &&
-                !game.getUser_tackles().equals("") && !game.getOpp_tackles().equals("") && !game.getUser_corners().equals("") && !game.getOpp_corners().equals("") &&
-                !game.getUser_team().equals("") && !game.getOpp_team().equals("") && !game.getUser_formation().equals("")&& !game.getOpp_formation().equals("") &&
-                !game.getUser_team_rating().equals("") && !game.getOpp_team_rating().equals("") && !game.getOpp_name().equals("")){
+        if(game.getGame_disconnected()){
+            return "Disconnect";
+        }
+        else if(game.checkIfNotNull() && game.checkIfNotEmpty()){
             if(game.getUser_goals().equals(game.getOpp_goals())){
                 if(!game.isPenalties()){
                     //game score is tie, but penalties not set, return error
@@ -282,6 +311,30 @@ public class EditGameFragment extends Fragment {
                 R.array.formations_array, android.R.layout.simple_spinner_item);
         opponent_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         opponentFormationSpinner.setAdapter(opponent_adapter);
+    }
+
+    private static void showDisconnectWarning(View v) {
+
+        if (!warningShown) {
+
+            SweetAlertDialog pDialog = new SweetAlertDialog(v.getContext(), SweetAlertDialog.NORMAL_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Disconnected from EA Servers?");
+            pDialog.setContentText("If checked, this game's stats will not count towards averages and are not needed to complete this game but you may still add stats in for your own information.");
+            pDialog.setConfirmText("OK");
+            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    Log.d(TAG, "onClick: ok");
+                    warningShown = true;
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+            pDialog.setCancelable(true);
+            pDialog.setCanceledOnTouchOutside(true);
+            pDialog.show();
+
+        }
     }
 
     @Override

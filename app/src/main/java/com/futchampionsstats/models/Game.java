@@ -85,6 +85,9 @@ public class Game extends BaseObservable implements Serializable{
     private String game_notes;
 
     @Bindable
+    private Boolean game_disconnected = false;
+
+    @Bindable
     public String getUser_goals() {
         return user_goals;
     }
@@ -358,6 +361,40 @@ public class Game extends BaseObservable implements Serializable{
     public void setOpp_name(String opp_name) {
         this.opp_name = opp_name;
     }
+
+    @Bindable
+    public Boolean getGame_disconnected() {
+        if(this.game_disconnected!=null){
+            return game_disconnected;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public void setGame_disconnected(Boolean game_disconnected) {
+        this.game_disconnected = game_disconnected;
+        notifyPropertyChanged(BR._all);
+    }
+
+    public boolean checkIfNotNull(){
+        return (this.getUser_goals()!=null && this.getOpp_goals()!=null && this.getUser_shots()!=null && this.getOpp_shots()!=null &&
+                this.getUser_sog()!=null && this.getOpp_sog()!=null && this.getUser_possession()!=null && this.getOpp_possession()!=null &&
+                this.getUser_tackles()!=null && this.getOpp_tackles()!=null && this.getUser_corners()!=null && this.getOpp_corners()!=null &&
+                this.getUser_team()!=null && this.getOpp_team()!=null && this.getUser_formation()!=null && this.getOpp_formation()!=null &&
+                this.getUser_team_rating()!=null && this.getOpp_team_rating()!=null && this.getOpp_name()!=null);
+
+    }
+
+    public boolean checkIfNotEmpty(){
+
+        return (!this.getUser_goals().equals("") && !this.getOpp_goals().equals("") && !this.getUser_shots().equals("") && !this.getOpp_shots().equals("") &&
+                !this.getUser_sog().equals("") && !this.getOpp_sog().equals("") && !this.getUser_possession().equals("") && !this.getOpp_possession().equals("") &&
+                !this.getUser_tackles().equals("") && !this.getOpp_tackles().equals("") && !this.getUser_corners().equals("") && !this.getOpp_corners().equals("") &&
+                !this.getUser_team().equals("") && !this.getOpp_team().equals("") && !this.getUser_formation().equals("")&& !this.getOpp_formation().equals("") &&
+                !this.getUser_team_rating().equals("") && !this.getOpp_team_rating().equals("") && !this.getOpp_name().equals(""));
+    }
+
 
     public void finished(){
         Log.d(TAG, "finished: " + this.getUser_goals() +  " opp: " + this.getOpp_goals());

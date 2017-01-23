@@ -87,4 +87,7 @@
     <string name="shots_against">Shots Against</string>
     <string name="shots_for">Shots For</string>
     <string name="avg_opponent_team_rating">Team Rating</string>
+    <string name="disconnected_from_ea_servers">Disconnected from EA servers?</string>
+    <string name="disconnects">Disconnects</string>
+    <string name="rage_quits">Rage Quits</string>
 </resources>

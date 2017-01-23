@@ -691,6 +691,13 @@
                 android:selectAllOnFocus="true"
                 android:hint="@string/rage_quit_hint"/>
 
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={game.game_disconnected}"
+                GameDisconnectWatcher="@{game}"
+                android:text="@string/disconnected_from_ea_servers"/>
+
             <EditText
                 android:id="@+id/game_notes"
                 android:layout_width="wrap_content"

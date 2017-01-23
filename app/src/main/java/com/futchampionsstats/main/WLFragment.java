@@ -1,23 +1,18 @@
 package com.futchampionsstats.main;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.databinding.FragmentWlBinding;
@@ -26,15 +21,10 @@ import com.futchampionsstats.models.WeekendLeague;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-
-import static android.content.ContentValues.TAG;
 
 
 public class WLFragment extends Fragment {
@@ -160,7 +150,7 @@ public class WLFragment extends Fragment {
                         ArrayList<Integer> shotsFor = new ArrayList<>();
                         ArrayList<Integer> shotsForOnGoal = new ArrayList<>();
                         for(Game game : wl.getWeekendLeague()){
-                            if(game.getUser_shots()!=null || game.getUser_sog()!=null){
+                            if((game.getGame_disconnected()!=null && !game.getGame_disconnected()) && (game.getUser_shots()!=null || game.getUser_sog()!=null)){
                                 shotsFor.add(Integer.parseInt(game.getUser_shots()));
                                 shotsForOnGoal.add(Integer.parseInt(game.getUser_sog()));
                             }
@@ -186,7 +176,7 @@ public class WLFragment extends Fragment {
                         ArrayList<Integer> possFor = new ArrayList<>();
                         ArrayList<Integer> possAgainst = new ArrayList<>();
                         for(Game game : wl.getWeekendLeague()){
-                            if(game.getUser_possession()!=null || game.getOpp_possession()!=null){
+                            if(!game.getGame_disconnected() && (game.getUser_possession()!=null || game.getOpp_possession()!=null)){
                                 possFor.add(Integer.parseInt(game.getUser_possession()));
                                 possAgainst.add(Integer.parseInt(game.getOpp_possession()));
                             }
@@ -213,7 +203,7 @@ public class WLFragment extends Fragment {
                         ArrayList<Integer> tacklesFor = new ArrayList<>();
                         ArrayList<Integer> tacklesAgainst = new ArrayList<>();
                         for(Game game : wl.getWeekendLeague()){
-                            if(game.getUser_tackles()!=null || game.getOpp_tackles()!=null){
+                            if(!game.getGame_disconnected() && (game.getUser_tackles()!=null || game.getOpp_tackles()!=null)){
                                 tacklesFor.add(Integer.parseInt(game.getUser_tackles()));
                                 tacklesAgainst.add(Integer.parseInt(game.getOpp_tackles()));
                             }
@@ -240,7 +230,7 @@ public class WLFragment extends Fragment {
                         ArrayList<Integer> shotsAgainstFor = new ArrayList<>();
                         ArrayList<Integer> shotsAgainstOnGoal = new ArrayList<>();
                         for(Game game : wl.getWeekendLeague()){
-                            if(game.getOpp_shots()!=null || game.getOpp_sog()!=null){
+                            if(!game.getGame_disconnected() && (game.getOpp_shots()!=null || game.getOpp_sog()!=null)){
                                 shotsAgainstFor.add(Integer.parseInt(game.getOpp_shots()));
                                 shotsAgainstOnGoal.add(Integer.parseInt(game.getOpp_sog()));
                             }
@@ -265,7 +255,7 @@ public class WLFragment extends Fragment {
 
                         ArrayList<Integer> teamRating = new ArrayList<>();
                         for(Game game : wl.getWeekendLeague()){
-                            if(game.getOpp_team_rating()!=null){
+                            if(!game.getGame_disconnected() && game.getOpp_team_rating()!=null){
                                 teamRating.add(Integer.parseInt(game.getOpp_team_rating()));
                             }
                         }
@@ -289,7 +279,7 @@ public class WLFragment extends Fragment {
                         ArrayList<Integer> goalsFor = new ArrayList<>();
                         ArrayList<Integer> goalsAgainst = new ArrayList<>();
                         for(Game game : wl.getWeekendLeague()){
-                            if(game.getUser_goals()!=null || game.getOpp_goals()!=null){
+                            if(!game.getGame_disconnected() && (game.getUser_goals()!=null || game.getOpp_goals()!=null)){
                                 goalsFor.add(Integer.parseInt(game.getUser_goals()));
                                 goalsAgainst.add(Integer.parseInt(game.getOpp_goals()));
                             }
@@ -302,6 +292,24 @@ public class WLFragment extends Fragment {
                     catch (NumberFormatException e){
                         Log.d(TAG, "avgGoalsWatcher: " +e);
                     }
+                }
+            }
+        }
+
+        @BindingAdapter({"TotalQuitsWatcher"})
+        public static void totalQuitsWatcher(TextView view, WeekendLeague wl){
+            if(wl.getWeekendLeague()!=null){
+                if(view!=null){
+                    view.setText(wl.getQuitTotal());
+                }
+            }
+        }
+
+        @BindingAdapter({"DisconnectsWatcher"})
+        public static void disconnectsWatcher(TextView view, WeekendLeague wl) {
+            if (wl.getWeekendLeague() != null) {
+                if (view != null) {
+                    view.setText(wl.getDisconnectTotal());
                 }
             }
         }
