@@ -90,4 +90,5 @@
     <string name="disconnected_from_ea_servers">Disconnected from EA servers?</string>
     <string name="disconnects">Disconnects</string>
     <string name="rage_quits">Rage Quits</string>
+    <string name="past_weekend_leagues">Past Weekend Leagues</string>
 </resources>

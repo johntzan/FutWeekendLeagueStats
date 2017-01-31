@@ -70,6 +70,9 @@ public class MainActivityFragment extends Fragment {
                 case R.id.wl_btn:
                     b.putString(Constants.NEW_WL, Constants.NEW_WL);
                     break;
+                case R.id.past_wl_btn:
+                    b.putString(Constants.PAST_WL, Constants.PAST_WL);
+                    break;
             }
             if(mListener!=null) mListener.onMainFragmentInteraction(b);
         }

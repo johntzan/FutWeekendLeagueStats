@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.futchampionsstats.R;
 import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.Utils.Utils;
+import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
 import com.google.gson.Gson;
@@ -90,7 +91,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     public void onMainFragmentInteraction(Bundle args) {
         if (args != null) {
             if(args.containsKey(Constants.NEW_WL)){
-                displayFragment(wlFragment, "weekend_league_frag");
+                if(wlFragment!=null){
+                    displayFragment(wlFragment, "weekend_league_frag");
+                }
+                else{
+                    wlFragment = new WLFragment();
+                    displayFragment(wlFragment, "weekend_league_frag");
+                }
+            }
+            if(args.containsKey(Constants.PAST_WL)){
+                Log.d(TAG, "onMainFragmentInteraction: past wls");
             }
         }
     }
@@ -114,6 +124,43 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             if(args.containsKey(Constants.BACK_BTN)){
                 onBackPressed();
             }
+            if(args.containsKey(Constants.SAVE_WL_TO_DATA)){
+                final WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.SAVE_WL_TO_DATA);
+                Log.d(TAG, "onNewWLFragmentInteraction save wl: " + new Gson().toJson(weekendLeague));
+
+                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("Save this Weekend League?");
+                pDialog.setContentText("Are you sure you would like to save this Weekend League? Doing so will clear out current Weekend League.");
+                pDialog.setConfirmText("Yes");
+                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        Log.d(TAG, "onClick: yes");
+                        if(wlFragment!=null && weekendLeague!=null){
+                            saveWeekendLeague(weekendLeague);
+                            wlFragment.clearWeekendLeague(weekendLeague);
+                        }
+                        else{
+                            Log.d(TAG, "onNewWLFragmentInteraction save wl: nulls");
+                        }
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                pDialog.setCancelText("No");
+                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        Log.d(TAG, "onClick: no");
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                pDialog.setCancelable(true);
+                pDialog.setCanceledOnTouchOutside(true);
+                pDialog.show();
+
+
+            }
             if(args.containsKey(Constants.NEW_WL)){
                 final WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.NEW_WL);
                 SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
@@ -129,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                             wlFragment.clearWeekendLeague(weekendLeague);
                         }
                         else{
-                            Log.d(TAG, "onNewWLFragmentInteraction: nulls");
+                            Log.d(TAG, "onNewWLFragmentInteraction new wl: nulls");
                         }
                         sweetAlertDialog.dismissWithAnimation();
                     }
@@ -242,6 +289,40 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
                 onBackPressed();
             }
+        }
+    }
+
+    private void saveWeekendLeague(WeekendLeague wl){
+        if(wl.getWeekendLeague()!=null) {
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            Gson gson = new Gson();
+            String json = sharedPrefs.getString(Constants.ALL_WLS, null);
+            Type type = new TypeToken<AllWeekendLeagues>() {}.getType();
+            AllWeekendLeagues all_wls = gson.fromJson(json, type);
+
+            if(all_wls!=null && all_wls.getAllWeekendLeagues()!=null){
+                ArrayList<WeekendLeague> curr_wls = all_wls.getAllWeekendLeagues();
+                curr_wls.add(wl);
+
+                all_wls.setAllWeekendLeagues(curr_wls);
+            }
+            else{
+                all_wls = new AllWeekendLeagues();
+                ArrayList<WeekendLeague> wls = new ArrayList<>();
+                wls.add(wl);
+
+                all_wls.setAllWeekendLeagues(wls);
+            }
+
+
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            String json2 = gson.toJson(all_wls);
+            Log.d(TAG, "saveWeekendLeague: " + json2);
+
+            editor.putString(Constants.ALL_WLS, json2);
+            editor.apply();
+
         }
     }
 }

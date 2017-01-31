@@ -108,6 +108,9 @@ public class WLFragment extends Fragment {
                 case R.id.new_wl:
                     b.putSerializable(Constants.NEW_WL, weekendLeague);
                     break;
+                case R.id.save_wl_btn:
+                    b.putSerializable(Constants.SAVE_WL_TO_DATA, weekendLeague);
+                    break;
 
             }
             if(mListener!=null) mListener.onNewWLFragmentInteraction(b);
