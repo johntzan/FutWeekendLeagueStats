@@ -26,7 +26,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnMainFragmentInteractionListener,
         WLFragment.OnNewWLFragmentInteractionListener, NewGameFragment.OnNewGameFragmentInteractionListener,
-        ViewGamesFragment.OnViewGamesFragmentInteractionListener, EditGameFragment.OnEditGameFragmentInteractionListener
+        ViewGamesFragment.OnViewGamesFragmentInteractionListener, EditGameFragment.OnEditGameFragmentInteractionListener,
+        PastWLFragment.OnPastWLFragmentInteractionListener
 {
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     private NewGameFragment newGameFragment;
     private ViewGamesFragment viewGamesFragment;
     private EditGameFragment editGameFragment;
+    private PastWLFragment pastWLFragment;
 
     private WeekendLeague weekendLeague;
 
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             newGameFragment = new NewGameFragment();
             viewGamesFragment = new ViewGamesFragment();
             editGameFragment = new EditGameFragment();
+            pastWLFragment = new PastWLFragment();
         }
 
         displayFragment(mMainFragment, null);
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     @Override
     public void onMainFragmentInteraction(Bundle args) {
         if (args != null) {
-            if(args.containsKey(Constants.NEW_WL)){
+            if(args.containsKey(Constants.WL)){
                 if(wlFragment!=null){
                     displayFragment(wlFragment, "weekend_league_frag");
                 }
@@ -101,6 +104,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             }
             if(args.containsKey(Constants.PAST_WL)){
                 Log.d(TAG, "onMainFragmentInteraction: past wls");
+                if(pastWLFragment!=null){
+                    displayFragment(pastWLFragment, "past_weekend_league_frag");
+                }
+                else{
+                    pastWLFragment = new PastWLFragment();
+                    displayFragment(pastWLFragment, "past_weekend_league_frag");
+                }
             }
         }
     }
@@ -323,6 +333,47 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             editor.putString(Constants.ALL_WLS, json2);
             editor.apply();
 
+        }
+    }
+
+    @Override
+    public void onPastWLFragmentInteraction(Bundle args) {
+        if(args!=null){
+            if(args.containsKey(Constants.BACK_BTN)){
+                onBackPressed();
+            }
+            if(args.containsKey(Constants.DELETE_WLS)){
+                final AllWeekendLeagues allWeekendLeagues= (AllWeekendLeagues) args.getSerializable(Constants.DELETE_WLS);
+                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("Delete Past Weekend Leagues?");
+                pDialog.setContentText("Are you sure you would like to delete all your past Weekend League Data?");
+                pDialog.setConfirmText("Yes");
+                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        Log.d(TAG, "onClick: yes");
+                        if(pastWLFragment!=null && allWeekendLeagues!=null){
+                            pastWLFragment.clearAllWeekendLeague(allWeekendLeagues);
+                        }
+                        else{
+                            Log.d(TAG, "onNewWLFragmentInteraction new wl: nulls");
+                        }
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                pDialog.setCancelText("No");
+                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        Log.d(TAG, "onClick: no");
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                pDialog.setCancelable(true);
+                pDialog.setCanceledOnTouchOutside(true);
+                pDialog.show();
+            }
         }
     }
 }

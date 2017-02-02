@@ -2,7 +2,6 @@ package com.futchampionsstats.main;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.futchampionsstats.R;
 import com.futchampionsstats.Utils.Constants;
@@ -23,17 +21,14 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 
 public class WLFragment extends Fragment {
 
     public static final String TAG = WLFragment.class.getSimpleName();
 
-    private static OnNewWLFragmentInteractionListener mListener;
+    private OnNewWLFragmentInteractionListener mListener;
 
-    private static WeekendLeague weekendLeague;
+    private WeekendLeague weekendLeague;
     FragmentWlBinding binding;
 
     public WLFragment() {
@@ -90,7 +85,7 @@ public class WLFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public static  class WLFragmentHandlers{
+    public class WLFragmentHandlers{
 
         public void wlFragmentClick(View view){
 
@@ -115,218 +110,6 @@ public class WLFragment extends Fragment {
             }
             if(mListener!=null) mListener.onNewWLFragmentInteraction(b);
         }
-
-        @BindingAdapter({"GamesWonWatcher"})
-        public static void gamesWonWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-                    view.setText(wl.getWinTotal());
-                }
-            }
-        }
-
-        @BindingAdapter({"GamesPlayedWatcher"})
-        public static void gamesPlayedWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-                    view.setText(String.valueOf(wl.getWeekendLeague().size()));
-                }
-            }
-        }
-
-        @BindingAdapter({"GamesLeftWatcher"})
-        public static void gamesLeftWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-                    view.setText(String.valueOf((40- wl.getWeekendLeague().size()) ));
-                }
-            }
-        }
-
-        @BindingAdapter({"AvgShotsWatcher"})
-        public static void avgShotsWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-
-                    try{
-
-                        ArrayList<Integer> shotsFor = new ArrayList<>();
-                        ArrayList<Integer> shotsForOnGoal = new ArrayList<>();
-                        for(Game game : wl.getWeekendLeague()){
-                            if((game.getGame_disconnected()!=null && !game.getGame_disconnected()) && (game.getUser_shots()!=null || game.getUser_sog()!=null)){
-                                shotsFor.add(Integer.parseInt(game.getUser_shots()));
-                                shotsForOnGoal.add(Integer.parseInt(game.getUser_sog()));
-                            }
-                        }
-                        Double avgShotsFor = calculateAverage(shotsFor);
-                        Double avgShotsOnG = calculateAverage(shotsForOnGoal);
-
-                        view.setText(String.format(Locale.US, "%.2f", avgShotsFor) + "("+String.format(Locale.US, "%.2f", avgShotsOnG) + ")");
-                    }
-                    catch(NumberFormatException e){
-                        Log.d(TAG, "avgShotsWatcher: " + e);
-                    }
-                }
-            }
-        }
-
-        @BindingAdapter({"AvgPossWatcher"})
-        public static void avgPossWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-                    try{
-
-                        ArrayList<Integer> possFor = new ArrayList<>();
-                        ArrayList<Integer> possAgainst = new ArrayList<>();
-                        for(Game game : wl.getWeekendLeague()){
-                            if(!game.getGame_disconnected() && (game.getUser_possession()!=null || game.getOpp_possession()!=null)){
-                                possFor.add(Integer.parseInt(game.getUser_possession()));
-                                possAgainst.add(Integer.parseInt(game.getOpp_possession()));
-                            }
-                        }
-                        Double avgPossFor = calculateAverage(possFor);
-                        Double avgPossAgainst= calculateAverage(possAgainst);
-
-                        view.setText(String.format(Locale.US, "%.2f", avgPossFor) + "%("+String.format(Locale.US, "%.2f", avgPossAgainst) + "%)");
-                    }
-                    catch (NumberFormatException e){
-                        Log.d(TAG, "avgPossWatcher: " +e);
-                    }
-                }
-            }
-        }
-
-        @BindingAdapter({"AvgTacklesWatcher"})
-        public static void avgTacklesWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-
-                    try{
-
-                        ArrayList<Integer> tacklesFor = new ArrayList<>();
-                        ArrayList<Integer> tacklesAgainst = new ArrayList<>();
-                        for(Game game : wl.getWeekendLeague()){
-                            if(!game.getGame_disconnected() && (game.getUser_tackles()!=null || game.getOpp_tackles()!=null)){
-                                tacklesFor.add(Integer.parseInt(game.getUser_tackles()));
-                                tacklesAgainst.add(Integer.parseInt(game.getOpp_tackles()));
-                            }
-                        }
-                        Double avgTacklesFor = calculateAverage(tacklesFor);
-                        Double avgTacklesAgainst= calculateAverage(tacklesAgainst);
-
-                        view.setText(String.format(Locale.US, "%.2f", avgTacklesFor) + "("+String.format(Locale.US, "%.2f", avgTacklesAgainst) + ")");
-                    }
-                    catch(NumberFormatException e){
-                        Log.d(TAG, "avgTacklesWatcher: " + e);
-                    }
-                }
-            }
-        }
-
-
-        @BindingAdapter({"AvgShotsAgainstWatcher"})
-        public static void avgShotsAgainstWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-                    try{
-
-                        ArrayList<Integer> shotsAgainstFor = new ArrayList<>();
-                        ArrayList<Integer> shotsAgainstOnGoal = new ArrayList<>();
-                        for(Game game : wl.getWeekendLeague()){
-                            if(!game.getGame_disconnected() && (game.getOpp_shots()!=null || game.getOpp_sog()!=null)){
-                                shotsAgainstFor.add(Integer.parseInt(game.getOpp_shots()));
-                                shotsAgainstOnGoal.add(Integer.parseInt(game.getOpp_sog()));
-                            }
-                        }
-                        Double avgShotsAgainstFor = calculateAverage(shotsAgainstFor);
-                        Double avgShotsAgainstOnG = calculateAverage(shotsAgainstOnGoal);
-
-                        view.setText(String.format(Locale.US, "%.2f", avgShotsAgainstFor) + "("+String.format(Locale.US, "%.2f", avgShotsAgainstOnG) + ")");
-                    }
-                    catch(NumberFormatException e){
-                        Log.d(TAG, "avgShotsAgainstWatcher: " + e);
-                    }
-                }
-            }
-        }
-
-        @BindingAdapter({"AvgTeamRatingWatcher"})
-        public static void avgTeamRatingWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-                    try{
-
-                        ArrayList<Integer> teamRating = new ArrayList<>();
-                        for(Game game : wl.getWeekendLeague()){
-                            if(!game.getGame_disconnected() && game.getOpp_team_rating()!=null){
-                                teamRating.add(Integer.parseInt(game.getOpp_team_rating()));
-                            }
-                        }
-                        Double avgTeamRating = calculateAverage(teamRating);
-
-                        view.setText(String.format(Locale.US, "%.2f", avgTeamRating));
-                    }
-                    catch(NumberFormatException e){
-                        Log.d(TAG, "avgTeamRatingWatcher: "+ e);
-                    }
-                }
-            }
-        }
-
-        @BindingAdapter({"AvgGoalsWatcher"})
-        public static void avgGoalsWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-                    try{
-
-                        ArrayList<Integer> goalsFor = new ArrayList<>();
-                        ArrayList<Integer> goalsAgainst = new ArrayList<>();
-                        for(Game game : wl.getWeekendLeague()){
-                            if(!game.getGame_disconnected() && (game.getUser_goals()!=null || game.getOpp_goals()!=null)){
-                                goalsFor.add(Integer.parseInt(game.getUser_goals()));
-                                goalsAgainst.add(Integer.parseInt(game.getOpp_goals()));
-                            }
-                        }
-                        Double avgGoalsFor = calculateAverage(goalsFor);
-                        Double avgGoalsAgainst = calculateAverage(goalsAgainst);
-
-                        view.setText(String.format(Locale.US, "%.2f", avgGoalsFor) + "("+String.format(Locale.US, "%.2f", avgGoalsAgainst) + ")");
-                    }
-                    catch (NumberFormatException e){
-                        Log.d(TAG, "avgGoalsWatcher: " +e);
-                    }
-                }
-            }
-        }
-
-        @BindingAdapter({"TotalQuitsWatcher"})
-        public static void totalQuitsWatcher(TextView view, WeekendLeague wl){
-            if(wl.getWeekendLeague()!=null){
-                if(view!=null){
-                    view.setText(wl.getQuitTotal());
-                }
-            }
-        }
-
-        @BindingAdapter({"DisconnectsWatcher"})
-        public static void disconnectsWatcher(TextView view, WeekendLeague wl) {
-            if (wl.getWeekendLeague() != null) {
-                if (view != null) {
-                    view.setText(wl.getDisconnectTotal());
-                }
-            }
-        }
-    }
-
-    private static double calculateAverage(List <Integer> marks) {
-        Integer sum = 0;
-        if(!marks.isEmpty()) {
-            for (Integer mark : marks) {
-                sum += mark;
-            }
-            return sum.doubleValue() / marks.size();
-        }
-        return sum;
     }
 
     public void setNewGame(Game game){

@@ -68,7 +68,7 @@ public class MainActivityFragment extends Fragment {
             Bundle b = new Bundle();
             switch(view.getId()) {
                 case R.id.wl_btn:
-                    b.putString(Constants.NEW_WL, Constants.NEW_WL);
+                    b.putString(Constants.WL, Constants.WL);
                     break;
                 case R.id.past_wl_btn:
                     b.putString(Constants.PAST_WL, Constants.PAST_WL);

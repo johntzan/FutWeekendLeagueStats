@@ -91,4 +91,11 @@
     <string name="disconnects">Disconnects</string>
     <string name="rage_quits">Rage Quits</string>
     <string name="past_weekend_leagues">Past Weekend Leagues</string>
+    <string name="avg_opponent">Avg. Opponent</string>
+    <string name="background">background</string>
+    <string name="back_button_cont_desc">Back Button</string>
+    <string name="restart_weekend_league">Restart Weekend League</string>
+    <string name="save_weekend_league">Save Weekend League</string>
+    <string name="delete_weekend_leagues">Delete Weekend Leagues</string>
+    <string name="weekend_leagues_played">Weekend Leagues Played</string>
 </resources>
