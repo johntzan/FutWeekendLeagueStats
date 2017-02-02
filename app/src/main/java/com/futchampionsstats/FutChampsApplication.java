@@ -4,7 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by yiannitzan on 1/9/17.
@@ -22,9 +25,11 @@ public class FutChampsApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         Log.d(TAG, "onCreate: onApp create");
-        Stetho.initializeWithDefaults(this);
-
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
     }
 
 

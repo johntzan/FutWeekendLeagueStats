@@ -20,7 +20,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -54,8 +57,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         Type type = new TypeToken<WeekendLeague>() {}.getType();
         WeekendLeague wl = gson.fromJson(json, type);
 
-        if(wl!=null){
-            Log.d(TAG, "onCreate: " + new Gson().toJson(wl.getWeekendLeague().size()));
+        if(wl!=null && wl.getWeekendLeague()!=null){
+            Log.d(TAG, "onCreate: " + new Gson().toJson(wl.getWeekendLeague()));
             weekendLeague = wl;
         }
         if(weekendLeague.getWeekendLeague()==null){
@@ -148,6 +151,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         Log.d(TAG, "onClick: yes");
                         if(wlFragment!=null && weekendLeague!=null){
+                            String date = new SimpleDateFormat("MM-dd-yyyy", Locale.US).format(new Date());
+                            Log.d(TAG, "onClick: Current time => " + date);
+
+                            weekendLeague.setDateOfWL(date);
                             saveWeekendLeague(weekendLeague);
                             wlFragment.clearWeekendLeague(weekendLeague);
                         }

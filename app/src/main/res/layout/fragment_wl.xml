@@ -59,8 +59,6 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/restart_weekend_league"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/save_wl_btn"
-                android:layout_toStartOf="@+id/save_wl_btn"
                 android:text="@string/wl_finished"
                 android:background="@color/truetransparent"
                 android:onClick="@{handlers.wlFragmentClick}"
@@ -68,6 +66,8 @@
                 android:visibility="@{weekendLeague.weekendLeague.size()==0 ? View.GONE : View.VISIBLE}"
                 android:layout_marginRight="15dp"
                 android:layout_marginEnd="15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 />
 
             <ImageButton
@@ -76,13 +76,13 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/save_weekend_league"
                 android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/new_wl"
+                android:layout_toStartOf="@+id/new_wl"
                 android:text="@string/wl_finished"
                 android:background="@color/truetransparent"
                 android:onClick="@{handlers.wlFragmentClick}"
                 android:src="@drawable/ic_save_white_24dp"
-                android:visibility="@{weekendLeague.weekendLeague.size()>4 ? View.GONE : View.VISIBLE}"
+                android:visibility="@{weekendLeague.weekendLeague.size()>4 ? View.VISIBLE : View.GONE}"
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
                 />

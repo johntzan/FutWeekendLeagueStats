@@ -3,6 +3,8 @@
     package="com.futchampionsstats"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".FutChampsApplication"
         android:allowBackup="true"
@@ -22,6 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".SplashActivity"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8992d7431e11f4d1abbb644ef31cae0caa424d73" />
     </application>
+
 
 </manifest>

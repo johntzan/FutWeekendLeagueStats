@@ -138,8 +138,8 @@ public class ViewGamesFragment extends Fragment {
         Type type = new TypeToken<WeekendLeague>() {}.getType();
         WeekendLeague wl = gson.fromJson(json, type);
 
-        if(wl!=null){
-            Log.d(TAG, "onResume viewGames: " + new Gson().toJson(wl.getWeekendLeague().size()));
+        if(wl!=null && wl.getWeekendLeague()!=null){
+            Log.d(TAG, "onResume viewGames: " + new Gson().toJson(wl.getWeekendLeague()));
             weekendLeague = wl;
             binding.setWeekendLeague(weekendLeague);
             setupAdapter();

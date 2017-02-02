@@ -19,6 +19,8 @@ import static com.futchampionsstats.Utils.Utils.calculateAverage;
 public class WeekendLeague extends BaseObservable implements Serializable{
 
     public static final String TAG = WeekendLeague.class.getSimpleName();
+    @Bindable
+    public String dateOfWL;
 
     @Bindable
     private ArrayList<Game> weekendLeague;
@@ -30,6 +32,15 @@ public class WeekendLeague extends BaseObservable implements Serializable{
 
     public void setWeekendLeague(ArrayList<Game> weekendLeague) {
         this.weekendLeague = weekendLeague;
+    }
+    @Bindable
+    public String getDateOfWL() {
+        return dateOfWL;
+    }
+
+    public void setDateOfWL(String dateOfWL) {
+        this.dateOfWL = dateOfWL;
+        notifyPropertyChanged(BR.dateOfWL);
     }
 
     public static String getWinTotal(WeekendLeague weekendLeague){

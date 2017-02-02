@@ -16,6 +16,8 @@
 #   public *;
 #}
 
+-keep class com.futchampionsstats.** { *; }
+
 # Remove Logging
 -assumenosideeffects class android.util.Log {
     public static boolean isLoggable(java.lang.String, int);
@@ -90,3 +92,22 @@
 -dontwarn com.rozilo.shooego.databinding.**
 -dontwarn com.squareup.javawriter.**
 
+# stetho
+-keep class com.facebook.stetho.** { *; }
+
+# rhino (javascript)
+-dontwarn org.mozilla.javascript.**
+-dontwarn org.mozilla.classfile.**
+-keep class org.mozilla.javascript.** { *; }
+
+# Crashlytics 2.+
+
+-keep class com.crashlytics.** { *; }
+-keep class com.crashlytics.android.**
+-keepattributes SourceFile, LineNumberTable, *Annotation*
+
+# If you are using custom exceptions, add this line so that custom exception types are skipped during obfuscation:
+-keep public class * extends java.lang.Exception
+
+# For Fabric to properly de-obfuscate your crash reports, you need to remove this line from your ProGuard config:
+# -printmapping mapping.txt

@@ -53,8 +53,8 @@ public class PastWLFragment extends Fragment {
         Type type = new TypeToken<AllWeekendLeagues>() {}.getType();
         AllWeekendLeagues all_wl = gson.fromJson(json, type);
 
-        if(all_wl!=null){
-            Log.d(TAG, "onCreate: " + new Gson().toJson(all_wl.getAllWeekendLeagues().size()));
+        if(all_wl!=null && all_wl.getAllWeekendLeagues()!=null){
+            Log.d(TAG, "onCreate: " + new Gson().toJson(all_wl.getAllWeekendLeagues()));
             allWeekendLeagues = all_wl;
         }
         else{
