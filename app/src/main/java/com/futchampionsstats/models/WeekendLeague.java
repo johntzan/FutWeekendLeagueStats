@@ -125,6 +125,56 @@ public class WeekendLeague extends BaseObservable implements Serializable{
         return getAvgPoss(wl)[0] + "%(" + getAvgPoss(wl)[1] + "%)";
     }
 
+    public static String[] getAvgPassAcc(WeekendLeague wl){
+        if(wl.getWeekendLeague()!=null){
+
+            try{
+
+                ArrayList<Integer> passFor = new ArrayList<>();
+                ArrayList<Integer> passAgainst = new ArrayList<>();
+                for(Game game : wl.getWeekendLeague()){
+                    if(!game.getGame_disconnected() && (game.getUser_pass_acc()!=null || game.getOpp_pass_acc()!=null)){
+                        passFor.add(Integer.parseInt(game.getUser_pass_acc()));
+                        passAgainst.add(Integer.parseInt(game.getOpp_pass_acc()));
+                    }
+                }
+                Double avgPassFor = calculateAverage(passFor);
+                Double avgPassAgainst= calculateAverage(passAgainst);
+
+                return new String[]{String.format(Locale.US, "%.2f", avgPassFor), String.format(Locale.US, "%.2f", avgPassAgainst)};
+            }
+            catch(NumberFormatException e){
+                Log.d(TAG, "avgPassWatcher: " + e);
+                return new String[]{"0.00", "0.00"};
+            }
+        }else{
+            return new String[]{"0.00", "0.00"};
+        }
+    }
+
+    public static String getAvgPassAccString(WeekendLeague wl){
+        return getAvgPassAcc(wl)[0] + "%(" + getAvgPassAcc(wl)[1] + "%)";
+    }
+
+    public static String getAvgGoalPerShotString(WeekendLeague wl){
+            Double userGoalsAvg = Double.parseDouble(getAvgGoals(wl)[0]);
+            Double userSOGAvg = Double.parseDouble(getAvgShotsFor(wl)[1]);
+            Double userAvgGPSOG =  userGoalsAvg / userSOGAvg;
+
+            Double oppGoalsAvg = Double.parseDouble(getAvgGoals(wl)[1]);
+            Double oppSOGAvg = Double.parseDouble(getAvgShotsAgainst(wl)[1]);
+            Double oppAvgGPSOG =  oppGoalsAvg / oppSOGAvg;
+
+
+        if(!userAvgGPSOG.isNaN() && !oppAvgGPSOG.isNaN()){
+            return String.format(Locale.US, "%.2f", userAvgGPSOG) + "(" + String.format(Locale.US, "%.2f", oppAvgGPSOG) + ")";
+        }
+        else{
+            return "0.00(0.00)";
+        }
+
+    }
+
     public static String[] getAvgShotsAgainst(WeekendLeague wl){
         if(wl.getWeekendLeague()!=null){
                 try{

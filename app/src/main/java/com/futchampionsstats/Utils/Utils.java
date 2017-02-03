@@ -41,4 +41,15 @@ public class Utils {
         }
         return sum;
     }
+
+    public static int getTotal(List<Integer> marks) {
+        Integer sum = 0;
+        if(!marks.isEmpty()) {
+            for (Integer mark : marks) {
+                sum += mark;
+            }
+            return sum;
+        }
+        return sum;
+    }
 }

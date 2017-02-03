@@ -98,4 +98,7 @@
     <string name="save_weekend_league">Save Weekend League</string>
     <string name="delete_weekend_leagues">Delete Weekend Leagues</string>
     <string name="weekend_leagues_played">Weekend Leagues Played</string>
+    <string name="pass_accuracy">Pass Accuracy</string>
+    <string name="for_against">For(Against)</string>
+    <string name="goals_shots_on_goal">Goals/Shots on Goal</string>
 </resources>

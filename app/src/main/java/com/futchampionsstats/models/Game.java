@@ -55,6 +55,12 @@ public class Game extends BaseObservable implements Serializable{
     private String opp_corners;
 
     @Bindable
+    private String user_pass_acc;
+
+    @Bindable
+    private String opp_pass_acc;
+
+    @Bindable
     private String user_team;
     @Bindable
     private String opp_team;
@@ -377,10 +383,31 @@ public class Game extends BaseObservable implements Serializable{
         notifyPropertyChanged(BR._all);
     }
 
+    @Bindable
+    public String getUser_pass_acc() {
+        return user_pass_acc;
+    }
+
+    public void setUser_pass_acc(String user_pass_acc) {
+        this.user_pass_acc = user_pass_acc;
+        notifyPropertyChanged(BR.user_pass_acc);
+    }
+
+    @Bindable
+    public String getOpp_pass_acc() {
+        return opp_pass_acc;
+    }
+
+    public void setOpp_pass_acc(String opp_pass_acc) {
+        this.opp_pass_acc = opp_pass_acc;
+        notifyPropertyChanged(BR.opp_pass_acc);
+    }
+
     public boolean checkIfNotNull(){
         return (this.getUser_goals()!=null && this.getOpp_goals()!=null && this.getUser_shots()!=null && this.getOpp_shots()!=null &&
                 this.getUser_sog()!=null && this.getOpp_sog()!=null && this.getUser_possession()!=null && this.getOpp_possession()!=null &&
                 this.getUser_tackles()!=null && this.getOpp_tackles()!=null && this.getUser_corners()!=null && this.getOpp_corners()!=null &&
+                this.getUser_pass_acc()!=null && this.getOpp_pass_acc()!=null &&
                 this.getUser_team()!=null && this.getOpp_team()!=null && this.getUser_formation()!=null && this.getOpp_formation()!=null &&
                 this.getUser_team_rating()!=null && this.getOpp_team_rating()!=null && this.getOpp_name()!=null);
 
@@ -391,6 +418,7 @@ public class Game extends BaseObservable implements Serializable{
         return (!this.getUser_goals().equals("") && !this.getOpp_goals().equals("") && !this.getUser_shots().equals("") && !this.getOpp_shots().equals("") &&
                 !this.getUser_sog().equals("") && !this.getOpp_sog().equals("") && !this.getUser_possession().equals("") && !this.getOpp_possession().equals("") &&
                 !this.getUser_tackles().equals("") && !this.getOpp_tackles().equals("") && !this.getUser_corners().equals("") && !this.getOpp_corners().equals("") &&
+                !this.getUser_pass_acc().equals("") && !this.getOpp_pass_acc().equals("") &&
                 !this.getUser_team().equals("") && !this.getOpp_team().equals("") && !this.getUser_formation().equals("")&& !this.getOpp_formation().equals("") &&
                 !this.getUser_team_rating().equals("") && !this.getOpp_team_rating().equals("") && !this.getOpp_name().equals(""));
     }

@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.futchampionsstats.R;
 import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.Utils.Utils;
@@ -311,6 +313,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
     private void saveWeekendLeague(WeekendLeague wl){
         if(wl.getWeekendLeague()!=null) {
+
+            Answers.getInstance().logCustom(new CustomEvent("Save Weekend League"));
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
             Gson gson = new Gson();

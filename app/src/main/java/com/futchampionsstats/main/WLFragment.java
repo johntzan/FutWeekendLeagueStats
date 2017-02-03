@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.futchampionsstats.R;
 import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.databinding.FragmentWlBinding;
@@ -114,6 +116,8 @@ public class WLFragment extends Fragment {
 
     public void setNewGame(Game game){
         if(weekendLeague.getWeekendLeague()!=null) {
+
+            Answers.getInstance().logCustom(new CustomEvent("Saved New Game"));
             weekendLeague.getWeekendLeague().add(game);
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
