@@ -23,4 +23,5 @@ public class Constants {
     public static final String SAVE_WL_TO_DATA = "save_wl_to_data";
     public static final String BACK_BTN = "back_btn";
     public static final String VIEW_GAME_POS = "view_game_pos";
+    public static final String SAVE_WL_TO_DATA_FROM_CREATE = "save_wl_from_create";
 }

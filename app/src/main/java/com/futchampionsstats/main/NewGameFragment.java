@@ -12,13 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.futchampionsstats.R;
@@ -27,14 +24,17 @@ import com.futchampionsstats.Utils.Utils;
 import com.futchampionsstats.databinding.FragmentNewGameBinding;
 import com.futchampionsstats.models.Game;
 import com.google.gson.Gson;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+
+import java.util.Arrays;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-
-import static android.content.ContentValues.TAG;
 
 
 public class NewGameFragment extends Fragment {
 
+    public static final String TAG = NewGameFragment.class.getSimpleName();
 
     private static OnNewGameFragmentInteractionListener mListener;
     private static boolean warningShown = false;
@@ -144,17 +144,14 @@ public class NewGameFragment extends Fragment {
         }
 
         @BindingAdapter({"UserFormationWatcher"})
-        public static void userFormationWatcher(final Spinner spinner, final Game game) {
+        public static void userFormationWatcher(final MaterialSpinner spinner, final Game game) {
 //            Log.d(TAG, "oppFormationWatcher: " + spinner.getSelectedItem().toString());
             if (game != null && spinner != null) {
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        Object item = parent.getItemAtPosition(pos);
+                spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(MaterialSpinner view, int pos, long id, Object item) {
                         Log.d(TAG, "User onItemSelected: " + item.toString());
                         game.setUser_formation(item.toString());
-                    }
-
-                    public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
             }
@@ -162,17 +159,14 @@ public class NewGameFragment extends Fragment {
         }
 
         @BindingAdapter({"OppFormationWatcher"})
-        public static void oppFormationWatcher(final Spinner spinner, final Game game) {
+        public static void oppFormationWatcher(final MaterialSpinner spinner, final Game game) {
 //            Log.d(TAG, "oppFormationWatcher: " + spinner.getSelectedItem().toString());
             if (game != null && spinner != null) {
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        Object item = parent.getItemAtPosition(pos);
-                        Log.d(TAG, "Opp onItemSelected: " + item.toString());
+                spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(MaterialSpinner view, int pos, long id, Object item) {
+                        Log.d(TAG, "User onItemSelected: " + item.toString());
                         game.setOpp_formation(item.toString());
-                    }
-
-                    public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
             }
@@ -283,20 +277,16 @@ public class NewGameFragment extends Fragment {
     }
 
     private void setSpinnerData(View view){
-        Spinner userFormationSpinner = (Spinner) view.findViewById(R.id.user_formation_edit);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> user_adapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.formations_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        user_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        userFormationSpinner.setAdapter(user_adapter);
+        MaterialSpinner userFormationSpinner = (MaterialSpinner) view.findViewById(R.id.user_formation_edit);
+        String[] myResArray = getResources().getStringArray(R.array.formations_array);
+        List<String> formations = Arrays.asList(myResArray);
 
-        Spinner opponentFormationSpinner = (Spinner) view.findViewById(R.id.opponent_formation_edit);
-        ArrayAdapter<CharSequence> opponent_adapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.formations_array, android.R.layout.simple_spinner_item);
-        opponent_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        opponentFormationSpinner.setAdapter(opponent_adapter);
+        userFormationSpinner.setItems(formations);
+        userFormationSpinner.setSelectedIndex(0);
+
+        MaterialSpinner opponentFormationSpinner = (MaterialSpinner) view.findViewById(R.id.opponent_formation_edit);
+        opponentFormationSpinner.setItems(formations);
+        opponentFormationSpinner.setSelectedIndex(0);
     }
 
     private static void showDisconnectWarning(View v) {

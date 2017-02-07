@@ -94,7 +94,11 @@ public class WLFragment extends Fragment {
             final Bundle b = new Bundle();
             switch(view.getId()) {
                 case R.id.new_game_btn:
-                    b.putString(Constants.NEW_GAME, Constants.NEW_GAME);
+                    if(weekendLeague.getWeekendLeague().size()<40){
+                        b.putString(Constants.NEW_GAME, Constants.NEW_GAME);
+                    }else{
+                        b.putSerializable(Constants.SAVE_WL_TO_DATA_FROM_CREATE, weekendLeague);
+                    }
                     break;
                 case R.id.view_games_btn:
                     b.putSerializable(Constants.VIEW_GAMES, weekendLeague);

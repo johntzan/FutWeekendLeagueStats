@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <variable name="handlers" type="com.futchampionsstats.main.NewGameFragment.NewGameHandlers"/>
@@ -60,6 +61,203 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/teams_info"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:weightSum="3">
+
+                    <EditText
+                        android:id="@+id/user_team_edit"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/user_team_hint"
+                        android:text="@={game.user_team}"
+                        android:textSize="16sp"
+                        android:padding="5dp"
+                        android:layout_weight="1"
+                        android:inputType="text"
+                        android:selectAllOnFocus="true"
+                        android:nextFocusDown="@id/opponent_team_edit"
+                        android:imeOptions="actionNext"
+                        android:textAlignment="center"/>
+
+                    <TextView
+                        android:id="@+id/team_used_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/team_used"
+                        android:textSize="20sp"/>
+
+                    <EditText
+                        android:id="@+id/opponent_team_edit"
+                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:hint="@string/opp_team_hint"
+                        android:text="@={game.opp_team}"
+                        android:inputType="text"
+                        android:padding="5dp"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        android:imeOptions="actionNext"
+                        android:selectAllOnFocus="true"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/formation_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/formation"
+                    android:textSize="20sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:weightSum="2">
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/user_formation_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        UserFormationWatcher="@{game}"
+                        app:ms_background_color="@color/grey"
+                        app:ms_text_color="@color/white"
+                        app:ms_arrow_tint="@color/white"
+                        app:ms_dropdown_height="350dp"
+                        android:textAlignment="viewStart"
+                        android:layout_gravity="start"
+                        android:layout_marginRight="1dp"/>
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/opponent_formation_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_weight="1"
+                        app:ms_background_color="@color/grey"
+                        app:ms_text_color="@color/white"
+                        app:ms_arrow_tint="@color/white"
+                        app:ms_dropdown_height="350dp"
+                        OppFormationWatcher="@{game}"
+                        android:textAlignment="viewEnd"
+                        android:layout_gravity="end"
+                        android:layout_marginLeft="1dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:weightSum="3">
+
+                    <EditText
+                        android:id="@+id/user_rating_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/user_team_rating_hint"
+                        android:text="@={game.user_team_rating}"
+                        android:textSize="20sp"
+                        android:nextFocusDown="@id/opponent_rating_edit"
+                        android:padding="5dp"
+                        android:maxLength="2"
+                        android:inputType="number"
+                        android:layout_weight="1"
+                        android:selectAllOnFocus="true"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/rating_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:text="@string/team_rating"
+                        android:textSize="20sp"/>
+
+                    <EditText
+                        android:id="@+id/opponent_rating_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/opp_team_rating_hint"
+                        android:text="@={game.opp_team_rating}"
+                        android:padding="5dp"
+                        android:textSize="20sp"
+                        android:maxLength="2"
+                        android:nextFocusDown="@id/opponent_name_edit"
+                        android:inputType="number"
+                        android:layout_weight="1"
+                        android:selectAllOnFocus="true"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/opp_name_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/opponent_name_team_name"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/opponent_name_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="@string/opp_name_hint"
+                    android:text="@={game.opp_name}"
+                    android:imeOptions="actionNext"
+                    android:padding="5dp"
+                    android:inputType="text"
+                    android:textSize="20sp"
+                    android:nextFocusDown="@+id/user_goals_edit"
+                    android:layout_weight="1"
+                    android:textAlignment="center" />
+
+                <View
+                    android:layout_width="300dp"
+                    android:layout_height="2dp"
+                    android:layout_margin="20dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_gravity="center_horizontal">
+
+                </View>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -452,7 +650,7 @@
                         android:padding="5dp"
                         android:textSize="20sp"
                         android:maxLength="2"
-                        android:nextFocusDown="@id/user_team_edit"
+                        android:imeOptions="actionDone"
                         android:layout_weight="1"
                         android:textAlignment="center"
                         android:selectAllOnFocus="true"
@@ -468,191 +666,6 @@
 
                 </View>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20sp"
-                    android:text="@string/teams_info"/>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:weightSum="3">
-
-                    <EditText
-                        android:id="@+id/user_team_edit"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/user_team_hint"
-                        android:text="@={game.user_team}"
-                        android:textSize="16sp"
-                        android:padding="5dp"
-                        android:layout_weight="1"
-                        android:inputType="text"
-                        android:selectAllOnFocus="true"
-                        android:nextFocusDown="@id/opponent_team_edit"
-                        android:imeOptions="actionNext"
-                        android:textAlignment="center"/>
-
-                    <TextView
-                        android:id="@+id/team_used_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:padding="5dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:text="@string/team_used"
-                        android:textSize="20sp"/>
-
-                    <EditText
-                        android:id="@+id/opponent_team_edit"
-                        android:layout_height="wrap_content"
-                        android:layout_width="100dp"
-                        android:hint="@string/opp_team_hint"
-                        android:text="@={game.opp_team}"
-                        android:inputType="text"
-                        android:padding="5dp"
-                        android:textSize="16sp"
-                        android:layout_weight="1"
-                        android:imeOptions="actionNext"
-                        android:selectAllOnFocus="true"
-                        android:textAlignment="center" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/formation_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:text="@string/formation"
-                    android:textSize="20sp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:weightSum="2">
-
-                    <Spinner
-                        android:id="@+id/user_formation_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:layout_weight="1"
-                        UserFormationWatcher="@{game}"
-                        android:textAlignment="viewStart"
-                        android:layout_gravity="start"/>
-
-                    <Spinner
-                        android:id="@+id/opponent_formation_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:layout_weight="1"
-                        OppFormationWatcher="@{game}"
-                        android:textAlignment="viewEnd"
-                        android:layout_gravity="end"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:weightSum="3">
-
-                    <EditText
-                        android:id="@+id/user_rating_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/user_team_rating_hint"
-                        android:text="@={game.user_team_rating}"
-                        android:textSize="20sp"
-                        android:nextFocusDown="@id/opponent_rating_edit"
-                        android:padding="5dp"
-                        android:maxLength="2"
-                        android:inputType="number"
-                        android:layout_weight="1"
-                        android:selectAllOnFocus="true"
-                        android:textAlignment="center" />
-
-                    <TextView
-                        android:id="@+id/rating_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:padding="5dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:text="@string/team_rating"
-                        android:textSize="20sp"/>
-
-                    <EditText
-                        android:id="@+id/opponent_rating_edit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/opp_team_rating_hint"
-                        android:text="@={game.opp_team_rating}"
-                        android:padding="5dp"
-                        android:textSize="20sp"
-                        android:maxLength="2"
-                        android:nextFocusDown="@id/opponent_name_edit"
-                        android:inputType="number"
-                        android:layout_weight="1"
-                        android:selectAllOnFocus="true"
-                        android:textAlignment="center" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/opp_name_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:text="@string/opponent_name_team_name"
-                    android:textSize="20sp"/>
-
-                <EditText
-                    android:id="@+id/opponent_name_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:hint="@string/opp_name_hint"
-                    android:text="@={game.opp_name}"
-                    android:imeOptions="actionNext"
-                    android:padding="5dp"
-                    android:inputType="text"
-                    android:textSize="20sp"
-                    android:nextFocusDown="@+id/game_notes"
-                    android:layout_weight="1"
-                    android:textAlignment="center" />
-
-                <View
-                    android:layout_width="300dp"
-                    android:layout_height="2dp"
-                    android:layout_margin="20dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:layout_gravity="center_horizontal">
-
-                </View>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -744,15 +757,28 @@
                     GameDisconnectWatcher="@{game}"
                     android:text="@string/disconnected_from_ea_servers"/>
 
-                <EditText
+                <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/game_notes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
                     android:inputType="text"
                     android:imeOptions="actionDone"
                     android:text="@={game.game_notes}"
-                    android:hint="@string/notes_hint"/>
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="@string/general_notes_floathint"
+                    app:met_primaryColor="@color/scarlet"
+                    app:met_baseColor="@color/grey"
+                    app:met_textColorHint="@color/grey"
+                    app:met_textColor="@color/white"
+                    app:met_underlineColor="@color/grey"
+                    app:met_floatingLabelTextColor="@color/grey"
+                    android:hint="@string/notes_hint"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp" />
 
                 <Button
                     android:layout_width="match_parent"

@@ -101,4 +101,5 @@
     <string name="pass_accuracy">Pass Accuracy</string>
     <string name="for_against">For(Against)</string>
     <string name="goals_shots_on_goal">Goals/Shots on Goal</string>
+    <string name="general_notes_floathint">General Notes</string>
 </resources>
