@@ -64,8 +64,16 @@
 
     </LinearLayout>
 
-
-
+    <Button
+        android:text="My Squads"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_buttons"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/my_squads"
+        android:onClick="@{handlers.mainFragmentClick}"
+        style="@style/Widget.AppCompat.Button.Colored" />
 
 
 </RelativeLayout>

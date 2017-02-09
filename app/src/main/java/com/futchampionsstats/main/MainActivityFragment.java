@@ -73,6 +73,9 @@ public class MainActivityFragment extends Fragment {
                 case R.id.past_wl_btn:
                     b.putString(Constants.PAST_WL, Constants.PAST_WL);
                     break;
+                case R.id.my_squads:
+                    b.putString(Constants.MY_SQUADS, Constants.MY_SQUADS);
+                    break;
             }
             if(mListener!=null) mListener.onMainFragmentInteraction(b);
         }

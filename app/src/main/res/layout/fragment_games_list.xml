@@ -51,21 +51,17 @@
                 android:textSize="20sp" />
 
         </RelativeLayout>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{weekendLeague.weekendLeague.size()==0 ? View.GONE : View.VISIBLE}">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/games_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
+                android:visibility="@{weekendLeague.weekendLeague.size()==0 ? View.GONE : View.VISIBLE}"
                 android:focusableInTouchMode="true"
                 android:clickable="true"
                 android:scrollbars="vertical" />
 
-        </ScrollView>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"

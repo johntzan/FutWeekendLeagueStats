@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:id="@+id/swipe"
+    android:clickable="true"
+    swipe:leftEdgeSwipeOffset="0dp"
+    swipe:rightEdgeSwipeOffset="0dp"
+    android:layout_margin="10dp">
+
+    <!-- Bottom View Start-->
+    <RelativeLayout
+        android:id="@+id/delete_squad_rl"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:clickable="true"
+        android:background="@color/davy_grey"
+        >
+
+        <Button
+            android:id="@+id/delete_squad_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/deleted_squad"
+            android:textSize="24sp"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:hapticFeedbackEnabled="true"
+            android:layout_gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:background="@drawable/red_button_background"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingRight="20dp"
+            android:paddingEnd="20dp" />
+
+    </RelativeLayout>
+
+        <!--What you want to show-->
+
+    <RelativeLayout
+        android:id="@+id/squad_rl"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chevron_right_black_24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:id="@+id/squad_name_txt"
+            android:text="Squad Name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:text="4-1-2-1-2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/squad_formation"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:text="Serie A Hybrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/squad_name"
+            android:textColor="@color/black"
+            android:layout_below="@+id/squad_name_txt"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="7dp"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Formation"
+            android:textSize="16sp"
+            android:id="@+id/formation_txt"
+            android:textColor="@color/colorPrimary"
+            android:layout_above="@+id/squad_formation"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="Team Rating"
+            android:layout_height="wrap_content"
+            android:id="@+id/team_rating_txt"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:layout_above="@+id/squad_formation"
+            android:layout_toLeftOf="@+id/chevron"
+            android:layout_toStartOf="@+id/chevron"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp" />
+
+        <TextView
+            android:text="86"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/squad_team_rating"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:layout_below="@+id/team_rating_txt"
+            android:layout_alignLeft="@+id/team_rating_txt"
+            android:layout_alignStart="@+id/team_rating_txt" />
+
+
+    </RelativeLayout>
+
+
+
+</com.daimajia.swipe.SwipeLayout>

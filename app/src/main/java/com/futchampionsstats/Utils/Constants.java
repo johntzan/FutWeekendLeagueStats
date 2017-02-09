@@ -24,4 +24,10 @@ public class Constants {
     public static final String BACK_BTN = "back_btn";
     public static final String VIEW_GAME_POS = "view_game_pos";
     public static final String SAVE_WL_TO_DATA_FROM_CREATE = "save_wl_from_create";
+    public static final String MY_SQUADS = "my_squads";
+    public static final String NEW_SQUAD = "new_squad";
+    public static final String VIEW_SQUAD = "view_squad";
+    public static final String SAVED_SQUADS = "saved_squads";
+    public static final String EDIT_SQUAD = "edit_squad";
+    public static final String EDIT_SQUAD_INDEX = "edit_squad_index";
 }

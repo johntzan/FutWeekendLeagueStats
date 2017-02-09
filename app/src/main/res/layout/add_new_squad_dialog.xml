@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/add_new_squad_dialog_layout"
+    android:background="@color/white"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/add_new_squad_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_squad"
+        android:textSize="20sp"
+        android:textColor="@color/grey"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/squad_name_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText="@string/squad_name"
+        app:met_baseColor="@color/grey"
+        app:met_textColorHint="@color/grey"
+        app:met_textColor="@color/grey"
+        app:met_underlineColor="@color/grey"
+        app:met_floatingLabelTextColor="@color/scarlet"
+        android:hint="@string/squad_name"
+        android:textColorHint="@color/scarlet"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/squad_formation_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            app:ms_background_color="@color/white"
+            app:ms_text_color="@color/grey"
+            app:ms_arrow_tint="@color/grey"
+            android:layout_weight="1.00"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/squad_team_rating_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:inputType="number"
+            android:imeOptions="actionDone"
+            android:maxLength="2"
+            android:textColorHint="@color/scarlet"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelText="@string/team_rating"
+            app:met_baseColor="@color/grey"
+            app:met_textColorHint="@color/grey"
+            app:met_textColor="@color/grey"
+            app:met_underlineColor="@color/grey"
+            app:met_floatingLabelTextColor="@color/scarlet"
+            android:hint="@string/team_rating"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/new_squad_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/custom_dialog_blue_button"
+            android:background="@drawable/grey_button_background"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            />
+        <Button
+            android:id="@+id/new_squad_dialog_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_squad"
+            android:textAllCaps="false"
+            style="@style/custom_dialog_blue_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

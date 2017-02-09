@@ -102,4 +102,11 @@
     <string name="for_against">For(Against)</string>
     <string name="goals_shots_on_goal">Goals/Shots on Goal</string>
     <string name="general_notes_floathint">General Notes</string>
+    <string name="my_squads">My Squads</string>
+    <string name="squad_name">Squad Name / Type</string>
+    <string name="add_squad">Add Squad</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_new_squad">Add New Squad</string>
+    <string name="undo">Undo</string>
+    <string name="deleted_squad">Delete Squad?</string>
 </resources>
