@@ -31,9 +31,6 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class EditGameFragment extends Fragment {
 
     public static final String TAG = EditGameFragment.class.getSimpleName();
@@ -42,7 +39,6 @@ public class EditGameFragment extends Fragment {
     private static int game_pos;
     private static boolean warningShown = false;
 
-    int userFormationIndex = 0;
     int oppFormationIndex = 0;
     List<String> formations;
 
@@ -91,18 +87,12 @@ public class EditGameFragment extends Fragment {
 
     private void getFormationIndex(){
 
-
         for (int i = 0; i < formations.size(); i++) {
-            if(formations.get(i).equals(mGame.getUser_formation())){
-                userFormationIndex = i;
-                Log.d(TAG, "getFormationIndex user: " + formations.get(i) + " " + formations.get(userFormationIndex));
-            }
-            else if(formations.get(i).equals(mGame.getOpp_formation())){
+            if(formations.get(i).equals(mGame.getOpp_formation())){
                 oppFormationIndex = i;
                 Log.d(TAG, "getFormationIndex opp: " + formations.get(i) + " " + formations.get(oppFormationIndex));
             }
         }
-        Log.d(TAG, "getFormationIndex user: " + formations.get(userFormationIndex));
         Log.d(TAG, "getFormationIndex opp: " + formations.get(oppFormationIndex));
     }
 
@@ -174,21 +164,6 @@ public class EditGameFragment extends Fragment {
                             int userPoss = Math.abs(oppPoss - 100);
                             game.setUser_possession(Integer.toString(userPoss));
                         }
-                    }
-                });
-            }
-
-        }
-
-        @BindingAdapter({"EditUserFormationWatcher"})
-        public static void editUserFormationWatcher(final MaterialSpinner spinner, final Game game) {
-//            Log.d(TAG, "oppFormationWatcher: " + spinner.getSelectedItem().toString());
-            if (game != null && spinner != null) {
-                spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(MaterialSpinner view, int pos, long id, Object item) {
-                        Log.d(TAG, "User onItemSelected: " + item.toString());
-                        game.setUser_formation(item.toString());
                     }
                 });
             }
@@ -316,11 +291,6 @@ public class EditGameFragment extends Fragment {
     }
 
     private void setSpinnerData(View view){
-
-        MaterialSpinner userFormationSpinner = (MaterialSpinner) view.findViewById(R.id.edit_user_formation_edit);
-        userFormationSpinner.setItems(formations);
-        userFormationSpinner.setSelectedIndex(userFormationIndex);
-
 
         MaterialSpinner opponentFormationSpinner = (MaterialSpinner) view.findViewById(R.id.edit_opponent_formation_edit);
         opponentFormationSpinner.setItems(formations);

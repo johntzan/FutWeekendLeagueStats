@@ -320,6 +320,73 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                 onBackPressed();
             }
 
+            if(args.containsKey(Constants.NEW_SQUAD)){
+
+                // TODO: 2/10/17 Refactor - Separate to be used in multple fragments as method
+
+                final AlertDialog add_new_squad_dialog;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                // Get the layout inflater
+                LayoutInflater inflater = this.getLayoutInflater();
+
+                View new_squad_dialog = inflater.inflate(R.layout.add_new_squad_dialog, null);
+
+                // Inflate and set the layout for the dialog
+                // Pass null as the parent view because its going in the dialog layout
+                builder.setCancelable(true);
+                builder.setView(new_squad_dialog);
+                builder.create();
+                add_new_squad_dialog = builder.show();
+
+                final MaterialEditText squad_name = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_name_edit);
+                final MaterialEditText squad_team_rating = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_team_rating_edit);
+                Button add_squad_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_add);
+                Button cancel_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_cancel);
+
+                final MaterialSpinner squadFormationSpinner = (MaterialSpinner) new_squad_dialog.findViewById(R.id.squad_formation_edit);
+                String[] myResArray = getResources().getStringArray(R.array.formations_array);
+                final List<String> formations = Arrays.asList(myResArray);
+
+                squadFormationSpinner.setItems(formations);
+                squadFormationSpinner.setSelectedIndex(0);
+
+                add_squad_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Squad new_squad = new Squad();
+                        if(squad_name.getText().toString().length()<1){
+                            squad_name.setError("Please fill out this field!");
+                        }
+                        else if(squad_team_rating.getText().toString().length()<1){
+                            squad_team_rating.setError("Please fill out this field!");
+                        }
+                        else{
+                            new_squad.setName(squad_name.getText().toString());
+                            new_squad.setTeam_rating(squad_team_rating.getText().toString());
+                            new_squad.setFormation(formations.get(squadFormationSpinner.getSelectedIndex()));
+
+                            if(newGameFragment!=null){
+                                newGameFragment.saveSquad(new_squad);
+                            }
+
+                            Log.d(TAG, "onClick new Squad: " + new Gson().toJson(new_squad));
+                            add_new_squad_dialog.dismiss();
+                        }
+
+                    }
+                });
+
+                cancel_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        add_new_squad_dialog.dismiss();
+                    }
+                });
+
+
+
+            }
+
         }
     }
 

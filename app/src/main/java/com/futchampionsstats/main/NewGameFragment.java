@@ -1,10 +1,12 @@
 package com.futchampionsstats.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,9 +25,13 @@ import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.Utils.Utils;
 import com.futchampionsstats.databinding.FragmentNewGameBinding;
 import com.futchampionsstats.models.Game;
+import com.futchampionsstats.models.Squad;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,6 +44,10 @@ public class NewGameFragment extends Fragment {
 
     private static OnNewGameFragmentInteractionListener mListener;
     private static boolean warningShown = false;
+    FragmentNewGameBinding binding;
+
+    private static ArrayList<Squad> user_squads;
+    private static List<String> formations;
 
     public NewGameFragment() {
         // Required empty public constructor
@@ -63,11 +73,14 @@ public class NewGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        FragmentNewGameBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_game, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_game, container, false);
         NewGameHandlers handlers = new NewGameHandlers();
         Game mGame = new Game();
+        user_squads = new ArrayList<>();
+
         binding.setGame(mGame);
         binding.setHandlers(handlers);
+        binding.setSquads(user_squads);
 
         /** Spinner data **/
         setSpinnerData(binding.getRoot());
@@ -143,15 +156,41 @@ public class NewGameFragment extends Fragment {
 
         }
 
-        @BindingAdapter({"UserFormationWatcher"})
-        public static void userFormationWatcher(final MaterialSpinner spinner, final Game game) {
+        @BindingAdapter({"UserCreateNewTeamWatcher"})
+        public static void userCreateNewTeamWatcher(final Button btn, final Game game) {
+            if (game != null && btn != null) {
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle b = new Bundle();
+                        b.putString(Constants.NEW_SQUAD, Constants.NEW_SQUAD);
+                        if(mListener!=null) mListener.onNewGameFragmentInteraction(b);
+
+                    }
+                });
+
+            }
+        }
+
+        @BindingAdapter({"UserTeamSelectorWatcher"})
+        public static void userTeamSelectorWatcher(final MaterialSpinner spinner, final Game game) {
 //            Log.d(TAG, "oppFormationWatcher: " + spinner.getSelectedItem().toString());
             if (game != null && spinner != null) {
+
+                if(user_squads!=null && user_squads.size()>0){
+                    game.setUser_team(user_squads.get(spinner.getSelectedIndex()).getName());
+                    game.setUser_team_rating(user_squads.get(spinner.getSelectedIndex()).getTeam_rating());
+                    game.setUser_formation(user_squads.get(spinner.getSelectedIndex()).getFormation());
+                }
+
                 spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(MaterialSpinner view, int pos, long id, Object item) {
                         Log.d(TAG, "User onItemSelected: " + item.toString());
-                        game.setUser_formation(item.toString());
+
+                        game.setUser_team(user_squads.get(pos).getName());
+                        game.setUser_team_rating(user_squads.get(pos).getTeam_rating());
+                        game.setUser_formation(user_squads.get(pos).getFormation());
                     }
                 });
             }
@@ -162,6 +201,8 @@ public class NewGameFragment extends Fragment {
         public static void oppFormationWatcher(final MaterialSpinner spinner, final Game game) {
 //            Log.d(TAG, "oppFormationWatcher: " + spinner.getSelectedItem().toString());
             if (game != null && spinner != null) {
+                game.setOpp_formation(formations.get(spinner.getSelectedIndex()));
+
                 spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(MaterialSpinner view, int pos, long id, Object item) {
@@ -199,6 +240,7 @@ public class NewGameFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (game != null) {
+                        Log.d(TAG, "onClick: " + new Gson().toJson(game));
                         String gameDataCheck = checkIfGameDataCorrect(game);
 //                        String gameDataCheck = "finished";
                         game.setGame_id("wl_game");
@@ -277,16 +319,39 @@ public class NewGameFragment extends Fragment {
     }
 
     private void setSpinnerData(View view){
-        MaterialSpinner userFormationSpinner = (MaterialSpinner) view.findViewById(R.id.user_formation_edit);
-        String[] myResArray = getResources().getStringArray(R.array.formations_array);
-        List<String> formations = Arrays.asList(myResArray);
 
-        userFormationSpinner.setItems(formations);
-        userFormationSpinner.setSelectedIndex(0);
+        String[] myResArray = getResources().getStringArray(R.array.formations_array);
+        formations = Arrays.asList(myResArray);
 
         MaterialSpinner opponentFormationSpinner = (MaterialSpinner) view.findViewById(R.id.opponent_formation_edit);
         opponentFormationSpinner.setItems(formations);
         opponentFormationSpinner.setSelectedIndex(0);
+    }
+
+    private void setUserTeamSpinner(View view){
+        MaterialSpinner userTeamUsed = (MaterialSpinner) view.findViewById(R.id.user_team_used);
+        List<String> teams = new ArrayList<>();
+        for (int i = 0; i < user_squads.size(); i++) {
+            teams.add(user_squads.get(i).getName());
+        }
+        userTeamUsed.setItems(teams);
+        userTeamUsed.setSelectedIndex(0);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString(Constants.SAVED_SQUADS, null);
+        Type type = new TypeToken<ArrayList<Squad>>() {}.getType();
+        user_squads = gson.fromJson(json, type);
+
+        if (user_squads != null && user_squads.size()>0) {
+            Log.d(TAG, "onResume viewSquads: " + new Gson().toJson(user_squads));
+            binding.setSquads(user_squads);
+            setUserTeamSpinner(binding.getRoot());
+        }
     }
 
     private static void showDisconnectWarning(View v) {
@@ -311,6 +376,34 @@ public class NewGameFragment extends Fragment {
             pDialog.show();
 
         }
+    }
+
+    // TODO: 2/10/17 Refactor this into separate method where can be used here and MySquadsFragment
+    public void saveSquad(Squad squad){
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString(Constants.SAVED_SQUADS, null);
+        Type type = new TypeToken<ArrayList<Squad>>() {}.getType();
+        ArrayList<Squad> saved_squads = gson.fromJson(json, type);
+
+        if(saved_squads!=null){
+            saved_squads.add(squad);
+        }
+        else{
+            saved_squads = new ArrayList<>();
+            saved_squads.add(squad);
+        }
+        user_squads = saved_squads;
+        binding.setSquads(user_squads);
+        setUserTeamSpinner(binding.getRoot());
+
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        String json2 = gson.toJson(saved_squads);
+        Log.d(TAG, "saveSquad: " + saved_squads);
+
+        editor.putString(Constants.SAVED_SQUADS, json2);
+        editor.apply();
     }
 
     @Override

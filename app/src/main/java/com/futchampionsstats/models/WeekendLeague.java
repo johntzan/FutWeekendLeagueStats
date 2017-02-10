@@ -281,10 +281,10 @@ public class WeekendLeague extends BaseObservable implements Serializable{
             }
             catch(NumberFormatException e){
                 Log.d(TAG, "avgTeamRatingWatcher: " + e);
-                return "";
+                return "0.00";
             }
         }else{
-            return "";
+            return "0.00";
         }
 
     }
