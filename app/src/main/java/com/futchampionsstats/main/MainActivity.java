@@ -5,11 +5,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -47,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    private static final String SELECTED_ITEM = "arg_selected_item";
+
+    private BottomNavigationView mBottomNav;
+    private int mSelectedItem;
+
     private MainActivityFragment mMainFragment;
     private WLFragment wlFragment;
     private NewGameFragment newGameFragment;
@@ -62,6 +70,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mBottomNav = (BottomNavigationView) findViewById(R.id.navigation);
+        mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                selectFragment(item);
+                return true;
+            }
+        });
+
+        MenuItem selectedItem;
 
         weekendLeague = new WeekendLeague();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -80,7 +98,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
             Log.d(TAG, "onCreate: weekendleague null");
         }
-        if (savedInstanceState == null) {
+
+        if (savedInstanceState != null) {
+            Log.d(TAG, "onCreate: savedInstanceState!=null");
+            mSelectedItem = savedInstanceState.getInt(SELECTED_ITEM, 1);
+            selectedItem = mBottomNav.getMenu().findItem(mSelectedItem);
+        } else {
+            Log.d(TAG, "onCreate: savedInstanceState==null");
+            selectedItem = mBottomNav.getMenu().getItem(1);
+            selectedItem.setChecked(true);
+
             mMainFragment = new MainActivityFragment();
             wlFragment = new WLFragment();
             newGameFragment = new NewGameFragment();
@@ -90,14 +117,63 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             mySquadsFragment = new MySquadsFragment();
         }
 
-        displayFragment(mMainFragment, "main frag");
+        selectFragment(selectedItem);
 
+    }
+
+    private void selectFragment(MenuItem item) {
+        Log.d(TAG, "selectFragment: " + item.getTitle().toString());
+        Fragment frag = null;
+        String tag = "";
+        // init corresponding fragment
+        switch (item.getItemId()) {
+            case R.id.menu_past_wl:
+                frag = pastWLFragment;
+                tag = "past_weekend_league_frag";
+                break;
+            case R.id.menu_current_wl:
+                frag = wlFragment;
+                tag = "weekend_league_frag";
+                break;
+            case R.id.menu_my_squads:
+                frag = mySquadsFragment;
+                tag = "my_squads_frag";
+                break;
+        }
+
+        // update selected item
+        mSelectedItem = item.getItemId();
+
+        // uncheck the other items.
+        for (int i = 0; i< mBottomNav.getMenu().size(); i++) {
+            MenuItem menuItem = mBottomNav.getMenu().getItem(i);
+            menuItem.setChecked(false);
+        }
+        item.setChecked(true);
+
+        if (frag != null) {
+
+            if(frag.isAdded()){
+                Log.d(TAG, "selectFragment: is added: " + tag);
+                return;
+            }
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            Log.d(TAG, "selectFragment: replacing: " + tag);
+            ft.replace(R.id.container, frag, tag);
+            ft.addToBackStack(tag);
+            ft.commit();
+        }
     }
 
     public void displayFragment(Fragment fragment, String tag) {
 
         Log.d(TAG + "fragment is null?", String.valueOf(fragment == null));
         if (fragment != null) {
+//            if(fragment.isAdded()){
+//                return;
+//            }
+
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             // removes the existing fragment calling onDestroy
 
@@ -154,10 +230,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                 WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_GAMES);
                 Bundle b = new Bundle();
                 b.putSerializable(Constants.VIEW_GAMES, weekendLeague);
-                if(viewGamesFragment!=null){
-                    viewGamesFragment.setArguments(b);
-                    displayFragment(viewGamesFragment, "view_games_frag");
-                }
+                viewGamesFragment = new ViewGamesFragment();
+                viewGamesFragment.setArguments(b);
+                displayFragment(viewGamesFragment, "view_games_frag");
+
             }
             if(args.containsKey(Constants.BACK_BTN)){
                 onBackPressed();
@@ -702,5 +778,36 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                 }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(SELECTED_ITEM, mSelectedItem);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(wlFragment!=null && wlFragment.isVisible()){
+            //do nothing
+        }
+        else{
+            MenuItem homeItem = mBottomNav.getMenu().getItem(1);
+            if (mSelectedItem != homeItem.getItemId()) {
+                // select home item
+                super.onBackPressed();
+                selectFragment(homeItem);
+            } else {
+                super.onBackPressed();
+            }
+        }
+
+
     }
 }

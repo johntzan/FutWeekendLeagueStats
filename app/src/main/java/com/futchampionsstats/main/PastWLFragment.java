@@ -112,8 +112,13 @@ public class PastWLFragment extends Fragment {
         editor.apply();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // TODO: 2/14/17 get past weekend leagues here
+    }
 
-        @Override
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnPastWLFragmentInteractionListener) {

@@ -144,7 +144,7 @@ public class WLFragment extends Fragment {
         binding.setWeekendLeague(weekendLeague);
 
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString(Constants.CURRENT_WL, null);
         editor.apply();

@@ -33,23 +33,12 @@
                 android:background="@color/colorPrimaryDark"
                 android:id="@+id/main_top_bar">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_arrow_back_white_24dp"
-                    android:id="@+id/back_btn"
-                    android:onClick="@{handlers.onClick}"
-                    android:layout_marginLeft="10dp" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/back_btn"
-
+                    android:layout_centerInParent="true"
                     android:text="@string/my_squads"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
                     android:textSize="20sp" />
 
                 <ImageView

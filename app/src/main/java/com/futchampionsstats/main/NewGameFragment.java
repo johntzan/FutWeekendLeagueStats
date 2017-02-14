@@ -82,6 +82,18 @@ public class NewGameFragment extends Fragment {
         binding.setHandlers(handlers);
         binding.setSquads(user_squads);
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString(Constants.SAVED_SQUADS, null);
+        Type type = new TypeToken<ArrayList<Squad>>() {}.getType();
+        user_squads = gson.fromJson(json, type);
+
+        if (user_squads != null && user_squads.size()>0) {
+            Log.d(TAG, "onResume viewSquads: " + new Gson().toJson(user_squads));
+            binding.setSquads(user_squads);
+            setUserTeamSpinner(binding.getRoot());
+        }
+
         /** Spinner data **/
         setSpinnerData(binding.getRoot());
 
@@ -341,17 +353,7 @@ public class NewGameFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(Constants.SAVED_SQUADS, null);
-        Type type = new TypeToken<ArrayList<Squad>>() {}.getType();
-        user_squads = gson.fromJson(json, type);
 
-        if (user_squads != null && user_squads.size()>0) {
-            Log.d(TAG, "onResume viewSquads: " + new Gson().toJson(user_squads));
-            binding.setSquads(user_squads);
-            setUserTeamSpinner(binding.getRoot());
-        }
     }
 
     private static void showDisconnectWarning(View v) {
