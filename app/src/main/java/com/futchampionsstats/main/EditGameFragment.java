@@ -336,11 +336,6 @@ public class EditGameFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        View content = getActivity().findViewById(R.id.activity_main);
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
-        if(bottomNavigationView!=null){
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -358,6 +353,11 @@ public class EditGameFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        View content = getActivity().findViewById(R.id.activity_main);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
+        if(bottomNavigationView!=null){
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
     }
 
     public interface OnEditGameFragmentInteractionListener {

@@ -365,11 +365,7 @@ public class NewGameFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        View content = getActivity().findViewById(R.id.activity_main);
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
-        if(bottomNavigationView!=null){
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        }
+
     }
 
     private static void showDisconnectWarning(View v) {
@@ -438,6 +434,11 @@ public class NewGameFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        View content = getActivity().findViewById(R.id.activity_main);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
+        if(bottomNavigationView!=null){
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
         mListener = null;
     }
 
