@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
     public void displayFragment(Fragment fragment, String tag) {
 
-        Log.d(TAG + "fragment is null?", String.valueOf(fragment == null));
+        Log.d(TAG + " fragment is null?", String.valueOf(fragment == null));
         if (fragment != null) {
 //            if(fragment.isAdded()){
 //                return;

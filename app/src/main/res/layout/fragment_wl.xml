@@ -701,6 +701,16 @@
         android:layout_marginEnd="16dp"
         android:onClick="@{handlers.wlFragmentClick}"/>
 
+    <!--To make Fab hide with scroll, it needs to be in a coordinator layout, but doing so ruins show/hide of bottom bar..
+        Need to set scrollviews to NestedScrollViews
+
+        Other options would be to put fab into activity_main.xml, change during runtime:
+        View content = getActivity().findViewById(R.id.activity_main);
+        FloatingActionButton fab = (FloatingActionButton) content.findViewById(R.id.fab);
+
+        -->
+
+
 </RelativeLayout>
 
 </layout>

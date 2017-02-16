@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -353,7 +354,22 @@ public class NewGameFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        View content = getActivity().findViewById(R.id.activity_main);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
+        if(bottomNavigationView!=null){
+            bottomNavigationView.setVisibility(View.GONE);
+        }
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        View content = getActivity().findViewById(R.id.activity_main);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
+        if(bottomNavigationView!=null){
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
     }
 
     private static void showDisconnectWarning(View v) {
