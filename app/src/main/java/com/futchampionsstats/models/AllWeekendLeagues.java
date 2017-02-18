@@ -28,16 +28,26 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
     }
 
     public static String getTotalWLs(AllWeekendLeagues allWeekendLeagues){
-        return String.valueOf(allWeekendLeagues.getAllWeekendLeagues().size());
+        if(allWeekendLeagues!=null){
+            return String.valueOf(allWeekendLeagues.getAllWeekendLeagues().size());
+        }
+        else{
+            return "0";
+        }
     }
 
     public static boolean showWLsDeleteBtn(AllWeekendLeagues allWeekendLeagues){
-        return allWeekendLeagues.getAllWeekendLeagues().size()>0;
+        if (allWeekendLeagues!=null){
+            return allWeekendLeagues.getAllWeekendLeagues().size()>0;
+        }
+        else{
+            return false;
+        }
     }
 
     public static String getTotalGamesWon(AllWeekendLeagues allWeekendLeagues){
         int gamesWon = 0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null){
 
             for (WeekendLeague weekendLeague : allWeekendLeagues.getAllWeekendLeagues()) {
                 gamesWon += Integer.parseInt(WeekendLeague.getWinTotal(weekendLeague));
@@ -49,7 +59,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
 
     public static String getTotalGamesPlayed(AllWeekendLeagues allWeekendLeagues){
         int gamesPlayed = 0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null){
 
             for (WeekendLeague weekendLeague : allWeekendLeagues.getAllWeekendLeagues()) {
                 gamesPlayed += weekendLeague.getWeekendLeague().size();
@@ -62,7 +72,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
     public static String[] getAvgShotsFor(AllWeekendLeagues allWeekendLeagues){
         Double shotsFor = 0.0;
         Double shotsOnG = 0.0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0) {
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0) {
 
             try {
 
@@ -91,7 +101,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
     public static String[] getAvgShotsAgainst(AllWeekendLeagues allWeekendLeagues){
         Double shotsAgainst = 0.0;
         Double shotsAgainstOnG = 0.0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
             try{
 
 
@@ -122,7 +132,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
     public static String[] getAvgGoals(AllWeekendLeagues allWeekendLeagues){
         Double goalsFor = 0.0;
         Double goalsAgainst = 0.0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
 
             try {
 
@@ -153,7 +163,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
     public static String[] getAvgPassAcc(AllWeekendLeagues allWeekendLeagues){
         Double passAcc = 0.0;
         Double passAccAgainst= 0.0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
 
             try {
 
@@ -185,7 +195,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
     public static String getAvgPoss(AllWeekendLeagues allWeekendLeagues){
         Double possFor = 0.0;
         Double possAgainst = 0.0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
 
             for (WeekendLeague weekendLeague : allWeekendLeagues.getAllWeekendLeagues()) {
                 possFor += Double.parseDouble(WeekendLeague.getAvgPoss(weekendLeague)[0]);
@@ -201,7 +211,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
     public static String getAvgTackles(AllWeekendLeagues allWeekendLeagues){
         Double tacklesFor = 0.0;
         Double tacklesAgainst = 0.0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
 
             for (WeekendLeague weekendLeague : allWeekendLeagues.getAllWeekendLeagues()) {
                 tacklesFor += Double.parseDouble(WeekendLeague.getAvgTackles(weekendLeague)[0]);
@@ -217,7 +227,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
 
     public static String getAvgTeamRating(AllWeekendLeagues allWeekendLeagues){
         Double teamRating = 0.0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
 
             for (WeekendLeague weekendLeague : allWeekendLeagues.getAllWeekendLeagues()) {
                 teamRating += Double.parseDouble(WeekendLeague.getAvgTeamRating(weekendLeague));
@@ -231,7 +241,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
 
     public static String getDisconnectTotals(AllWeekendLeagues allWeekendLeagues){
         int dcs = 0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null){
 
             for (WeekendLeague weekendLeague : allWeekendLeagues.getAllWeekendLeagues()) {
                 dcs += Integer.parseInt(WeekendLeague.getDisconnectTotal(weekendLeague));
@@ -243,7 +253,7 @@ public class AllWeekendLeagues extends BaseObservable implements Serializable{
 
     public static String getQuitTotals(AllWeekendLeagues allWeekendLeagues){
         int quits = 0;
-        if(allWeekendLeagues.getAllWeekendLeagues()!=null){
+        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues()!=null){
 
             for (WeekendLeague weekendLeague : allWeekendLeagues.getAllWeekendLeagues()) {
                 quits += Integer.parseInt(WeekendLeague.getQuitTotal(weekendLeague));

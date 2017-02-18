@@ -47,23 +47,7 @@ public class PastWLFragment extends Fragment {
         super.onCreate(savedInstanceState);
         allWeekendLeagues = new AllWeekendLeagues();
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(Constants.ALL_WLS, null);
-        Type type = new TypeToken<AllWeekendLeagues>() {}.getType();
-        AllWeekendLeagues all_wl = gson.fromJson(json, type);
 
-        if(all_wl!=null && all_wl.getAllWeekendLeagues()!=null){
-            Log.d(TAG, "onCreate: " + new Gson().toJson(all_wl.getAllWeekendLeagues()));
-            allWeekendLeagues = all_wl;
-        }
-        else{
-            Log.d(TAG, "onCreate wl: null");
-        }
-        if(allWeekendLeagues.getAllWeekendLeagues()==null){
-            ArrayList<WeekendLeague> new_wls = new ArrayList<>();
-            allWeekendLeagues.setAllWeekendLeagues(new_wls);
-        }
     }
 
     @Override
@@ -74,7 +58,6 @@ public class PastWLFragment extends Fragment {
         PastWLFragmentHandlers handlers = new PastWLFragmentHandlers();
 
         binding.setHandlers(handlers);
-        binding.setAllWeekendLeagues(allWeekendLeagues);
         return binding.getRoot();
     }
 
@@ -90,6 +73,9 @@ public class PastWLFragment extends Fragment {
                     break;
                 case R.id.delete_wl_btn:
                     b.putSerializable(Constants.DELETE_WLS, allWeekendLeagues);
+                    break;
+                case R.id.total_wls_played_layout:
+                    b.putString(Constants.VIEW_PAST_WLS, Constants.VIEW_PAST_WLS);
                     break;
             }
             if (mListener != null) mListener.onPastWLFragmentInteraction(b);
@@ -115,7 +101,25 @@ public class PastWLFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // TODO: 2/14/17 get past weekend leagues here
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Gson gson = new Gson();
+        String json = sharedPrefs.getString(Constants.ALL_WLS, null);
+        Type type = new TypeToken<AllWeekendLeagues>() {}.getType();
+        AllWeekendLeagues all_wl = gson.fromJson(json, type);
+
+        if(all_wl!=null && all_wl.getAllWeekendLeagues()!=null){
+            Log.d(TAG, "onCreate: " + new Gson().toJson(all_wl.getAllWeekendLeagues()));
+            allWeekendLeagues = all_wl;
+            binding.setAllWeekendLeagues(allWeekendLeagues);
+        }
+        else{
+            Log.d(TAG, "onCreate wl: null");
+        }
+        if(allWeekendLeagues.getAllWeekendLeagues()==null){
+            ArrayList<WeekendLeague> new_wls = new ArrayList<>();
+            allWeekendLeagues.setAllWeekendLeagues(new_wls);
+            binding.setAllWeekendLeagues(allWeekendLeagues);
+        }
     }
 
     @Override

@@ -69,11 +69,13 @@
             android:paddingRight="10dp">
 
             <RelativeLayout
-                android:id="@+id/games_left_layout"
+                android:id="@+id/total_wls_played_layout"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/truetransparent"
-                android:padding="15dp">
+                android:padding="15dp"
+                android:clickable="true"
+                android:onClick="@{handlers.pastWLFragmentClick}">
 
                 <TextView
                     android:id="@+id/total_wls_no"
@@ -95,6 +97,17 @@
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     />
+
+                <ImageButton
+                    android:id="@+id/view_past_wls_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="@{allWeekendLeagues.allWeekendLeagues.size()>0 ? View.VISIBLE : View.GONE}"
+                    android:background="@drawable/ic_chevron_right_white_24dp"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -102,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:orientation="horizontal"
-                android:layout_below="@id/games_left_layout"
+                android:layout_below="@+id/total_wls_played_layout"
                 android:background="@color/white"
                 android:paddingLeft="10dp"
                 android:paddingStart="10dp"

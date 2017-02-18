@@ -43,6 +43,11 @@ public class WeekendLeague extends BaseObservable implements Serializable{
         notifyPropertyChanged(BR.dateOfWL);
     }
 
+    public static String getTotalGamesPlayed(WeekendLeague weekendLeague){
+        return String.valueOf(weekendLeague.getWeekendLeague().size());
+    }
+
+
     public static String getWinTotal(WeekendLeague weekendLeague){
         int gamesWon = 0;
         if(weekendLeague.getWeekendLeague().size()>0){
@@ -234,6 +239,31 @@ public class WeekendLeague extends BaseObservable implements Serializable{
 
     public static String getAvgGoalsString(WeekendLeague wl){
         return getAvgGoals(wl)[0] + "(" + getAvgGoals(wl)[1] + ")";
+    }
+
+    public static String[] getTotalGoals(WeekendLeague wl){
+        if(wl.getWeekendLeague()!=null){
+            try{
+
+                int goalsFor = 0;
+                int goalsAgainst = 0;
+                for(Game game : wl.getWeekendLeague()){
+                    if(!game.getGame_disconnected() && (game.getUser_goals()!=null || game.getOpp_goals()!=null)){
+                        goalsFor += Integer.parseInt(game.getUser_goals());
+                        goalsAgainst += Integer.parseInt(game.getOpp_goals());
+                    }
+                }
+
+                return new String[]{String.valueOf(goalsFor), String.valueOf(goalsAgainst)};
+            }
+            catch(NumberFormatException e){
+                Log.d(TAG, "totalGoalsWatcher: " + e);
+                return new String[]{"0", "0"};
+            }
+        }else{
+            return new String[]{"0", "0"};
+        }
+
     }
 
     public static String[] getAvgTackles(WeekendLeague wl){

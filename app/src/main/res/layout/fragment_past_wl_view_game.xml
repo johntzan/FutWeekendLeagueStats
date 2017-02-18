@@ -1,0 +1,671 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable name="handlers" type="com.futchampionsstats.main.PastWLViewGameFragment.PastWLViewGameHandlers"/>
+        <variable name="game" type="com.futchampionsstats.models.Game"/>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fc_panel1_bg_md"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/main_top_bar">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    android:id="@+id/back_btn"
+                    android:onClick="@{handlers.onClick}"
+                    android:layout_marginLeft="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:text='@{(game.opp_name ?? "View Game")}'
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:gravity="center_vertical" />
+
+            </RelativeLayout>
+
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:text="@string/teams_info"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/opponent_info"
+                            android:textStyle="bold"
+                            android:textColor="@color/grey"
+                            android:layout_marginTop="10dp"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/opp_name_edit"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text='@{"Name: " + (game.opp_name ?? "No name set.")}'
+                            android:textSize="18sp"
+                            android:textAlignment="viewStart"
+                            android:layout_gravity="start"
+                            android:hint="@string/opponent_name_team_name"
+                            android:textColor="@color/grey"
+                            android:layout_marginTop="10dp" />
+
+                        <TextView
+                            android:id="@+id/opp_team_edit"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text='@{"Squad: " + (game.opp_team ?? "No squad set.")}'
+                            android:textSize="18sp"
+                            android:hint="@string/squad_name"
+                            android:textColor="@color/grey"
+                            android:layout_marginTop="10dp" />
+
+                        <TextView
+                            android:id="@+id/edit_opponent_formation_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text='@{"Formation: " + game.opp_formation}'
+                            android:textColor="@color/grey"
+                            android:layout_marginTop="10dp" />
+
+                        <TextView
+                            android:id="@+id/edit_squad_team_rating_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='@{"Team Rating: " + (game.opp_team_rating ?? "No team rating set.")}'
+                            android:textSize="18sp"
+                            android:hint="@string/team_rating"
+                            android:textColor="@color/grey"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp" />
+
+                    </LinearLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/user_team_used_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_alignParentTop="true"
+                            android:textColor="@color/grey"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:text="@string/your_team_used"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/user_team_used"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_below="@+id/user_team_used_txt"
+                            android:textColor="@color/grey"
+                            android:textSize="18sp"
+                            android:text='@{"Squad: " + game.user_team}'
+                            />
+
+
+                        <TextView
+                            android:id="@+id/user_team_used_formation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@id/user_team_used"
+                            android:textColor="@color/grey"
+                            android:textSize="18sp"
+                            android:text='@{"Formation: " + game.user_formation}'
+                            android:layout_marginBottom="10dp" />
+
+
+                        <TextView
+                            android:id="@+id/user_team_used_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey"
+                            android:textSize="18sp"
+                            android:text='@{"Team Rating: " + game.user_team_rating}'
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_below="@+id/user_team_used_formation"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="10dp" />
+
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_stats_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/your_stats"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/stats_space"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/opponent_stats_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/opponent_stats"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_goals_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.user_goals}"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:layout_weight="1"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/goals_txt"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/goals"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/opponent_goals_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.opp_goals}"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_shots_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.user_shots}"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"/>
+
+                        <TextView
+                            android:id="@+id/shots_txt"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/shots"
+                            android:textSize="20sp"
+                            />
+
+                        <TextView
+                            android:id="@+id/opponent_shots_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.opp_shots}"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_sog_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.user_sog}"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"/>
+
+                        <TextView
+                            android:id="@+id/sog_txt"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/shots_on_goal"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/opponent_sog_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.opp_sog}"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_possession_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.user_possession}"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"/>
+
+                        <TextView
+                            android:id="@+id/possession_txt"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/possession"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/opponent_possession_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.opp_possession}"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_tackles_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.user_tackles}"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:layout_weight="1"
+                            android:maxLength="2"
+                            android:textAlignment="center"/>
+
+                        <TextView
+                            android:id="@+id/tackles_txt"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/tackles"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/opponent_tackles_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.opp_tackles}"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:maxLength="2"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_corners_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.user_corners}"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:layout_weight="1"
+                            android:maxLength="2"
+                            android:textAlignment="center"/>
+
+                        <TextView
+                            android:id="@+id/corners_txt"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/corners"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/opponent_corners_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.opp_corners}"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:layout_weight="1"
+                            android:maxLength="2"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_pass_acc_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.user_pass_acc}"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:maxLength="2"
+                            android:layout_weight="1"
+                            android:nextFocusDown="@+id/opp_pass_acc_edit"
+                            android:textAlignment="center"/>
+
+                        <TextView
+                            android:id="@+id/pass_acc_txt"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/pass_accuracy"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/opp_pass_acc_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/input_hint"
+                            android:text="@={game.opp_pass_acc}"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:maxLength="2"
+                            android:layout_weight="1"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="300dp"
+                        android:layout_height="2dp"
+                        android:layout_margin="20dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:layout_gravity="center_horizontal">
+
+                    </View>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20sp"
+                        android:text="@string/results"
+                        android:textStyle="normal|bold" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={game.penalties}"
+                        android:visibility="@{game.checkPenaltiesView() ? View.VISIBLE: View.GONE}"
+                        android:enabled="false"
+                        android:text="@string/penalties"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:visibility="@{game.penalties ? View.VISIBLE: View.GONE}"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/user_pen_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/pen_hint_user"
+                            android:text="@={game.user_pen_score}"
+                            android:textSize="20sp"
+                            android:padding="5dp"
+                            android:maxLength="2"
+                            android:layout_weight="1"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/penalties_score_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="@string/penalties_score"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/opponent_pen_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/pen_score_opp"
+                            android:text="@={game.opp_pen_score}"
+                            android:padding="5dp"
+                            android:textSize="20sp"
+                            android:maxLength="2"
+                            android:layout_weight="1"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:checked="@={game.rage_quit}"
+                        android:text="@string/rage_quit"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{game.rage_quit ? View.VISIBLE : View.GONE}"
+                        android:text="@={game.minute_rage_quit}"
+                        android:maxLength="3"
+                        android:selectAllOnFocus="true"
+                        android:hint="@string/rage_quit_hint"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={game.game_disconnected}"
+                        android:enabled="false"
+                        GameDisconnectWatcher="@{game}"
+                        android:text="@string/disconnected_from_ea_servers"/>
+
+                    <TextView
+                        android:id="@+id/game_notes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="40dp"
+                        android:text="@={game.game_notes}"
+                        android:hint="@string/notes_hint"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp" />
+
+                </LinearLayout>
+
+            </ScrollView>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>
