@@ -82,10 +82,10 @@ public class WeekendLeague extends BaseObservable implements Serializable{
                 }
                 catch(NumberFormatException e){
                     Log.d(TAG, "avgShotsWatcher: " + e);
-                    return new String[]{};
+                    return new String[]{"0.00", "0.00"};
                 }
             }else{
-            return new String[]{};
+            return new String[]{"0.00", "0.00"};
         }
 
     }
@@ -114,10 +114,10 @@ public class WeekendLeague extends BaseObservable implements Serializable{
                 }
                 catch(NumberFormatException e){
                     Log.d(TAG, "avgPossWatcher: " + e);
-                    return new String[]{};
+                    return new String[]{"0.00", "0.00"};
                 }
         }else{
-            return new String[]{};
+            return new String[]{"0.00", "0.00"};
         }
     }
 
@@ -194,10 +194,10 @@ public class WeekendLeague extends BaseObservable implements Serializable{
                 }
                 catch(NumberFormatException e){
                     Log.d(TAG, "avgShotsAgainstWatcher: " + e);
-                    return new String[]{};
+                    return new String[]{"0.00", "0.00"};
                 }
         }else{
-            return new String[]{};
+            return new String[]{"0.00", "0.00"};
         }
 
     }
@@ -224,10 +224,10 @@ public class WeekendLeague extends BaseObservable implements Serializable{
             }
             catch(NumberFormatException e){
                 Log.d(TAG, "avgGoalsWatcher: " + e);
-                return new String[]{};
+                return new String[]{"0.00", "0.00"};
             }
         }else{
-            return new String[]{};
+            return new String[]{"0.00", "0.00"};
         }
 
     }
@@ -254,10 +254,10 @@ public class WeekendLeague extends BaseObservable implements Serializable{
             }
             catch(NumberFormatException e){
                 Log.d(TAG, "avgTacklesatcher: " + e);
-                return new String[]{};
+                return new String[]{"0.00", "0.00"};
             }
         }else{
-            return new String[]{};
+            return new String[]{"0.00", "0.00"};
         }
 
     }

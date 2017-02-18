@@ -6,6 +6,7 @@ import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -322,6 +323,22 @@ public class EditGameFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        View content = getActivity().findViewById(R.id.activity_main);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
+        if(bottomNavigationView!=null){
+            bottomNavigationView.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnEditGameFragmentInteractionListener) {
@@ -336,6 +353,11 @@ public class EditGameFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        View content = getActivity().findViewById(R.id.activity_main);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
+        if(bottomNavigationView!=null){
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
     }
 
     public interface OnEditGameFragmentInteractionListener {

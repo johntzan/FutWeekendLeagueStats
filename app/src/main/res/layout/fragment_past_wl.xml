@@ -26,22 +26,10 @@
             android:layout_alignParentTop="true"
             android:id="@+id/main_top_bar">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/back_button_cont_desc"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                android:id="@+id/back_btn"
-                android:onClick="@{handlers.pastWLFragmentClick}"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/back_btn"
-                android:layout_toEndOf="@+id/back_btn"
+                android:layout_centerInParent="true"
                 android:text="@string/past_weekend_leagues"
                 android:textSize="20sp"
                 android:textColor="@color/white"

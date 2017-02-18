@@ -42,12 +42,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/back_btn"
-
+                android:layout_centerInParent="true"
                 android:text="@string/games_list"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="5dp"
                 android:textSize="20sp" />
 
         </RelativeLayout>

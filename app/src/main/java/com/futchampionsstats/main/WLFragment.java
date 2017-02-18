@@ -18,6 +18,7 @@ import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.databinding.FragmentWlBinding;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -29,6 +30,7 @@ public class WLFragment extends Fragment {
     public static final String TAG = WLFragment.class.getSimpleName();
 
     private OnNewWLFragmentInteractionListener mListener;
+    private FloatingActionButton fab;
 
     private WeekendLeague weekendLeague;
     FragmentWlBinding binding;
@@ -144,7 +146,7 @@ public class WLFragment extends Fragment {
         binding.setWeekendLeague(weekendLeague);
 
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString(Constants.CURRENT_WL, null);
         editor.apply();

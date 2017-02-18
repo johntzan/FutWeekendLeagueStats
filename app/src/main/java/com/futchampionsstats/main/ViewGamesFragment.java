@@ -62,14 +62,8 @@ public class ViewGamesFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_games_list, container, false);
         ViewGamesHandlers handlers = new ViewGamesHandlers();
         binding.setHandlers(handlers);
-//        binding.setWeekendLeague(weekendLeague);
 
         gamesList = (RecyclerView) binding.getRoot().findViewById(R.id.games_list);
-
-//        if(weekendLeague.getWeekendLeague()!=null){
-//            Log.d(TAG, "onCreateView: weekend league not null: " + weekendLeague.getWeekendLeague().size());
-//
-//        }
 
         return binding.getRoot();
     }
