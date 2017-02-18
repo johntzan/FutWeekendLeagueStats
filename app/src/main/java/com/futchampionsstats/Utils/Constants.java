@@ -30,4 +30,9 @@ public class Constants {
     public static final String SAVED_SQUADS = "saved_squads";
     public static final String EDIT_SQUAD = "edit_squad";
     public static final String EDIT_SQUAD_INDEX = "edit_squad_index";
+    public static final String VIEW_PAST_WLS = "view_past_wls";
+    public static final String VIEW_WL = "view_wl";
+    public static final String VIEW_WL_POS = "view_wl_pos";
+    public static final String VIEW_PAST_WL_GAMES = "view_past_wl_games";
+    public static final String VIEW_PAST_WL_GAME = "view_past_wl_game";
 }

@@ -153,6 +153,10 @@ public class MySquadsFragment extends Fragment {
 
             setupAdapter();
         }
+        else{
+            mySquads = new ArrayList<Squad>();
+            setupAdapter();
+        }
 
     }
 

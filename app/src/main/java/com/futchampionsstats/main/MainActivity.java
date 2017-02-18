@@ -45,7 +45,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnMainFragmentInteractionListener,
         WLFragment.OnNewWLFragmentInteractionListener, NewGameFragment.OnNewGameFragmentInteractionListener,
         ViewGamesFragment.OnViewGamesFragmentInteractionListener, EditGameFragment.OnEditGameFragmentInteractionListener,
-        PastWLFragment.OnPastWLFragmentInteractionListener, MySquadsFragment.OnMySquadsFragmentInteractionListener
+        PastWLFragment.OnPastWLFragmentInteractionListener, MySquadsFragment.OnMySquadsFragmentInteractionListener,
+        ViewPastWLsFragment.OnViewPastWLsFragmentInteractionListener, ViewPastWLGamesFragment.OnViewPastWLGamesFragmentInteractionListener,
+        PastWLViewGameFragment.OnPastWLViewGameFragmentInteractionListener
 {
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     private EditGameFragment editGameFragment;
     private PastWLFragment pastWLFragment;
     private MySquadsFragment mySquadsFragment;
+    private ViewPastWLsFragment viewPastWLsFragment;
+    private ViewPastWLGamesFragment viewPastWLGamesFragment;
+    private PastWLViewGameFragment pastWLViewGameFragment;
 
     private WeekendLeague weekendLeague;
 
@@ -115,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             editGameFragment = new EditGameFragment();
             pastWLFragment = new PastWLFragment();
             mySquadsFragment = new MySquadsFragment();
+            viewPastWLsFragment = new ViewPastWLsFragment();
+            viewPastWLGamesFragment = new ViewPastWLGamesFragment();
+            pastWLViewGameFragment = new PastWLViewGameFragment();
         }
 
         selectFragment(selectedItem);
@@ -618,6 +626,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                 pDialog.setCanceledOnTouchOutside(true);
                 pDialog.show();
             }
+
+            if(args.containsKey(Constants.VIEW_PAST_WLS)){
+
+                    viewPastWLsFragment = new ViewPastWLsFragment();
+                    displayFragment(viewPastWLsFragment, "view_past_wls");
+
+            }
         }
     }
 
@@ -781,6 +796,53 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     }
 
     @Override
+    public void onViewPastWLsFragmentInteraction(Bundle args) {
+        if(args!=null){
+            if(args.containsKey(Constants.BACK_BTN)){
+                onBackPressed();
+            }
+            if(args.containsKey(Constants.VIEW_WL)){
+                WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_WL);
+                Bundle b = new Bundle();
+                b.putSerializable(Constants.VIEW_PAST_WL_GAMES, weekendLeague);
+                viewPastWLGamesFragment = new ViewPastWLGamesFragment();
+                viewPastWLGamesFragment.setArguments(b);
+                displayFragment(viewPastWLGamesFragment, "view_past_wl_games");
+
+            }
+
+        }
+    }
+
+    @Override
+    public void onViewPastWLGamesFragmentInteraction(Bundle args) {
+        if(args!=null){
+            if(args.containsKey(Constants.BACK_BTN)){
+                onBackPressed();
+            }
+            if(args.containsKey(Constants.VIEW_PAST_WL_GAME)){
+                Game game = (Game) args.getSerializable(Constants.VIEW_PAST_WL_GAME);
+
+                Bundle b = new Bundle();
+                b.putSerializable(Constants.VIEW_PAST_WL_GAME, game);
+                pastWLViewGameFragment = new PastWLViewGameFragment();
+                pastWLViewGameFragment.setArguments(b);
+                displayFragment(pastWLViewGameFragment, "view_past_wl_game");
+
+            }
+        }
+    }
+
+    @Override
+    public void onPastWLViewGameFragmentInteraction(Bundle args) {
+        if(args!=null){
+            if(args.containsKey(Constants.BACK_BTN)){
+                onBackPressed();
+            }
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -800,10 +862,21 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         else{
             MenuItem homeItem = mBottomNav.getMenu().getItem(1);
             if (mSelectedItem != homeItem.getItemId()) {
+                Log.d(TAG, "onBackPressed: selectedItem!=homeItem");
                 // select home item
-                super.onBackPressed();
-                selectFragment(homeItem);
+
+                if((pastWLFragment!=null && pastWLFragment.isVisible()) ||
+                        mySquadsFragment!=null && mySquadsFragment.isVisible()){
+                    Log.d(TAG, "onBackPressed: pastWl || my squads is visible");
+                    super.onBackPressed();
+                    selectFragment(homeItem);
+                }
+                else{
+                    Log.d(TAG, "onBackPressed: not pastWl || mysquads");
+                    super.onBackPressed();
+                }
             } else {
+                Log.d(TAG, "onBackPressed: selectedItem == homeItem");
                 super.onBackPressed();
             }
         }
