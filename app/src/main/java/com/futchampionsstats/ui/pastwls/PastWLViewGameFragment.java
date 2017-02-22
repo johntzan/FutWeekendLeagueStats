@@ -1,4 +1,4 @@
-package com.futchampionsstats.main;
+package com.futchampionsstats.ui.pastwls;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.futchampionsstats.R;
-import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.databinding.FragmentPastWlViewGameBinding;
 import com.futchampionsstats.models.Game;
+import com.futchampionsstats.utils.Constants;
 
 public class PastWLViewGameFragment extends Fragment {
 

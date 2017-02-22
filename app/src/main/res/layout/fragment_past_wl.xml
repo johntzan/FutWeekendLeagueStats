@@ -3,7 +3,7 @@
     <data>
         <import type="android.view.View"/>
         <import type="com.futchampionsstats.models.AllWeekendLeagues"/>
-        <variable name="handlers" type="com.futchampionsstats.main.PastWLFragment.PastWLFragmentHandlers"/>
+        <variable name="handlers" type="com.futchampionsstats.ui.pastwls.PastWLFragment.PastWLFragmentHandlers"/>
         <variable name="allWeekendLeagues" type="com.futchampionsstats.models.AllWeekendLeagues"/>
 
     </data>

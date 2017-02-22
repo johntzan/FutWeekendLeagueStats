@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.futchampionsstats.R;
-import com.futchampionsstats.main.MySquadsFragment;
 import com.futchampionsstats.models.Squad;
+import com.futchampionsstats.ui.mysquads.MySquadsFragment;
 
 import java.util.ArrayList;
 

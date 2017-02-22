@@ -1,4 +1,4 @@
-package com.futchampionsstats.main;
+package com.futchampionsstats.ui.pastwls;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.futchampionsstats.R;
-import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.databinding.FragmentPastWlBinding;
 import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.WeekendLeague;
+import com.futchampionsstats.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

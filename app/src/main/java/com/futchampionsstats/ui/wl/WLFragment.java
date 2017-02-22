@@ -1,4 +1,4 @@
-package com.futchampionsstats.main;
+package com.futchampionsstats.ui.wl;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.futchampionsstats.R;
-import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.databinding.FragmentWlBinding;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
+import com.futchampionsstats.utils.Constants;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

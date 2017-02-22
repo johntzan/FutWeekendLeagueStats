@@ -1,4 +1,4 @@
-package com.futchampionsstats.main;
+package com.futchampionsstats.ui.wl;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,11 +22,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.futchampionsstats.R;
-import com.futchampionsstats.Utils.Constants;
-import com.futchampionsstats.Utils.Utils;
 import com.futchampionsstats.databinding.FragmentNewGameBinding;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.Squad;
+import com.futchampionsstats.utils.Constants;
+import com.futchampionsstats.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jaredrummler.materialspinner.MaterialSpinner;

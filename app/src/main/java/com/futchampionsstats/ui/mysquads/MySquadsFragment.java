@@ -1,4 +1,4 @@
-package com.futchampionsstats.main;
+package com.futchampionsstats.ui.mysquads;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,10 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.futchampionsstats.R;
-import com.futchampionsstats.Utils.Constants;
 import com.futchampionsstats.adapters.SquadListAdapter;
 import com.futchampionsstats.databinding.FragmentMySquadsBinding;
 import com.futchampionsstats.models.Squad;
+import com.futchampionsstats.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

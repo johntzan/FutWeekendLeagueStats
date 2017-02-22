@@ -1,4 +1,4 @@
-package com.futchampionsstats.main;
+package com.futchampionsstats.ui;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
@@ -21,12 +21,21 @@ import android.widget.Toast;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.futchampionsstats.R;
-import com.futchampionsstats.Utils.Constants;
-import com.futchampionsstats.Utils.Utils;
 import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.Squad;
 import com.futchampionsstats.models.WeekendLeague;
+import com.futchampionsstats.ui.mysquads.MySquadsFragment;
+import com.futchampionsstats.ui.pastwls.PastWLFragment;
+import com.futchampionsstats.ui.pastwls.PastWLViewGameFragment;
+import com.futchampionsstats.ui.pastwls.ViewPastWLGamesFragment;
+import com.futchampionsstats.ui.pastwls.ViewPastWLsFragment;
+import com.futchampionsstats.ui.wl.EditGameFragment;
+import com.futchampionsstats.ui.wl.NewGameFragment;
+import com.futchampionsstats.ui.wl.ViewGamesFragment;
+import com.futchampionsstats.ui.wl.WLFragment;
+import com.futchampionsstats.utils.Constants;
+import com.futchampionsstats.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -42,8 +51,7 @@ import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnMainFragmentInteractionListener,
-        WLFragment.OnNewWLFragmentInteractionListener, NewGameFragment.OnNewGameFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements WLFragment.OnNewWLFragmentInteractionListener, NewGameFragment.OnNewGameFragmentInteractionListener,
         ViewGamesFragment.OnViewGamesFragmentInteractionListener, EditGameFragment.OnEditGameFragmentInteractionListener,
         PastWLFragment.OnPastWLFragmentInteractionListener, MySquadsFragment.OnMySquadsFragmentInteractionListener,
         ViewPastWLsFragment.OnViewPastWLsFragmentInteractionListener, ViewPastWLGamesFragment.OnViewPastWLGamesFragmentInteractionListener,
@@ -57,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     private BottomNavigationView mBottomNav;
     private int mSelectedItem;
 
-    private MainActivityFragment mMainFragment;
     private WLFragment wlFragment;
     private NewGameFragment newGameFragment;
     private ViewGamesFragment viewGamesFragment;
@@ -113,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             selectedItem = mBottomNav.getMenu().getItem(1);
             selectedItem.setChecked(true);
 
-            mMainFragment = new MainActivityFragment();
             wlFragment = new WLFragment();
             newGameFragment = new NewGameFragment();
             viewGamesFragment = new ViewGamesFragment();
@@ -136,16 +142,37 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         // init corresponding fragment
         switch (item.getItemId()) {
             case R.id.menu_past_wl:
-                frag = pastWLFragment;
-                tag = "past_weekend_league_frag";
+                if(pastWLFragment!=null){
+                    frag = pastWLFragment;
+                    tag = "past_weekend_league_frag";
+                }
+                else{
+                    pastWLFragment = new PastWLFragment();
+                    frag = pastWLFragment;
+                    tag = "past_weekend_league_frag";
+                }
                 break;
             case R.id.menu_current_wl:
-                frag = wlFragment;
-                tag = "weekend_league_frag";
+                if(wlFragment!=null){
+                    frag = wlFragment;
+                    tag = "weekend_league_frag";
+                }
+                else{
+                    wlFragment = new WLFragment();
+                    frag = wlFragment;
+                    tag = "weekend_league_frag";
+                }
                 break;
             case R.id.menu_my_squads:
-                frag = mySquadsFragment;
-                tag = "my_squads_frag";
+                if(mySquadsFragment!=null){
+                    frag = mySquadsFragment;
+                    tag = "my_squads_frag";
+                }
+                else{
+                    mySquadsFragment = new MySquadsFragment();
+                    frag = mySquadsFragment;
+                    tag = "my_squads_frag";
+                }
                 break;
         }
 
@@ -178,51 +205,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
         Log.d(TAG + " fragment is null?", String.valueOf(fragment == null));
         if (fragment != null) {
-//            if(fragment.isAdded()){
-//                return;
-//            }
-
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             // removes the existing fragment calling onDestroy
 
             ft.replace(R.id.container, fragment);
             if (tag != null) ft.addToBackStack(tag);
             ft.commit();
-        }
-    }
-
-    @Override
-    public void onMainFragmentInteraction(Bundle args) {
-        if (args != null) {
-            if(args.containsKey(Constants.WL)){
-                if(wlFragment!=null){
-                    displayFragment(wlFragment, "weekend_league_frag");
-                }
-                else{
-                    wlFragment = new WLFragment();
-                    displayFragment(wlFragment, "weekend_league_frag");
-                }
-            }
-            if(args.containsKey(Constants.PAST_WL)){
-                Log.d(TAG, "onMainFragmentInteraction: past wls");
-                if(pastWLFragment!=null){
-                    displayFragment(pastWLFragment, "past_weekend_league_frag");
-                }
-                else{
-                    pastWLFragment = new PastWLFragment();
-                    displayFragment(pastWLFragment, "past_weekend_league_frag");
-                }
-            }
-            if(args.containsKey(Constants.MY_SQUADS)){
-                if(mySquadsFragment!=null){
-                    displayFragment(mySquadsFragment, "my_squads_frag");
-                }
-                else{
-                    mySquadsFragment = new MySquadsFragment();
-                    displayFragment(mySquadsFragment, "my_squads_frag");
-
-                }
-            }
         }
     }
 

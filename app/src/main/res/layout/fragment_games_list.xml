@@ -6,7 +6,7 @@
             type="com.futchampionsstats.models.WeekendLeague"/>
         <variable
             name="handlers"
-            type="com.futchampionsstats.main.ViewGamesFragment.ViewGamesHandlers"/>
+            type="com.futchampionsstats.ui.wl.ViewGamesFragment.ViewGamesHandlers"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

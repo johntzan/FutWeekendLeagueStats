@@ -6,7 +6,7 @@
         <import type="com.futchampionsstats.models.Squad"/>
         <variable
             name="handlers"
-            type="com.futchampionsstats.main.MySquadsFragment.MySquadsHandlers"/>
+            type="com.futchampionsstats.ui.mysquads.MySquadsFragment.MySquadsHandlers"/>
         <variable
             name="squads"
             type="ArrayList&lt;Squad&gt;"/>

@@ -6,7 +6,7 @@
         <import type="com.futchampionsstats.models.WeekendLeague"/>
         <variable
             name="handlers"
-            type="com.futchampionsstats.main.WLFragment.WLFragmentHandlers"/>
+            type="com.futchampionsstats.ui.wl.WLFragment.WLFragmentHandlers"/>
         <variable
             name="weekendLeague"
             type="com.futchampionsstats.models.WeekendLeague"/>

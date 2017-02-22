@@ -1,11 +1,11 @@
-package com.futchampionsstats;
+package com.futchampionsstats.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.futchampionsstats.main.MainActivity;
+import com.futchampionsstats.R;
 
 public class SplashActivity extends AppCompatActivity {
 

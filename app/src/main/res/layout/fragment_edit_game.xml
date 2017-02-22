@@ -3,7 +3,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
-        <variable name="handlers" type="com.futchampionsstats.main.EditGameFragment.EditGameHandlers"/>
+        <variable name="handlers" type="com.futchampionsstats.ui.wl.EditGameFragment.EditGameHandlers"/>
         <variable name="game" type="com.futchampionsstats.models.Game"/>
 
     </data>

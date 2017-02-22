@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.futchampionsstats.Utils.Utils.calculateAverage;
+import static com.futchampionsstats.utils.Utils.calculateAverage;
 
 /**
  * Created by yiannitzan on 12/30/16.

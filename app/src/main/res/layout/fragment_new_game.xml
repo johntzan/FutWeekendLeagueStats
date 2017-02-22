@@ -4,7 +4,7 @@
         <import type="android.view.View"/>
         <import type="java.util.ArrayList"/>
         <import type="com.futchampionsstats.models.Squad"/>
-        <variable name="handlers" type="com.futchampionsstats.main.NewGameFragment.NewGameHandlers"/>
+        <variable name="handlers" type="com.futchampionsstats.ui.wl.NewGameFragment.NewGameHandlers"/>
         <variable name="game" type="com.futchampionsstats.models.Game"/>
         <variable name="squads" type="ArrayList&lt;Squad&gt;"/>
 
