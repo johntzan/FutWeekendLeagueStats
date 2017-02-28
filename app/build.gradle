@@ -25,7 +25,7 @@ android {
         }
     }
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.weekendleague.stats"
         minSdkVersion 15
@@ -55,8 +55,8 @@ android {
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
-            versionCode 7
-            versionName '1.3'
+            versionCode 8
+            versionName '1.3.5'
             resValue "string", "app_name", "FUT Weekend League Stats"
         }
         staging {
@@ -66,7 +66,7 @@ android {
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
             versionCode 1
-            versionName '1.3'
+            versionName '1.3.5'
             resValue "string", "app_name", "FUT Weekend League Stats"
         }
     }
@@ -85,11 +85,11 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true;
     }
-    compile 'com.android.support:recyclerview-v7:25.1.1'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.facebook.stetho:stetho:1.4.2'
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
-    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support:support-v4:25.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.getbase:floatingactionbutton:1.10.1'
@@ -98,5 +98,6 @@ dependencies {
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile 'com.github.githubwing:ByeBurger:1.2.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
+    compile 'com.github.arimorty:floatingsearchview:2.0.3'
     testCompile 'junit:junit:4.12'
 }

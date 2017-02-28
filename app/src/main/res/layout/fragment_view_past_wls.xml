@@ -1,4 +1,6 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <variable
@@ -47,14 +49,79 @@
                     android:gravity="center_vertical"
                     android:textSize="20sp" />
 
+                <com.arlib.floatingsearchview.FloatingSearchView
+                    android:id="@+id/search_games_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:floatingSearch_searchHint="Search for Opponent.."
+                    app:floatingSearch_suggestionsListAnimDuration="250"
+                    app:floatingSearch_showSearchKey="false"
+                    app:floatingSearch_leftActionMode="showHome"
+                    app:floatingSearch_close_search_on_keyboard_dismiss="true"
+                    android:visibility="gone"/>
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/search_icon"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/ic_search_white_24dp"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:onClick="@{handlers.onClick}"-->
+                    <!--android:visibility="gone"-->
+                    <!--android:layout_alignParentEnd="true" />-->
+
             </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="@{allWeekendLeagues.allWeekendLeagues.size()==0 ? View.GONE : View.VISIBLE}"
+                android:weightSum="2"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
+                >
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/view_all_wls_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="View All Weekend Leagues"
+                    android:background="@drawable/gold_button_style"
+                    android:layout_marginRight="2dp"
+                    android:padding="5dp"
+                    android:onClick="@{handlers.onClick}"
+                    android:layout_weight="1"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/view_all_games_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="View All Games"
+                    android:background="@drawable/gold_button_style"
+                    android:layout_marginLeft="2dp"
+                    android:padding="5dp"
+                    android:onClick="@{handlers.onClick}"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/past_wls_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                android:visibility="@{allWeekendLeagues.allWeekendLeagues.size()==0 ? View.GONE : View.VISIBLE}"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:scrollbars="vertical" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/past_wls_all_games_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:clickable="true"
                 android:scrollbars="vertical" />
@@ -86,6 +153,23 @@
             </RelativeLayout>
 
         </LinearLayout>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_search_white_24dp"
+            fab:fab_colorNormal="@color/ucla_gold"
+            fab:fab_colorPressed="@color/ucla_gold1"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            android:onClick="@{handlers.onClick}"/>
     </RelativeLayout>
 
 

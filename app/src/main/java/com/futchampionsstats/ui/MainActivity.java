@@ -798,6 +798,15 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
                 displayFragment(viewPastWLGamesFragment, "view_past_wl_games");
 
             }
+            if(args.containsKey(Constants.VIEW_PAST_WL_GAME)){
+                Game game = (Game) args.getSerializable(Constants.VIEW_PAST_WL_GAME);
+
+                Bundle b = new Bundle();
+                b.putSerializable(Constants.VIEW_PAST_WL_GAME, game);
+                pastWLViewGameFragment = new PastWLViewGameFragment();
+                pastWLViewGameFragment.setArguments(b);
+                displayFragment(pastWLViewGameFragment, "view_past_wl_game");
+            }
 
         }
     }
@@ -858,6 +867,14 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
                     Log.d(TAG, "onBackPressed: pastWl || my squads is visible");
                     super.onBackPressed();
                     selectFragment(homeItem);
+                }
+                else if(viewPastWLsFragment!=null && viewPastWLsFragment.isVisible()){
+                    if(viewPastWLsFragment.handleBackPress()==0){
+                        super.onBackPressed();
+                    }
+                    else{
+                        //handled in fragment, hiding searchview because its visible, instead of going back
+                    }
                 }
                 else{
                     Log.d(TAG, "onBackPressed: not pastWl || mysquads");

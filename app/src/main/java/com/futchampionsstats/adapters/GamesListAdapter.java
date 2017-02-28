@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.futchampionsstats.R;
@@ -18,16 +20,20 @@ import java.util.ArrayList;
  * Created by yiannitzan on 1/9/17.
  */
 
-public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.ViewHolder> {
+public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.ViewHolder> implements Filterable{
 
     private static final String TAG = GamesListAdapter.class.getSimpleName();
     private ArrayList<Game> data;
+    private ArrayList<Game> fullData;
     private Context context;
     private LayoutInflater mInflater; // Stores the layout inflater
+
+    private CustomListAdapterFilter adapterFilter;
 
     public GamesListAdapter(Context c, ArrayList<Game> d) {
         context = c;
         data = d;
+        fullData = data;
         // Stores inflater for use later
         if (context != null) mInflater = LayoutInflater.from(context);
     }
@@ -89,6 +95,71 @@ public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.View
 
         }
 
+    }
+
+    public void setData(ArrayList<Game> newData){
+        data = newData;
+        notifyDataSetChanged();
+    }
+
+    public Game getGameFromPosition(int position){
+        return data.get(position);
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (adapterFilter == null) adapterFilter = new CustomListAdapterFilter();
+        return adapterFilter;
+    }
+
+    // Class enabling the filtering of this adapter
+    private class CustomListAdapterFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            if (constraint != null && constraint.length() >= 1) {
+                data = searchGames(constraint);
+
+                if (data != null) {
+                    // The API successfully returned results.
+                    results.values = data;
+                    results.count = data.size();
+                }
+            } else {
+                data = new ArrayList<>();
+                results.values = data;
+                results.count = data.size();
+            }
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint,
+                                      FilterResults results) {
+            notifyDataSetChanged();
+
+        }
+    }
+
+    private ArrayList<Game> searchGames(CharSequence constraint){
+
+        ArrayList<Game> results = new ArrayList<>();
+        if(constraint.toString().length()>0){
+
+            String searchString = constraint.toString();
+            for (Game game : fullData){
+                if(game.getOpp_name()!=null){
+                    if(game.getOpp_name().toLowerCase().contains(searchString.toLowerCase())){
+                        results.add(game);
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+    public ArrayList<Game> getData() {
+        return data;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
