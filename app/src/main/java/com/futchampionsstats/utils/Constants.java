@@ -35,4 +35,5 @@ public class Constants {
     public static final String VIEW_WL_POS = "view_wl_pos";
     public static final String VIEW_PAST_WL_GAMES = "view_past_wl_games";
     public static final String VIEW_PAST_WL_GAME = "view_past_wl_game";
+    public static final String VIEW_SELECTED_PAST_WL = "view_selected_past_wl";
 }

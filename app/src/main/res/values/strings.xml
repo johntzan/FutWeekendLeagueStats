@@ -114,4 +114,5 @@
     <string name="create_new_squad">Create New Squad</string>
     <string name="opponent_info">Opponent Info</string>
     <string name="no_past_wls_string">No Past Weekend Leagues have been saved!</string>
+    <string name="close">Close</string>
 </resources>

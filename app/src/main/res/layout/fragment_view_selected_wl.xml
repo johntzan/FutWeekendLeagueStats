@@ -1,0 +1,635 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.futchampionsstats.models.WeekendLeague"/>
+        <variable
+            name="handlers"
+            type="com.futchampionsstats.ui.pastwls.ViewSelectedWLFragment.ViewSelectedWLFragmentHandlers"/>
+        <variable
+            name="weekendLeague"
+            type="com.futchampionsstats.models.WeekendLeague"/>
+
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/background"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fc_panel1_bg_md"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            android:layout_alignParentTop="true"
+            android:id="@+id/main_top_bar">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                android:id="@+id/back_btn"
+                android:onClick="@{handlers.wlFragmentClick}"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:text='@{weekendLeague.dateOfWL + " Stats"}'
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"/>
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/main_top_bar"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <RelativeLayout
+                    android:id="@+id/games_won_played_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/games_won_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="28sp"
+                        android:textAlignment="center"
+                        android:text="@{WeekendLeague.getWinTotal(weekendLeague)}"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/games_won_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/games_won"
+                        android:layout_below="@+id/games_won_no"
+                        android:textSize="18sp"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp">
+
+                    </View>
+
+                    <Button
+                        android:id="@+id/view_games_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toRightOf="@+id/divider"
+                        android:layout_toEndOf="@+id/divider"
+                        android:background="@color/truetransparent"
+                        android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                        android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+                        android:onClick="@{handlers.wlFragmentClick}"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/games_played_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(weekendLeague.weekendLeague.size())}"
+                        android:textSize="28sp"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        android:layout_alignLeft="@+id/games_played_text"
+                        android:layout_alignStart="@+id/games_played_text" />
+
+                    <TextView
+                        android:id="@+id/games_played_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/games_played"
+                        android:textSize="18sp"
+                        android:layout_below="@+id/games_played_no"
+                        android:layout_toRightOf="@+id/divider"
+                        android:layout_toEndOf="@+id/divider"
+                        android:textColor="@color/black" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/shots_for_against_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/games_won_played_layout"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/avg_shots"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:text="@{WeekendLeague.getAvgShotsString(weekendLeague)}"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/avg_shots_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shots_for"
+                        android:layout_below="@+id/avg_shots"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"/>
+
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/divider_horizontal"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp">
+
+                    </View>
+
+                    <TextView
+                        android:id="@+id/avg_shots_against"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:layout_centerVertical="true"
+                        android:text="@{WeekendLeague.getAvgShotsAgainstString(weekendLeague)}"
+                        android:textColor="@color/black"
+                        android:layout_alignLeft="@+id/avg_shots_against_txt"
+                        android:layout_alignStart="@+id/avg_shots_against_txt"/>
+
+                    <TextView
+                        android:id="@+id/avg_shots_against_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shots_against"
+                        android:layout_below="@+id/avg_shots_against"
+                        android:layout_centerVertical="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:layout_toRightOf="@+id/divider2"
+                        android:layout_toEndOf="@+id/divider2"/>
+
+                    <TextView
+                        android:text="@string/avg_on_target"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/shots_hint"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <View
+                        android:id="@+id/divider_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/truetransparent"
+                        android:layout_below="@id/shots_hint">
+                    </View>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/goals_possession_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/shots_for_against_layout"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/avg_goals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:text="@{WeekendLeague.getAvgGoalsString(weekendLeague)}"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/avg_goals_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/goals"
+                        android:layout_below="@+id/avg_goals"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"/>
+
+                    <View
+                        android:id="@+id/divider3"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_below="@+id/divider_horizontal2">
+
+                    </View>
+
+                    <TextView
+                        android:id="@+id/avg_poss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:layout_centerVertical="true"
+                        android:text="@{WeekendLeague.getAvgPossString(weekendLeague)}"
+                        android:textColor="@color/black"
+                        android:layout_alignLeft="@+id/avg_poss_txt"
+                        android:layout_alignStart="@+id/avg_poss_txt"/>
+
+                    <TextView
+                        android:id="@+id/avg_poss_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/possession"
+                        android:layout_below="@+id/avg_poss"
+                        android:layout_centerVertical="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:layout_toRightOf="@+id/divider3"
+                        android:layout_toEndOf="@+id/divider3"/>
+
+                    <TextView
+                        android:text="@string/avg_for_against"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/goals_for_hint"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp" />
+
+                    <View
+                        android:id="@+id/divider_horizontal2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/truetransparent"
+                        android:layout_below="@id/goals_for_hint">
+                    </View>
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:id="@+id/goalsPS_passAcc_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/goals_possession_layout"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/goals_per_total_shots"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:text="@{WeekendLeague.getAvgGoalPerShotString(weekendLeague)}"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/goals_per_total_shots_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/goals_shots_on_goal"
+                        android:layout_below="@+id/goals_per_total_shots"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:text="@string/for_against"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/goals_shots_hint"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp" />
+
+
+                    <View
+                        android:id="@+id/divider7"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp">
+
+                    </View>
+
+                    <TextView
+                        android:id="@+id/avg_pass_acc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:layout_centerVertical="true"
+                        android:text="@{WeekendLeague.getAvgPassAccString(weekendLeague)}"
+                        android:textColor="@color/black"
+                        android:layout_alignLeft="@+id/avg_pass_acc_txt"
+                        android:layout_alignStart="@+id/avg_pass_acc_txt"/>
+
+                    <TextView
+                        android:id="@+id/avg_pass_acc_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pass_accuracy"
+                        android:layout_below="@+id/avg_pass_acc"
+                        android:layout_centerVertical="true"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:layout_toRightOf="@+id/divider7"
+                        android:layout_toEndOf="@+id/divider7"/>
+
+                    <TextView
+                        android:text="@string/avg_for_against"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pass_hint"
+                        android:textColor="@color/black"
+                        android:layout_alignBaseline="@+id/goals_shots_hint"
+                        android:layout_alignBottom="@+id/goals_shots_hint"
+                        android:layout_toRightOf="@+id/divider7"
+                        android:layout_toEndOf="@+id/divider7"
+                        android:layout_marginTop="5dp"
+                        />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rating_tackles_layout"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/goalsPS_passAcc_layout"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_height="100dp">
+
+                    <TextView
+                        android:id="@+id/avg_tackles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:text="@{WeekendLeague.getAvgTacklesString(weekendLeague)}"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/avg_tackles_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tackles"
+                        android:layout_below="@+id/avg_tackles"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"/>
+
+                    <View
+                        android:id="@+id/divider4"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp">
+
+                    </View>
+
+                    <TextView
+                        android:id="@+id/avg_team_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:layout_centerVertical="true"
+                        android:text="@{WeekendLeague.getAvgTeamRating(weekendLeague)}"
+                        android:textColor="@color/black"
+                        android:layout_alignLeft="@+id/avg_team_rating_txt"
+                        android:layout_alignStart="@+id/avg_team_rating_txt"/>
+
+                    <TextView
+                        android:id="@+id/avg_team_rating_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/avg_opponent_team_rating"
+                        android:layout_below="@+id/avg_team_rating"
+                        android:layout_centerVertical="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:layout_toRightOf="@+id/divider4"
+                        android:layout_toEndOf="@+id/divider4"/>
+
+                    <TextView
+                        android:text="@string/avg_for_against"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/for_against_txt"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp" />
+
+                    <TextView
+                        android:text="@string/avg_opponent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/divider4"
+                        android:layout_toEndOf="@id/divider4"
+                        android:textColor="@color/black"
+                        android:id="@+id/avg_opp_hint"
+                        android:layout_marginTop="5dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/disconnects_quits_layout"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/rating_tackles_layout"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_height="100dp">
+
+                    <TextView
+                        android:id="@+id/disconnects"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="28sp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:text="@{WeekendLeague.getDisconnectTotal(weekendLeague)}"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/disconnects_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/disconnects"
+                        android:layout_below="@+id/disconnects"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"/>
+
+                    <View
+                        android:id="@+id/divider5"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp">
+
+                    </View>
+
+                    <TextView
+                        android:id="@+id/total_quits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="28sp"
+                        android:textAlignment="center"
+                        android:layout_centerVertical="true"
+                        android:text="@{WeekendLeague.getQuitTotal(weekendLeague)}"
+                        android:textColor="@color/black"
+                        android:layout_alignLeft="@+id/total_quits_txt"
+                        android:layout_alignStart="@+id/total_quits_txt"/>
+
+                    <TextView
+                        android:id="@+id/total_quits_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rage_quits"
+                        android:layout_below="@+id/total_quits"
+                        android:layout_centerVertical="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:layout_toRightOf="@+id/divider5"
+                        android:layout_toEndOf="@+id/divider5"/>
+
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/bottom_layout"
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/disconnects_quits_layout"
+                    android:background="@color/truetransparent"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_height="10dp">
+                </View>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</layout>

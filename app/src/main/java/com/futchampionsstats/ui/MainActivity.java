@@ -30,6 +30,7 @@ import com.futchampionsstats.ui.pastwls.PastWLFragment;
 import com.futchampionsstats.ui.pastwls.PastWLViewGameFragment;
 import com.futchampionsstats.ui.pastwls.ViewPastWLGamesFragment;
 import com.futchampionsstats.ui.pastwls.ViewPastWLsFragment;
+import com.futchampionsstats.ui.pastwls.ViewSelectedWLFragment;
 import com.futchampionsstats.ui.wl.EditGameFragment;
 import com.futchampionsstats.ui.wl.NewGameFragment;
 import com.futchampionsstats.ui.wl.ViewGamesFragment;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
         ViewGamesFragment.OnViewGamesFragmentInteractionListener, EditGameFragment.OnEditGameFragmentInteractionListener,
         PastWLFragment.OnPastWLFragmentInteractionListener, MySquadsFragment.OnMySquadsFragmentInteractionListener,
         ViewPastWLsFragment.OnViewPastWLsFragmentInteractionListener, ViewPastWLGamesFragment.OnViewPastWLGamesFragmentInteractionListener,
-        PastWLViewGameFragment.OnPastWLViewGameFragmentInteractionListener
+        PastWLViewGameFragment.OnPastWLViewGameFragmentInteractionListener, ViewSelectedWLFragment.OnViewSelectedWLFragmentInteractionListener
 {
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
     private ViewPastWLsFragment viewPastWLsFragment;
     private ViewPastWLGamesFragment viewPastWLGamesFragment;
     private PastWLViewGameFragment pastWLViewGameFragment;
+    private ViewSelectedWLFragment viewSelectedWLFragment;
 
     private WeekendLeague weekendLeague;
 
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
             viewPastWLsFragment = new ViewPastWLsFragment();
             viewPastWLGamesFragment = new ViewPastWLGamesFragment();
             pastWLViewGameFragment = new PastWLViewGameFragment();
+            viewSelectedWLFragment = new ViewSelectedWLFragment();
         }
 
         selectFragment(selectedItem);
@@ -791,11 +794,12 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
             }
             if(args.containsKey(Constants.VIEW_WL)){
                 WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_WL);
+
                 Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_PAST_WL_GAMES, weekendLeague);
-                viewPastWLGamesFragment = new ViewPastWLGamesFragment();
-                viewPastWLGamesFragment.setArguments(b);
-                displayFragment(viewPastWLGamesFragment, "view_past_wl_games");
+                b.putSerializable(Constants.VIEW_SELECTED_PAST_WL, weekendLeague);
+                viewSelectedWLFragment = new ViewSelectedWLFragment();
+                viewSelectedWLFragment.setArguments(b);
+                displayFragment(viewSelectedWLFragment, "view_selected_past_wl");
 
             }
             if(args.containsKey(Constants.VIEW_PAST_WL_GAME)){
@@ -835,6 +839,23 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
         if(args!=null){
             if(args.containsKey(Constants.BACK_BTN)){
                 onBackPressed();
+            }
+        }
+    }
+
+    @Override
+    public void onViewSelectedWLFragmentInteraction(Bundle args) {
+        if(args!=null){
+            if(args.containsKey(Constants.BACK_BTN)){
+                onBackPressed();
+            }
+            if(args.containsKey(Constants.VIEW_PAST_WL_GAMES)){
+                WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_PAST_WL_GAMES);
+                Bundle b = new Bundle();
+                b.putSerializable(Constants.VIEW_PAST_WL_GAMES, weekendLeague);
+                viewPastWLGamesFragment = new ViewPastWLGamesFragment();
+                viewPastWLGamesFragment.setArguments(b);
+                displayFragment(viewPastWLGamesFragment, "view_past_wl_games");
             }
         }
     }
