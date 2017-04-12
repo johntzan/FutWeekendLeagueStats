@@ -4,9 +4,13 @@
         <import type="android.view.View"/>
         <import type="java.util.ArrayList"/>
         <import type="com.futchampionsstats.models.Squad"/>
-        <variable name="handlers" type="com.futchampionsstats.ui.wl.NewGameFragment.NewGameHandlers"/>
+        <variable name="handlers" type="com.futchampionsstats.ui.wl.new_game.NewGameFragment.NewGameHandlers"/>
         <variable name="game" type="com.futchampionsstats.models.Game"/>
         <variable name="squads" type="ArrayList&lt;Squad&gt;"/>
+
+        <variable
+            name="presenter"
+            type="com.futchampionsstats.ui.wl.new_game.NewGameContract.Presenter"/>
 
     </data>
     <RelativeLayout
@@ -36,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_back_white_24dp"
                     android:id="@+id/back_btn"
-                    android:onClick="@{handlers.onClick}"
+                    android:onClick="@{(v) -> handlers.goBack(v)}"
                     android:layout_marginLeft="10dp" />
 
                 <TextView
@@ -148,7 +152,6 @@
                             app:ms_text_color="@color/grey"
                             app:ms_arrow_tint="@color/grey"
                             app:ms_dropdown_height="350dp"
-                            OppFormationWatcher="@{game}"
                             android:layout_weight="1.00"
                             android:layout_marginRight="10dp"/>
 
@@ -246,7 +249,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
-                        UserCreateNewTeamWatcher="@{game}"
+                        android:onClick="@{(v) -> presenter.createNewSquad(v)}"
                         android:visibility="@{squads.size > 0 ? View.GONE : View.VISIBLE}"
                         />
 
@@ -269,7 +272,6 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
                         android:visibility="@{squads.size > 0 ? View.VISIBLE : View.GONE}"
-                        UserTeamSelectorWatcher="@{game}"
                         />
 
                 </RelativeLayout>
@@ -772,10 +774,10 @@
                     android:hint="@string/rage_quit_hint"/>
 
                 <CheckBox
+                    android:id="@+id/game_disconnect_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={game.game_disconnected}"
-                    GameDisconnectWatcher="@{game}"
                     android:text="@string/disconnected_from_ea_servers"/>
 
                 <com.rengwuxian.materialedittext.MaterialEditText
@@ -809,7 +811,7 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    OnGameFinished="@{game}"
+                    android:onClick="@{(v) -> presenter.saveNewGame(v)}"
                     android:background="@drawable/gold_button_style"
                     android:padding="10dp"
                     android:text="@string/game_complete"/>

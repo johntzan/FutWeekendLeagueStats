@@ -641,11 +641,11 @@
                         android:hint="@string/rage_quit_hint"/>
 
                     <CheckBox
+                        android:id="@+id/past_wl_game_disconnected"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="@={game.game_disconnected}"
                         android:enabled="false"
-                        GameDisconnectWatcher="@{game}"
                         android:text="@string/disconnected_from_ea_servers"/>
 
                     <TextView

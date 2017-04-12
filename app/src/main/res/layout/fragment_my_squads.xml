@@ -8,8 +8,8 @@
             name="handlers"
             type="com.futchampionsstats.ui.mysquads.MySquadsFragment.MySquadsHandlers"/>
         <variable
-            name="squads"
-            type="ArrayList&lt;Squad&gt;"/>
+            name="emptySquads"
+            type="Boolean"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    android:onClick="@{handlers.onClick}"
+                    android:onClick="@{handlers::infoBtnClick}"
                     android:src="@drawable/ic_info_outline_white_24dp"
                     android:id="@+id/squads_info_btn" />
 
@@ -61,7 +61,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:clickable="true"
-                    android:visibility="@{squads.size>0 ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{emptySquads ? View.GONE : View.VISIBLE}"
                     android:scrollbars="vertical" />
 
 
@@ -73,7 +73,7 @@
                 android:paddingLeft="10dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:visibility="@{squads.size>0 ? View.GONE : View.VISIBLE}"
+                android:visibility="@{emptySquads ? View.VISIBLE : View.GONE}"
                 android:paddingRight="10dp"
                 >
 
@@ -85,7 +85,7 @@
                     android:gravity="center"
                     android:layout_centerInParent="true"
                     android:padding="15dp"
-                    android:text="No Squads have been added yet. \nUse the create new squads button below to get started."
+                    android:text="@string/no_squads_added_yet_txt"
                     />
 
             </RelativeLayout>
@@ -106,7 +106,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
-            android:onClick="@{handlers.onClick}"/>
+            android:onClick="@{handlers::newSquadBtnClick}"/>
     </RelativeLayout>
 
 

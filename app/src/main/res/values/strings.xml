@@ -115,4 +115,7 @@
     <string name="opponent_info">Opponent Info</string>
     <string name="no_past_wls_string">No Past Weekend Leagues have been saved!</string>
     <string name="close">Close</string>
+    <string name="no_squads_added_yet_txt">No Squads have been added yet.  Use the create new squads button below to get started.</string>
+    <string name="edit_squad">Edit Squad</string>
+    <string name="confirm_edit">Confirm</string>
 </resources>

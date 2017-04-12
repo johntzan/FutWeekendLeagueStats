@@ -2,11 +2,15 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View"/>
         <import type="com.futchampionsstats.models.WeekendLeague"/>
         <variable
+            name="presenter"
+            type="com.futchampionsstats.ui.wl.WeekendLeagueDetailContract.Presenter"/>
+        <variable
             name="handlers"
-            type="com.futchampionsstats.ui.wl.WLFragment.WLFragmentHandlers"/>
+            type="com.futchampionsstats.ui.wl.WeekendLeagueDetailFragment.WLFragmentHandlers"/>
         <variable
             name="weekendLeague"
             type="com.futchampionsstats.models.WeekendLeague"/>
@@ -47,7 +51,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/wl_finished"
                 android:background="@color/truetransparent"
-                android:onClick="@{handlers.wlFragmentClick}"
+                android:onClick="@{handlers::clearWeekendLeagueButtonClick}"
                 android:src="@drawable/ic_delete_white_24dp"
                 android:visibility="@{weekendLeague.weekendLeague.size()==0 ? View.GONE : View.VISIBLE}"
                 android:layout_marginRight="15dp"
@@ -66,7 +70,7 @@
                 android:layout_toStartOf="@+id/new_wl"
                 android:text="@string/wl_finished"
                 android:background="@color/truetransparent"
-                android:onClick="@{handlers.wlFragmentClick}"
+                android:onClick="@{handlers::saveWeekendLeagueButtonClick}"
                 android:src="@drawable/ic_save_white_24dp"
                 android:visibility="@{weekendLeague.weekendLeague.size()>4 ? View.VISIBLE : View.GONE}"
                 android:layout_marginRight="10dp"
@@ -175,7 +179,7 @@
                     android:background="@color/truetransparent"
                     android:drawableRight="@drawable/ic_chevron_right_black_24dp"
                     android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                    android:onClick="@{handlers.wlFragmentClick}"
+                    android:onClick="@{handlers::viewGamesButtonClick}"
                     />
 
 
@@ -699,7 +703,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
-        android:onClick="@{handlers.wlFragmentClick}"/>
+        android:onClick="@{(v) -> presenter.addNewGame(v)}"/>
 
     <!--To make Fab hide with scroll, it needs to be in a coordinator layout, but doing so ruins show/hide of bottom bar..
         Need to set scrollviews to NestedScrollViews

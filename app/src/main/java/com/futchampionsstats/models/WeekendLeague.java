@@ -19,6 +19,7 @@ import static com.futchampionsstats.utils.Utils.calculateAverage;
 public class WeekendLeague extends BaseObservable implements Serializable{
 
     public static final String TAG = WeekendLeague.class.getSimpleName();
+
     @Bindable
     public String dateOfWL;
 
@@ -43,14 +44,22 @@ public class WeekendLeague extends BaseObservable implements Serializable{
         notifyPropertyChanged(BR.dateOfWL);
     }
 
+    /** All below should be put in a view model class, set with databinding from views/presenters
+     *  This class should just be the model. */
+
     public static String getTotalGamesPlayed(WeekendLeague weekendLeague){
-        return String.valueOf(weekendLeague.getWeekendLeague().size());
+        if(weekendLeague!=null){
+            return String.valueOf(weekendLeague.getWeekendLeague().size());
+        }
+        else{
+            return "0";
+        }
     }
 
 
     public static String getWinTotal(WeekendLeague weekendLeague){
         int gamesWon = 0;
-        if(weekendLeague.getWeekendLeague().size()>0){
+        if(weekendLeague!=null && weekendLeague.getWeekendLeague().size()>0){
             int i = 0;
             while(i<weekendLeague.getWeekendLeague().size()){
                 Game currGame = weekendLeague.getWeekendLeague().get(i);
@@ -64,12 +73,18 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     }
 
     public static String getGamesLeft(WeekendLeague wl){
-        return String.valueOf(40 - wl.getWeekendLeague().size());
+
+        if(wl!=null){
+            return String.valueOf(40 - wl.getWeekendLeague().size());
+        }
+        else{
+            return "40";
+        }
     }
 
     public static String[] getAvgShotsFor(WeekendLeague wl){
 
-        if(wl.getWeekendLeague()!=null){
+        if(wl !=null && wl.getWeekendLeague()!=null){
 
                 try{
                     ArrayList<Integer> shotsFor = new ArrayList<>();
@@ -100,7 +115,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     }
 
     public static String[] getAvgPoss(WeekendLeague wl){
-        if(wl.getWeekendLeague()!=null){
+        if(wl !=null && wl.getWeekendLeague()!=null){
 
                 try{
 
@@ -131,7 +146,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     }
 
     public static String[] getAvgPassAcc(WeekendLeague wl){
-        if(wl.getWeekendLeague()!=null){
+        if(wl !=null && wl.getWeekendLeague()!=null){
 
             try{
 
@@ -181,7 +196,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     }
 
     public static String[] getAvgShotsAgainst(WeekendLeague wl){
-        if(wl.getWeekendLeague()!=null){
+        if(wl !=null && wl.getWeekendLeague()!=null){
                 try{
 
                     ArrayList<Integer> shotsAgainstFor = new ArrayList<>();
@@ -212,7 +227,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     }
 
     public static String[] getAvgGoals(WeekendLeague wl){
-        if(wl.getWeekendLeague()!=null){
+        if(wl !=null && wl.getWeekendLeague()!=null){
             try{
 
                 ArrayList<Integer> goalsFor = new ArrayList<>();
@@ -242,7 +257,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     }
 
     public static String[] getTotalGoals(WeekendLeague wl){
-        if(wl.getWeekendLeague()!=null){
+        if(wl !=null && wl.getWeekendLeague()!=null){
             try{
 
                 int goalsFor = 0;
@@ -267,7 +282,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     }
 
     public static String[] getAvgTackles(WeekendLeague wl){
-        if(wl.getWeekendLeague()!=null){
+        if(wl !=null && wl.getWeekendLeague()!=null){
             try{
 
                 ArrayList<Integer> tacklesFor = new ArrayList<>();
@@ -297,7 +312,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     }
 
     public static String getAvgTeamRating(WeekendLeague wl){
-        if(wl.getWeekendLeague()!=null){
+        if(wl !=null && wl.getWeekendLeague()!=null){
             try{
 
                 ArrayList<Integer> teamRating = new ArrayList<>();
@@ -321,7 +336,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
 
     public static String getDisconnectTotal(WeekendLeague weekendLeague){
         int gamesDisconnected = 0;
-        if(weekendLeague.getWeekendLeague().size()>0){
+        if(weekendLeague!=null && weekendLeague.getWeekendLeague().size()>0){
             int i = 0;
             while(i<weekendLeague.getWeekendLeague().size()){
                 Game currGame = weekendLeague.getWeekendLeague().get(i);
@@ -337,7 +352,7 @@ public class WeekendLeague extends BaseObservable implements Serializable{
 
     public static String getQuitTotal(WeekendLeague weekendLeague){
         int totalQuits = 0;
-        if(weekendLeague.getWeekendLeague().size()>0){
+        if(weekendLeague!=null && weekendLeague.getWeekendLeague().size()>0){
             int i = 0;
             while(i<weekendLeague.getWeekendLeague().size()){
                 Game currGame = weekendLeague.getWeekendLeague().get(i);
@@ -349,11 +364,5 @@ public class WeekendLeague extends BaseObservable implements Serializable{
         }
         return Integer.toString(totalQuits);
     }
-
-    public void clearWL(){
-        this.weekendLeague.clear();
-        notifyPropertyChanged(BR._all);
-    }
-
 
 }
