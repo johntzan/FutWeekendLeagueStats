@@ -1,10 +1,8 @@
-package com.futchampionsstats.ui.pastwls;
+package com.futchampionsstats.ui.past_wls.view_past_wls;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -24,27 +22,21 @@ import com.futchampionsstats.databinding.FragmentViewPastWlsBinding;
 import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
-import com.futchampionsstats.utils.Constants;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
-public class ViewPastWLsFragment extends Fragment {
+public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract.View{
 
     public static final String TAG = ViewPastWLsFragment.class.getSimpleName();
 
     private OnViewPastWLsFragmentInteractionListener mListener;
-    private AllWeekendLeagues allWeekendLeagues;
-    private ArrayList<Game> allGames;
 
+    private RecyclerView pastWlsList;
     private PastWlsListAdapter mAdapter;
     private PastWlsListAdapter.RecyclerItemClickListener listener;
     private LinearLayoutManager mLayoutManager;
-    private RecyclerView pastWlsList;
 
     private RecyclerView pastWlsAllGamesList;
     private GamesListAdapter mGamesListAdapter;
@@ -56,12 +48,12 @@ public class ViewPastWLsFragment extends Fragment {
     FloatingSearchView searchView;
     ImageView searchIcon;
 
+    private ViewPastWLsContract.Presenter mPresenter;
+
 
     public ViewPastWLsFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,22 +67,64 @@ public class ViewPastWLsFragment extends Fragment {
         ViewPastWLsHandlers handlers = new ViewPastWLsHandlers();
         binding.setHandlers(handlers);
 
-        allGames = new ArrayList<>();
 
         searchView = (FloatingSearchView) binding.getRoot().findViewById(R.id.search_games_edit);
         searchIcon = (FloatingActionButton) binding.getRoot().findViewById(R.id.search_icon);
 
         pastWlsList = (RecyclerView) binding.getRoot().findViewById(R.id.past_wls_list);
         pastWlsList.setVisibility(View.GONE);
+
         pastWlsAllGamesList = (RecyclerView) binding.getRoot().findViewById(R.id.past_wls_all_games_list);
         pastWlsAllGamesList.setVisibility(View.GONE);
-
-        setupSearchView();
 
         return binding.getRoot();
     }
 
-    private void setupSearchView(){
+    @Override
+    public void setPresenter(ViewPastWLsContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showPastWeekendLeagues(AllWeekendLeagues allWeekendLeagues) {
+        binding.setAllWeekendLeagues(allWeekendLeagues);
+
+        setupAdapter(allWeekendLeagues);
+
+        if(searchView!=null){
+        searchView.setVisibility(View.GONE);
+        searchView.setSearchFocused(false);
+        searchView.setSearchText("");
+        }
+    }
+
+    @Override
+    public void showEmptyWeekendLeagues(AllWeekendLeagues allWeekendLeagues) {
+        binding.setAllWeekendLeagues(allWeekendLeagues);
+    }
+
+    @Override
+    public void showAllGamesView(ArrayList<Game> allGames) {
+        setupAllGamesAdapter(allGames);
+        setupSearchView(allGames);
+    }
+
+    @Override
+    public void showWeekendLeagueDetail(WeekendLeague weekendLeague, int position) {
+        if(mListener!=null) mListener.onViewWeekendLeagueDetail(weekendLeague);
+    }
+
+    @Override
+    public void showGameDetail(Game game, int position) {
+        if(mListener!=null) mListener.onViewPastWLGame(game);
+    }
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
+    private void setupSearchView(final ArrayList<Game> allGames){
 
         searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
@@ -120,7 +154,7 @@ public class ViewPastWLsFragment extends Fragment {
 
     }
 
-    private void setupAdapter(){
+    private void setupAdapter(AllWeekendLeagues allWeekendLeagues){
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         pastWlsList.setLayoutManager(mLayoutManager);
@@ -128,13 +162,13 @@ public class ViewPastWLsFragment extends Fragment {
 
         mAdapter = new PastWlsListAdapter(getActivity(), allWeekendLeagues.getAllWeekendLeagues());
         pastWlsList.setAdapter(mAdapter);
-        if(allWeekendLeagues!=null && allWeekendLeagues.getAllWeekendLeagues().size()>0){
+        if(allWeekendLeagues.getAllWeekendLeagues().size()>0){
             pastWlsList.setVisibility(View.VISIBLE);
         }
         setRecyclerAssignmentListener();
     }
 
-    private void setupAllGamesAdapter(){
+    private void setupAllGamesAdapter(ArrayList<Game> allGames){
         mGamesLayoutManager = new LinearLayoutManager(getActivity());
 
         pastWlsAllGamesList.setLayoutManager(mGamesLayoutManager);
@@ -151,10 +185,7 @@ public class ViewPastWLsFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Log.d(TAG, "recyclerview onItemClick: " + position);
-                Bundle b = new Bundle();
-                b.putInt(Constants.VIEW_WL_POS, position);
-                b.putSerializable(Constants.VIEW_WL, allWeekendLeagues.getAllWeekendLeagues().get(position));
-                if(mListener!=null) mListener.onViewPastWLsFragmentInteraction(b);
+                mPresenter.getWeekendLeagueForDetail(position);
             }
         };
 
@@ -167,15 +198,14 @@ public class ViewPastWLsFragment extends Fragment {
         GamesListAdapter.RecyclerItemClickListener.OnItemClickListener itemClickListener = new GamesListAdapter.RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Bundle b = new Bundle();
+
                 if(searchView.getVisibility() == View.VISIBLE){
                     Game viewGame = mGamesListAdapter.getGameFromPosition(position);
-                    b.putSerializable(Constants.VIEW_PAST_WL_GAME, viewGame);
+                    if(mListener!=null) mListener.onViewPastWLGame(viewGame);
                 }
                 else{
-                    b.putSerializable(Constants.VIEW_PAST_WL_GAME, allGames.get(position));
+                    mPresenter.getGameForDetail(position);
                 }
-                if(mListener!=null) mListener.onViewPastWLsFragmentInteraction(b);
 
             }
         };
@@ -186,65 +216,42 @@ public class ViewPastWLsFragment extends Fragment {
 
     public class ViewPastWLsHandlers{
 
-        public void onClick(View view){
+        public void onBackBtnClick(View view){
+            if(mListener!=null) mListener.onViewPastWLsBackBtnClick();
+        }
 
-            Bundle b = new Bundle();
-            switch(view.getId()) {
-                case R.id.back_btn:
-                    b.putString(Constants.BACK_BTN, Constants.BACK_BTN);
-                    break;
-                case R.id.view_all_wls_btn:
-                    //setup/reset search
-                    searchIcon.setVisibility(View.GONE);
-                    searchView.setVisibility(View.GONE);
-                    searchView.setSearchFocused(false);
-                    searchView.setSearchText("");
-                    mGamesListAdapter.setData(allGames);
+        public void onAllWeekendLeaguesBtnClick(View view){
+            searchIcon.setVisibility(View.GONE);
+            searchView.setVisibility(View.GONE);
+            searchView.setSearchFocused(false);
+            searchView.setSearchText("");
 
-                    pastWlsList.setVisibility(View.VISIBLE);
-                    pastWlsAllGamesList.setVisibility(View.GONE);
-                    break;
-                case R.id.view_all_games_btn:
-                    searchIcon.setVisibility(View.VISIBLE);
-                    pastWlsAllGamesList.setVisibility(View.VISIBLE);
-                    mGamesListAdapter.setData(allGames);
-                    pastWlsList.setVisibility(View.GONE);
-                    break;
-                case R.id.search_icon:
-                    searchIcon.setVisibility(View.GONE);
-                    searchView.setVisibility(View.VISIBLE);
-                    searchView.setSearchFocused(true);
-                    searchView.setSearchText("");
-                    break;
-            }
-            if(mListener!=null) mListener.onViewPastWLsFragmentInteraction(b);
+            mPresenter.getAllGames();
+
+            pastWlsList.setVisibility(View.VISIBLE);
+            pastWlsAllGamesList.setVisibility(View.GONE);
+        }
+
+        public void onAllGamesBtnClick(View view){
+            searchIcon.setVisibility(View.VISIBLE);
+            pastWlsAllGamesList.setVisibility(View.VISIBLE);
+
+            mPresenter.getAllGames();
+
+            pastWlsList.setVisibility(View.GONE);
+        }
+        public void onSearchBtnClick(View view){
+            searchIcon.setVisibility(View.GONE);
+            searchView.setVisibility(View.VISIBLE);
+            searchView.setSearchFocused(true);
+            searchView.setSearchText("");
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        allWeekendLeagues = new AllWeekendLeagues();
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(Constants.ALL_WLS, null);
-        Type type = new TypeToken<AllWeekendLeagues>() {}.getType();
-        AllWeekendLeagues all_wl = gson.fromJson(json, type);
-
-        if(all_wl!=null && all_wl.getAllWeekendLeagues()!=null){
-            Log.d(TAG, "onResume viewWls: " + new Gson().toJson(all_wl.getAllWeekendLeagues()));
-            allWeekendLeagues = all_wl;
-            binding.setAllWeekendLeagues(allWeekendLeagues);
-            updateAllGamesList(allWeekendLeagues);
-            setupAdapter();
-        }
-
-        if(searchView!=null){
-            searchView.setVisibility(View.GONE);
-            searchView.setSearchFocused(false);
-            searchView.setSearchText("");
-        }
+        mPresenter.start();
     }
 
     public int handleBackPress(){
@@ -263,21 +270,6 @@ public class ViewPastWLsFragment extends Fragment {
         }
 
     }
-
-    private void updateAllGamesList(AllWeekendLeagues all_wls){
-        ArrayList<Game> temp = new ArrayList<>();
-        for(WeekendLeague weekendLeague : all_wls.getAllWeekendLeagues()){
-            for(Game game : weekendLeague.getWeekendLeague()){
-                temp.add(game);
-            }
-        }
-        if(temp.size()>allGames.size()){
-            allGames = temp;
-            setupAllGamesAdapter();
-        }
-    }
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -299,6 +291,8 @@ public class ViewPastWLsFragment extends Fragment {
 
 
     public interface OnViewPastWLsFragmentInteractionListener {
-        void onViewPastWLsFragmentInteraction(Bundle args);
+        void onViewPastWLGame(Game game);
+        void onViewWeekendLeagueDetail(WeekendLeague weekendLeague);
+        void onViewPastWLsBackBtnClick();
     }
 }

@@ -8,7 +8,7 @@
             type="com.futchampionsstats.models.AllWeekendLeagues"/>
         <variable
             name="handlers"
-            type="com.futchampionsstats.ui.pastwls.ViewPastWLsFragment.ViewPastWLsHandlers"/>
+            type="com.futchampionsstats.ui.past_wls.view_past_wls.ViewPastWLsFragment.ViewPastWLsHandlers"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_back_white_24dp"
                     android:id="@+id/back_btn"
-                    android:onClick="@{handlers.onClick}"
+                    android:onClick="@{handlers::onBackBtnClick}"
                     android:layout_marginLeft="10dp" />
 
                 <TextView
@@ -60,17 +60,6 @@
                     app:floatingSearch_close_search_on_keyboard_dismiss="true"
                     android:visibility="gone"/>
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/search_icon"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@drawable/ic_search_white_24dp"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:onClick="@{handlers.onClick}"-->
-                    <!--android:visibility="gone"-->
-                    <!--android:layout_alignParentEnd="true" />-->
 
             </RelativeLayout>
 
@@ -87,22 +76,22 @@
                     android:id="@+id/view_all_wls_btn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="View All Weekend Leagues"
+                    android:text="@string/view_all_weekend_leagues"
                     android:background="@drawable/gold_button_style"
                     android:layout_marginRight="2dp"
                     android:padding="5dp"
-                    android:onClick="@{handlers.onClick}"
+                    android:onClick="@{handlers::onAllWeekendLeaguesBtnClick}"
                     android:layout_weight="1"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/view_all_games_btn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="View All Games"
+                    android:text="@string/view_all_games"
                     android:background="@drawable/gold_button_style"
                     android:layout_marginLeft="2dp"
                     android:padding="5dp"
-                    android:onClick="@{handlers.onClick}"
+                    android:onClick="@{handlers::onAllGamesBtnClick}"
                     android:layout_weight="1"
                     />
 
@@ -169,7 +158,8 @@
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
             android:visibility="gone"
-            android:onClick="@{handlers.onClick}"/>
+            android:onClick="@{handlers::onSearchBtnClick}"
+            />
     </RelativeLayout>
 
 

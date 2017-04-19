@@ -181,4 +181,27 @@ public class WeekendLeagueLocalDataSource implements WeekendLeagueDataSource{
             callback.onGameSaveError(wl);
         }
     }
+
+    @Override
+    public void getAllWeekendLeagues(GetAllWeekendLeaguesCallback callback) {
+
+        Gson gson = new Gson();
+        String json = mSharedPrefs.getString(Constants.ALL_WLS, null);
+        Type type = new TypeToken<AllWeekendLeagues>() {}.getType();
+        AllWeekendLeagues all_wl = gson.fromJson(json, type);
+
+        if(all_wl!=null && all_wl.getAllWeekendLeagues()!=null){
+            Log.d(TAG, "getAllWeekendLeagues: " + new Gson().toJson(all_wl.getAllWeekendLeagues()));
+        }
+        callback.onAllWeekendLeaguesLoaded(all_wl);
+
+    }
+
+    @Override
+    public void clearAllWeekendLeagues() {
+        Log.d(TAG, "clearWeekendLeague: ");
+        SharedPreferences.Editor editor = mSharedPrefs.edit();
+        editor.putString(Constants.ALL_WLS, null);
+        editor.apply();
+    }
 }

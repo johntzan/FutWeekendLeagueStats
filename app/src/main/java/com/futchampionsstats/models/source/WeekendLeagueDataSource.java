@@ -2,6 +2,7 @@ package com.futchampionsstats.models.source;
 
 import android.support.annotation.NonNull;
 
+import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
 
@@ -13,6 +14,10 @@ public interface WeekendLeagueDataSource {
 
     interface GetWeekendLeagueCallback{
         void onWeekendLeagueLoaded(WeekendLeague weekendLeague);
+    }
+
+    interface GetAllWeekendLeaguesCallback{
+        void onAllWeekendLeaguesLoaded(AllWeekendLeagues weekendLeague);
     }
 
     interface OnGameSavedCallback{
@@ -36,6 +41,9 @@ public interface WeekendLeagueDataSource {
     void saveEditGame(Game game, int gamePosition, OnGameSavedCallback callback);
 
     void saveWeekendLeague(WeekendLeague weekendLeague, OnWeekendLeagueSavedCallBack callBack);
+    void getAllWeekendLeagues(GetAllWeekendLeaguesCallback callback);
+    void clearAllWeekendLeagues();
+
 
     void refreshWeekendLeague();
 }

@@ -1,6 +1,5 @@
 package com.futchampionsstats.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,16 +11,20 @@ import android.view.MenuItem;
 
 import com.futchampionsstats.Injection;
 import com.futchampionsstats.R;
-import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
 import com.futchampionsstats.ui.mysquads.MySquadsFragment;
 import com.futchampionsstats.ui.mysquads.MySquadsPresenter;
-import com.futchampionsstats.ui.pastwls.PastWLFragment;
-import com.futchampionsstats.ui.pastwls.PastWLViewGameFragment;
-import com.futchampionsstats.ui.pastwls.ViewPastWLGamesFragment;
-import com.futchampionsstats.ui.pastwls.ViewPastWLsFragment;
-import com.futchampionsstats.ui.pastwls.ViewSelectedWLFragment;
+import com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLDetailPresenter;
+import com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLFragment;
+import com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGameFragment;
+import com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGamePresenter;
+import com.futchampionsstats.ui.past_wls.view_past_wls.ViewPastWLsFragment;
+import com.futchampionsstats.ui.past_wls.view_past_wls.ViewPastWLsPresenter;
+import com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesFragment;
+import com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesPresenter;
+import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLFragment;
+import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLPresenter;
 import com.futchampionsstats.ui.wl.WeekendLeagueDetailFragment;
 import com.futchampionsstats.ui.wl.WeekendLeagueDetailPresenter;
 import com.futchampionsstats.ui.wl.edit_game.EditGameFragment;
@@ -30,9 +33,6 @@ import com.futchampionsstats.ui.wl.new_game.NewGameFragment;
 import com.futchampionsstats.ui.wl.new_game.NewGamePresenter;
 import com.futchampionsstats.ui.wl.view_games.ViewGamesFragment;
 import com.futchampionsstats.ui.wl.view_games.ViewGamesPresenter;
-import com.futchampionsstats.utils.Constants;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity implements WeekendLeagueDetailFragment.OnNewWLFragmentInteractionListener, NewGameFragment.OnNewGameFragmentInteractionListener,
         ViewGamesFragment.OnViewGamesFragmentInteractionListener, EditGameFragment.OnEditGameFragmentInteractionListener,
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
                     frag = pastWLFragment;
                 }
                 tag = "past_weekend_league_frag";
+                new PastWLDetailPresenter(Injection.provideWeekendLeagueRepository(getApplicationContext()), pastWLFragment);
                 break;
             case R.id.menu_current_wl:
                 if(weekendLeagueDetailFragment !=null){
@@ -248,136 +249,64 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
         onBackPressed();
     }
 
+
     /**
      *  **************************** Past WL Interactions ****************************
      */
 
     @Override
-    public void onPastWLFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.DELETE_WLS)){
-                final AllWeekendLeagues allWeekendLeagues= (AllWeekendLeagues) args.getSerializable(Constants.DELETE_WLS);
-                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("Delete Past Weekend Leagues?");
-                pDialog.setContentText("Are you sure you would like to delete all your past Weekend League Data?");
-                pDialog.setConfirmText("Yes");
-                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: yes");
-                        if(pastWLFragment!=null && allWeekendLeagues!=null){
-                            sweetAlertDialog
-                                    .setTitleText("Deleted!")
-                                    .setContentText("All previous Weekend League data has been deleted!")
-                                    .setConfirmText("OK")
-                                    .setConfirmClickListener(null)
-                                    .showCancelButton(false)
-                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                            pastWLFragment.clearAllWeekendLeague(allWeekendLeagues);
-                        }
-                        else{
-                            Log.d(TAG, "onNewWLFragmentInteraction new wl: nulls");
-                        }
-                    }
-                });
-                pDialog.setCancelText("No");
-                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: no");
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                pDialog.setCancelable(true);
-                pDialog.setCanceledOnTouchOutside(true);
-                pDialog.show();
-            }
-
-            if(args.containsKey(Constants.VIEW_PAST_WLS)){
-
-                    viewPastWLsFragment = new ViewPastWLsFragment();
-                    displayFragment(viewPastWLsFragment, "view_past_wls");
-
-            }
-        }
+    public void goToPastWeekendLeaguesList(){
+        viewPastWLsFragment = new ViewPastWLsFragment();
+        new ViewPastWLsPresenter(Injection.provideWeekendLeagueRepository(getApplicationContext()), viewPastWLsFragment);
+        displayFragment(viewPastWLsFragment, "view_past_wls");
     }
 
     @Override
-    public void onViewPastWLsFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.VIEW_WL)){
-                WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_WL);
-
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_SELECTED_PAST_WL, weekendLeague);
-                viewSelectedWLFragment = new ViewSelectedWLFragment();
-                viewSelectedWLFragment.setArguments(b);
-                displayFragment(viewSelectedWLFragment, "view_selected_past_wl");
-
-            }
-            if(args.containsKey(Constants.VIEW_PAST_WL_GAME)){
-                Game game = (Game) args.getSerializable(Constants.VIEW_PAST_WL_GAME);
-
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_PAST_WL_GAME, game);
-                pastWLViewGameFragment = new PastWLViewGameFragment();
-                pastWLViewGameFragment.setArguments(b);
-                displayFragment(pastWLViewGameFragment, "view_past_wl_game");
-            }
-
-        }
+    public void onViewPastWLGame(Game game) {
+        pastWLViewGameFragment = new PastWLViewGameFragment();
+        new PastWLViewGamePresenter(game, pastWLViewGameFragment);
+        displayFragment(pastWLViewGameFragment, "view_past_wl_game");
     }
 
     @Override
-    public void onViewPastWLGamesFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.VIEW_PAST_WL_GAME)){
-                Game game = (Game) args.getSerializable(Constants.VIEW_PAST_WL_GAME);
-
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_PAST_WL_GAME, game);
-                pastWLViewGameFragment = new PastWLViewGameFragment();
-                pastWLViewGameFragment.setArguments(b);
-                displayFragment(pastWLViewGameFragment, "view_past_wl_game");
-
-            }
-        }
+    public void onViewWeekendLeagueDetail(WeekendLeague weekendLeague) {
+        viewSelectedWLFragment = new ViewSelectedWLFragment();
+        new ViewSelectedWLPresenter(weekendLeague, viewSelectedWLFragment);
+        displayFragment(viewSelectedWLFragment, "view_selected_past_wl");
     }
 
     @Override
-    public void onPastWLViewGameFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-        }
+    public void onViewPastWLsBackBtnClick() {
+        onBackPressed();
     }
 
     @Override
-    public void onViewSelectedWLFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.VIEW_PAST_WL_GAMES)){
-                WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_PAST_WL_GAMES);
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_PAST_WL_GAMES, weekendLeague);
-                viewPastWLGamesFragment = new ViewPastWLGamesFragment();
-                viewPastWLGamesFragment.setArguments(b);
-                displayFragment(viewPastWLGamesFragment, "view_past_wl_games");
-            }
-        }
+    public void onViewPastWLGamesBackBtnClick() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onViewPastWLGamesGoToGame(Game game) {
+        pastWLViewGameFragment = new PastWLViewGameFragment();
+        new PastWLViewGamePresenter(game, pastWLViewGameFragment);
+        displayFragment(pastWLViewGameFragment, "view_past_wl_game");
+    }
+
+    @Override
+    public void onPastWLViewGameBackBtnClick() {
+        onBackPressed();
+    }
+
+    @Override
+    public void onViewSelectedWLViewGames(WeekendLeague weekendLeague) {
+        viewPastWLGamesFragment = new ViewPastWLGamesFragment();
+        new ViewPastWLGamesPresenter(weekendLeague, viewPastWLGamesFragment);
+        displayFragment(viewPastWLGamesFragment, "view_past_wl_games");
+    }
+
+    @Override
+    public void onViewSelectedWLBackBtnClick() {
+        onBackPressed();
     }
 
     @Override

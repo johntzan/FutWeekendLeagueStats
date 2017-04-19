@@ -100,6 +100,21 @@ public class WeekendLeagueRepository implements Serializable, WeekendLeagueDataS
     }
 
     @Override
+    public void clearAllWeekendLeagues() {
+        mWeekendLeagueLocalDataSource.clearAllWeekendLeagues();
+    }
+
+    @Override
+    public void getAllWeekendLeagues(final GetAllWeekendLeaguesCallback callback) {
+        mWeekendLeagueLocalDataSource.getAllWeekendLeagues(new GetAllWeekendLeaguesCallback() {
+            @Override
+            public void onAllWeekendLeaguesLoaded(AllWeekendLeagues weekendLeagues) {
+                callback.onAllWeekendLeaguesLoaded(weekendLeagues);
+            }
+        });
+    }
+
+    @Override
     public void refreshWeekendLeague() {
 
     }

@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.view.View"/>
-        <variable name="handlers" type="com.futchampionsstats.ui.pastwls.PastWLViewGameFragment.PastWLViewGameHandlers"/>
+        <variable name="handlers" type="com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGameFragment.PastWLViewGameHandlers"/>
         <variable name="game" type="com.futchampionsstats.models.Game"/>
 
     </data>
@@ -33,7 +33,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_back_white_24dp"
                     android:id="@+id/back_btn"
-                    android:onClick="@{handlers.onClick}"
+                    android:onClick="@{handlers::onBackBtnClick}"
                     android:layout_marginLeft="10dp" />
 
                 <TextView
