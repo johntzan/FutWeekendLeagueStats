@@ -7,17 +7,22 @@ import com.futchampionsstats.models.source.WeekendLeagueLocalDataSource;
 
 import java.io.Serializable;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by yiannitzan on 3/15/17.
  */
 
+@Singleton
 public class WeekendLeagueRepository implements Serializable, WeekendLeagueDataSource {
 
     private static WeekendLeagueRepository INSTANCE = null;
 
     private final WeekendLeagueLocalDataSource mWeekendLeagueLocalDataSource;
 
-    private WeekendLeagueRepository(@NonNull WeekendLeagueLocalDataSource weekendLeagueLocalDataSource){
+    @Inject
+    WeekendLeagueRepository(@NonNull WeekendLeagueLocalDataSource weekendLeagueLocalDataSource){
         mWeekendLeagueLocalDataSource = weekendLeagueLocalDataSource;
     }
 

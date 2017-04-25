@@ -14,10 +14,14 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by yiannitzan on 3/24/17.
  */
 
+@Singleton
 public class SquadsLocalDataSource implements SquadsDataSource{
 
     public static final String TAG = SquadsLocalDataSource.class.getSimpleName();
@@ -25,7 +29,8 @@ public class SquadsLocalDataSource implements SquadsDataSource{
 
     private SharedPreferences mSharedPrefs;
 
-    private SquadsLocalDataSource(@NonNull Context context){
+    @Inject
+    public SquadsLocalDataSource(@NonNull Context context){
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 

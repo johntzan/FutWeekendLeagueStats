@@ -9,6 +9,8 @@ import com.futchampionsstats.models.source.squads.SquadsDataSource;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 /**
  * Created by yiannitzan on 4/11/17.
  */
@@ -20,10 +22,16 @@ public class MySquadsPresenter implements MySquadsContract.Presenter {
     private MySquadsContract.View mMySquadsView;
     private ArrayList<Squad> mSquads;
 
+    @Inject
     public MySquadsPresenter(@NonNull SquadRepository squadRepository, @NonNull MySquadsContract.View view){
         mSquadRepository = squadRepository;
         mMySquadsView = view;
         Log.d(TAG, "MySquadsPresenter: new");
+        mMySquadsView.setPresenter(this);
+    }
+
+    @Inject
+    void setupListeners() {
         mMySquadsView.setPresenter(this);
     }
 

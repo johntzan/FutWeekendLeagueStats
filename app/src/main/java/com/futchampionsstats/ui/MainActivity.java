@@ -14,7 +14,6 @@ import com.futchampionsstats.R;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
 import com.futchampionsstats.ui.mysquads.MySquadsFragment;
-import com.futchampionsstats.ui.mysquads.MySquadsPresenter;
 import com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLDetailPresenter;
 import com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLFragment;
 import com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGameFragment;
@@ -26,7 +25,6 @@ import com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesPres
 import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLFragment;
 import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLPresenter;
 import com.futchampionsstats.ui.wl.WeekendLeagueDetailFragment;
-import com.futchampionsstats.ui.wl.WeekendLeagueDetailPresenter;
 import com.futchampionsstats.ui.wl.edit_game.EditGameFragment;
 import com.futchampionsstats.ui.wl.edit_game.EditGamePresenter;
 import com.futchampionsstats.ui.wl.new_game.NewGameFragment;
@@ -96,8 +94,6 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
             viewSelectedWLFragment = new ViewSelectedWLFragment();
         }
 
-        new WeekendLeagueDetailPresenter(Injection.provideWeekendLeagueRepository(getApplicationContext()), weekendLeagueDetailFragment);
-
         selectFragment(selectedItem);
 
     }
@@ -139,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
                     frag = mySquadsFragment;
                 }
                 tag = "my_squads_frag";
-                new MySquadsPresenter(Injection.provideSquadsRepository(getApplicationContext()), mySquadsFragment);
                 break;
         }
 
@@ -251,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
 
 
     /**
-     *  **************************** Past WL Interactions ****************************
+     *  **************************** Past WL Detail Interactions ****************************
      */
 
     @Override
@@ -260,6 +255,10 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
         new ViewPastWLsPresenter(Injection.provideWeekendLeagueRepository(getApplicationContext()), viewPastWLsFragment);
         displayFragment(viewPastWLsFragment, "view_past_wls");
     }
+
+    /**
+     *  **************************** View Past WLs List Interactions ****************************
+     */
 
     @Override
     public void onViewPastWLGame(Game game) {
@@ -280,6 +279,11 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
         onBackPressed();
     }
 
+    /**
+     *  **************************** View Past WLs Games List Interactions ****************************
+     */
+
+
     @Override
     public void onViewPastWLGamesBackBtnClick() {
         onBackPressed();
@@ -292,10 +296,18 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
         displayFragment(pastWLViewGameFragment, "view_past_wl_game");
     }
 
+    /**
+     *  **************************** Past WLs View Games Interactions ****************************
+     */
+
     @Override
     public void onPastWLViewGameBackBtnClick() {
         onBackPressed();
     }
+
+    /**
+     *  **************************** View Selected WL Interactions ****************************
+     */
 
     @Override
     public void onViewSelectedWLViewGames(WeekendLeague weekendLeague) {
@@ -308,6 +320,11 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
     public void onViewSelectedWLBackBtnClick() {
         onBackPressed();
     }
+
+    /**
+     *  **************************** Interactions End ****************************
+     */
+
 
     @Override
     protected void onResume() {

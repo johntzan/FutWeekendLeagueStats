@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.SquadListAdapter;
 import com.futchampionsstats.databinding.FragmentMySquadsBinding;
@@ -27,6 +28,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -42,6 +45,8 @@ public class MySquadsFragment extends Fragment implements MySquadsContract.View{
 
     private FragmentMySquadsBinding mMySquadsBinding;
     private MySquadsContract.Presenter mPresenter;
+
+    @Inject MySquadsPresenter mMySquadsPresenter;
 
     public MySquadsFragment() {
         // Required empty public constructor
@@ -59,9 +64,11 @@ public class MySquadsFragment extends Fragment implements MySquadsContract.View{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
 
-        }
+        DaggerMySquadsComponent.builder()
+                .squadRepositoryComponent(((FutChampsApplication) getActivity().getApplicationContext()).getSquadRepositoryComponent())
+                .mySquadsPresenterModule(new MySquadsPresenterModule(this)).build()
+                .inject(this);
     }
 
     @Override

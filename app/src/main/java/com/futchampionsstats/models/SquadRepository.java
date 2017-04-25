@@ -7,16 +7,20 @@ import com.futchampionsstats.models.source.squads.SquadsLocalDataSource;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by yiannitzan on 3/24/17.
  */
-
+@Singleton
 public class SquadRepository implements SquadsDataSource{
 
     private static SquadRepository INSTANCE = null;
     private final SquadsLocalDataSource mSquadsLocalDataSource;
 
-    private SquadRepository(@NonNull SquadsLocalDataSource squadsLocalDataSource){
+    @Inject
+    SquadRepository(@NonNull SquadsLocalDataSource squadsLocalDataSource){
         mSquadsLocalDataSource = squadsLocalDataSource;
     }
 

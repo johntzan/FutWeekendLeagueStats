@@ -18,10 +18,14 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by yiannitzan on 3/15/17.
  */
 
+@Singleton
 public class WeekendLeagueLocalDataSource implements WeekendLeagueDataSource{
 
     public static final String TAG = WeekendLeagueLocalDataSource.class.getSimpleName();
@@ -29,7 +33,8 @@ public class WeekendLeagueLocalDataSource implements WeekendLeagueDataSource{
 
     private SharedPreferences mSharedPrefs;
 
-    private WeekendLeagueLocalDataSource(@NonNull Context context){
+    @Inject
+    public WeekendLeagueLocalDataSource(@NonNull Context context){
         mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 

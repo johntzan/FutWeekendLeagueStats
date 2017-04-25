@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.databinding.FragmentWlBinding;
 import com.futchampionsstats.models.WeekendLeague;
@@ -17,6 +18,8 @@ import com.futchampionsstats.models.WeekendLeague;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -27,6 +30,8 @@ public class WeekendLeagueDetailFragment extends Fragment implements WeekendLeag
     private OnNewWLFragmentInteractionListener mListener;
     private WeekendLeagueDetailContract.Presenter mPresenter;
     private FragmentWlBinding mWlBinding;
+
+    @Inject WeekendLeagueDetailPresenter mWeekendLeaguePresenter;
 
     public WeekendLeagueDetailFragment() {
         // Required empty public constructor
@@ -43,6 +48,13 @@ public class WeekendLeagueDetailFragment extends Fragment implements WeekendLeag
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //create the presenter
+        DaggerWeekendLeagueComponent.builder()
+                .weekendLeagueRepositoryComponent(((FutChampsApplication) getActivity().getApplicationContext()).getWeekendLeagueRepository())
+                .weekendLeagueDetailPresenterModule(new WeekendLeagueDetailPresenterModule(this)).build()
+                .inject(this);
+
 
     }
 
