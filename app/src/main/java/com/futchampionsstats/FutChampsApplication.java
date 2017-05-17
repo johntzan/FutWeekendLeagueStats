@@ -9,6 +9,8 @@ import com.futchampionsstats.models.DaggerSquadRepositoryComponent;
 import com.futchampionsstats.models.DaggerWeekendLeagueRepositoryComponent;
 import com.futchampionsstats.models.SquadRepositoryComponent;
 import com.futchampionsstats.models.WeekendLeagueRepositoryComponent;
+import com.futchampionsstats.service.DaggerServiceComponent;
+import com.futchampionsstats.service.ServiceComponent;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -21,6 +23,7 @@ public class FutChampsApplication extends Application{
 
     private WeekendLeagueRepositoryComponent mWeekendLeagueRepository;
     private SquadRepositoryComponent mSquadRepositoryComponent;
+    private ServiceComponent mServiceComponent;
 
     @Override
     public void onCreate() {
@@ -38,6 +41,11 @@ public class FutChampsApplication extends Application{
         mSquadRepositoryComponent = DaggerSquadRepositoryComponent.builder()
                 .applicationModule(new ApplicationModule(getApplicationContext()))
                 .build();
+
+        mServiceComponent = DaggerServiceComponent.builder()
+                .applicationModule(new ApplicationModule(getApplicationContext()))
+                .build();
+
     }
 
     public WeekendLeagueRepositoryComponent getWeekendLeagueRepository(){
@@ -48,5 +56,8 @@ public class FutChampsApplication extends Application{
         return mSquadRepositoryComponent;
     }
 
+    public ServiceComponent getServiceComponent(){
+        return mServiceComponent;
+    }
 
 }

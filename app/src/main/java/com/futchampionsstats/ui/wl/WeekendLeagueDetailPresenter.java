@@ -11,8 +11,6 @@ import com.futchampionsstats.models.source.WeekendLeagueDataSource;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 /**
  * Created by yiannitzan on 3/15/17.
  */
@@ -25,16 +23,10 @@ public class WeekendLeagueDetailPresenter implements WeekendLeagueDetailContract
     private WeekendLeagueRepository mWeekendLeagueRepository;
     private WeekendLeague mCurrentWeekendLeague;
 
-    @Inject
     public WeekendLeagueDetailPresenter(WeekendLeagueRepository weekendLeagueRepository, @NonNull WeekendLeagueDetailContract.View view){
         mWeekendLeagueDetailView = view;
         mWeekendLeagueRepository = weekendLeagueRepository;
 
-        mWeekendLeagueDetailView.setPresenter(this);
-    }
-
-    @Inject
-    void setupListeners() {
         mWeekendLeagueDetailView.setPresenter(this);
     }
 

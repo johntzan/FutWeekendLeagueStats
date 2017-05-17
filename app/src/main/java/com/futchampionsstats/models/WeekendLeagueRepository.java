@@ -1,6 +1,7 @@
 package com.futchampionsstats.models;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.futchampionsstats.models.source.WeekendLeagueDataSource;
 import com.futchampionsstats.models.source.WeekendLeagueLocalDataSource;
@@ -23,6 +24,7 @@ public class WeekendLeagueRepository implements Serializable, WeekendLeagueDataS
 
     @Inject
     WeekendLeagueRepository(@NonNull WeekendLeagueLocalDataSource weekendLeagueLocalDataSource){
+        Log.d("WeekendLeagueRepository", "injecting WLDataSource");
         mWeekendLeagueLocalDataSource = weekendLeagueLocalDataSource;
     }
 

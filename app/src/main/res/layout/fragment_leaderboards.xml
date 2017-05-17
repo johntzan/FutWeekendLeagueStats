@@ -1,0 +1,100 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+        <variable
+            name="handlers"
+            type="com.futchampionsstats.ui.leaderboards.LeaderboardsFragment.LeaderboardHandlers"/>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fc_panel1_bg_md"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/main_top_bar">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:text="@string/leaderboards"
+                android:gravity="center_vertical"
+                android:textSize="20sp" />
+
+
+
+        </RelativeLayout>
+
+                    <com.arlib.floatingsearchview.FloatingSearchView
+                        android:id="@+id/search_users_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:floatingSearch_searchHint="Search for User.."
+                        app:floatingSearch_hintTextColor="@color/davy_grey"
+                        app:floatingSearch_suggestionsListAnimDuration="250"
+                        app:floatingSearch_showSearchKey="false"
+                        app:floatingSearch_leftActionMode="showHome"
+                        android:visibility="gone"/>
+
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/sliding_tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tabMode="fixed"
+                        app:tabBackground="@color/colorPrimaryDark"
+                        app:tabIndicatorColor="@color/ucla_gold"
+                        app:tabTextColor="@color/white"
+                        android:visibility="visible"/>
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/leaderboards_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                    </android.support.v4.view.ViewPager>
+
+
+
+        </LinearLayout>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/search_user_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_search_white_24dp"
+            fab:fab_colorNormal="@color/ucla_gold"
+            fab:fab_colorPressed="@color/ucla_gold1"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible"
+            android:onClick="@{handlers::viewSearch}"
+            />
+    </RelativeLayout>
+</layout>

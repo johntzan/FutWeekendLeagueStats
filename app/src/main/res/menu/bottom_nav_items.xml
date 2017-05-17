@@ -3,19 +3,30 @@
 
     <item
         android:id="@+id/menu_past_wl"
-        android:title="Past Weekends"
+        android:title="@string/past_weekends"
         android:icon="@drawable/ic_history_white_24dp"
+        android:visible="true"
         />
 
     <item
         android:id="@+id/menu_current_wl"
         android:title="@string/weekend_league"
         android:icon="@drawable/ic_assessment_white_24dp"
+        android:visible="true"
         />
 
     <item
         android:id="@+id/menu_my_squads"
         android:title="@string/my_squads"
-        android:icon="@drawable/ic_people_white_24dp" />
+        android:icon="@drawable/ic_people_white_24dp"
+        android:visible="true"
+        />
+
+    <item
+        android:id="@+id/menu_leaderboards"
+        android:title="@string/leaderboards"
+        android:icon="@drawable/ic_format_list_numbered_white_24dp"
+        android:visible="true"
+        />
 
 </menu>

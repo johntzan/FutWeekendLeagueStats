@@ -5,16 +5,21 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.GamesListAdapter;
 import com.futchampionsstats.adapters.PastWlsListAdapter;
@@ -22,6 +27,7 @@ import com.futchampionsstats.databinding.FragmentViewPastWlsBinding;
 import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
+import com.futchampionsstats.utils.Utils;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -152,6 +158,32 @@ public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract
             }
         });
 
+        searchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            @Override
+            public void onFocus() {
+
+                searchView.clearQuery();
+                searchView.setSearchText("");
+                searchView.setSearchFocused(true);
+                searchView.setViewTextColor(getResources().getColor(R.color.grey));
+                searchView.setQueryTextColor(getResources().getColor(R.color.grey));
+
+            }
+
+            @Override
+            public void onFocusCleared() {
+
+            }
+        });
+
+        searchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
+
+            @Override public void onBindSuggestion(View suggestionView, ImageView leftIcon, TextView textView, SearchSuggestion item, int itemPosition) {
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.grey));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15.f);
+            }
+        });
+
     }
 
     private void setupAdapter(AllWeekendLeagues allWeekendLeagues){
@@ -221,12 +253,12 @@ public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract
         }
 
         public void onAllWeekendLeaguesBtnClick(View view){
-            searchIcon.setVisibility(View.GONE);
+            searchIcon.setVisibility(View.VISIBLE);
             searchView.setVisibility(View.GONE);
             searchView.setSearchFocused(false);
             searchView.setSearchText("");
 
-            mPresenter.getAllGames();
+//            mPresenter.getAllGames();
 
             pastWlsList.setVisibility(View.VISIBLE);
             pastWlsAllGamesList.setVisibility(View.GONE);
@@ -234,13 +266,16 @@ public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract
 
         public void onAllGamesBtnClick(View view){
             searchIcon.setVisibility(View.VISIBLE);
+//            mPresenter.getAllGames();
             pastWlsAllGamesList.setVisibility(View.VISIBLE);
-
-            mPresenter.getAllGames();
-
             pastWlsList.setVisibility(View.GONE);
         }
         public void onSearchBtnClick(View view){
+            Utils.openSoftInput(view.getContext(), view);
+
+            pastWlsAllGamesList.setVisibility(View.VISIBLE);
+            pastWlsList.setVisibility(View.GONE);
+
             searchIcon.setVisibility(View.GONE);
             searchView.setVisibility(View.VISIBLE);
             searchView.setSearchFocused(true);

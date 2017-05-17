@@ -1,5 +1,8 @@
 package com.futchampionsstats.ui;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,12 +11,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.Window;
 
-import com.futchampionsstats.Injection;
+import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
+import com.futchampionsstats.models.leaderboards.User;
+import com.futchampionsstats.ui.leaderboards.LeaderboardsFragment;
+import com.futchampionsstats.ui.leaderboards.LeaderboardsPresenter;
+import com.futchampionsstats.ui.leaderboards.UserProfileLeaderboardsFragment;
 import com.futchampionsstats.ui.mysquads.MySquadsFragment;
+import com.futchampionsstats.ui.mysquads.MySquadsPresenter;
 import com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLDetailPresenter;
 import com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLFragment;
 import com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGameFragment;
@@ -25,6 +34,7 @@ import com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesPres
 import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLFragment;
 import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLPresenter;
 import com.futchampionsstats.ui.wl.WeekendLeagueDetailFragment;
+import com.futchampionsstats.ui.wl.WeekendLeagueDetailPresenter;
 import com.futchampionsstats.ui.wl.edit_game.EditGameFragment;
 import com.futchampionsstats.ui.wl.edit_game.EditGamePresenter;
 import com.futchampionsstats.ui.wl.new_game.NewGameFragment;
@@ -36,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
         ViewGamesFragment.OnViewGamesFragmentInteractionListener, EditGameFragment.OnEditGameFragmentInteractionListener,
         PastWLFragment.OnPastWLFragmentInteractionListener, MySquadsFragment.OnMySquadsFragmentInteractionListener,
         ViewPastWLsFragment.OnViewPastWLsFragmentInteractionListener, ViewPastWLGamesFragment.OnViewPastWLGamesFragmentInteractionListener,
-        PastWLViewGameFragment.OnPastWLViewGameFragmentInteractionListener, ViewSelectedWLFragment.OnViewSelectedWLFragmentInteractionListener
+        PastWLViewGameFragment.OnPastWLViewGameFragmentInteractionListener, ViewSelectedWLFragment.OnViewSelectedWLFragmentInteractionListener,
+        LeaderboardsFragment.OnLeaderboardsInteractionListener, UserProfileLeaderboardsFragment.OnUserProfileLeaderboardsInteractionListener
 {
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -56,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
     private ViewPastWLGamesFragment viewPastWLGamesFragment;
     private PastWLViewGameFragment pastWLViewGameFragment;
     private ViewSelectedWLFragment viewSelectedWLFragment;
+    private LeaderboardsFragment leaderboardsFragment;
+
+    Dialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +106,12 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
             viewPastWLGamesFragment = new ViewPastWLGamesFragment();
             pastWLViewGameFragment = new PastWLViewGameFragment();
             viewSelectedWLFragment = new ViewSelectedWLFragment();
+            leaderboardsFragment = new LeaderboardsFragment();
+
+
         }
+
+        new WeekendLeagueDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), weekendLeagueDetailFragment);
 
         selectFragment(selectedItem);
 
@@ -113,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
                     frag = pastWLFragment;
                 }
                 tag = "past_weekend_league_frag";
-                new PastWLDetailPresenter(Injection.provideWeekendLeagueRepository(getApplicationContext()), pastWLFragment);
+                new PastWLDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository() , pastWLFragment);
                 break;
             case R.id.menu_current_wl:
                 if(weekendLeagueDetailFragment !=null){
@@ -135,6 +154,19 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
                     frag = mySquadsFragment;
                 }
                 tag = "my_squads_frag";
+                new MySquadsPresenter(((FutChampsApplication) getApplicationContext()).getSquadRepositoryComponent().getSquadRepository(), mySquadsFragment);
+                break;
+            case R.id.menu_leaderboards:
+
+                if(leaderboardsFragment!=null){
+                    frag = leaderboardsFragment;
+                }
+                else{
+                    leaderboardsFragment = new LeaderboardsFragment();
+                    frag = leaderboardsFragment;
+                }
+                tag = "leaderboards_frag";
+                new LeaderboardsPresenter(((FutChampsApplication) getApplicationContext()).getServiceComponent().getService(), leaderboardsFragment);
                 break;
         }
 
@@ -183,8 +215,8 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
     @Override
     public void onWLNewGameInteraction() {
         newGameFragment = new NewGameFragment();
-        new NewGamePresenter(Injection.provideSquadsRepository(getApplicationContext()),
-                Injection.provideWeekendLeagueRepository(getApplicationContext()),
+        new NewGamePresenter(((FutChampsApplication) getApplicationContext()).getSquadRepositoryComponent().getSquadRepository(),
+                ((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(),
                 newGameFragment);
 
         displayFragment(newGameFragment, "new_game_frag");
@@ -193,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
     @Override
     public void onWLViewGamesInteraction() {
         viewGamesFragment = new ViewGamesFragment();
-        new ViewGamesPresenter(Injection.provideWeekendLeagueRepository(getApplicationContext()), viewGamesFragment);
+        new ViewGamesPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), viewGamesFragment);
 
         displayFragment(viewGamesFragment, "view_games_frag");
     }
@@ -220,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
     public void showEditGame(Game game, int position) {
 
         editGameFragment = new EditGameFragment();
-        new EditGamePresenter(Injection.provideWeekendLeagueRepository(getApplicationContext()), game, editGameFragment, position);
+        new EditGamePresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), game, editGameFragment, position);
 
         displayFragment(editGameFragment, "edit_game_frag");
     }
@@ -252,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
     @Override
     public void goToPastWeekendLeaguesList(){
         viewPastWLsFragment = new ViewPastWLsFragment();
-        new ViewPastWLsPresenter(Injection.provideWeekendLeagueRepository(getApplicationContext()), viewPastWLsFragment);
+        new ViewPastWLsPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), viewPastWLsFragment);
         displayFragment(viewPastWLsFragment, "view_past_wls");
     }
 
@@ -321,6 +353,34 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
         onBackPressed();
     }
 
+
+    @Override
+    public void showLoadingIndicator() {
+        alertDialog = new Dialog(this);
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alertDialog.setContentView(R.layout.loading_dialog);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+    }
+
+    /**
+     *  Leaderboard interactions
+     * */
+
+
+
+    @Override
+    public void goToUserProfileLeaderboards(User user) {
+        UserProfileLeaderboardsFragment userProfileLeaderboardsFragment = new UserProfileLeaderboardsFragment();
+        Bundle b = new Bundle();
+        b.putSerializable("user", user);
+        userProfileLeaderboardsFragment.setArguments(b);
+
+        if(alertDialog!=null) alertDialog.dismiss();
+
+        displayFragment(userProfileLeaderboardsFragment, "user_profile_leaderboards_frag");
+    }
+
     /**
      *  **************************** Interactions End ****************************
      */
@@ -350,8 +410,8 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
                 // select home item
 
                 if((pastWLFragment!=null && pastWLFragment.isVisible()) ||
-                        mySquadsFragment!=null && mySquadsFragment.isVisible()){
-                    Log.d(TAG, "onBackPressed: pastWl || my squads is visible");
+                        (mySquadsFragment!=null && mySquadsFragment.isVisible())){
+                    Log.d(TAG, "onBackPressed: pastWl || my squads || leaderboards is visible");
                     super.onBackPressed();
                     selectFragment(homeItem);
                 }
@@ -363,8 +423,17 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
                         //handled in fragment, hiding searchview because its visible, instead of going back
                     }
                 }
+                else if(leaderboardsFragment!=null && leaderboardsFragment.isVisible()){
+                    if(leaderboardsFragment.handleBackPress()==0){
+                        super.onBackPressed();
+                        selectFragment(homeItem);
+                    }
+                    else{
+                        //do nothing, handled in fragment
+                    }
+                }
                 else{
-                    Log.d(TAG, "onBackPressed: not pastWl || mysquads");
+                    Log.d(TAG, "onBackPressed: not pastWl || mysquads || leaderboards");
                     super.onBackPressed();
                 }
             } else {

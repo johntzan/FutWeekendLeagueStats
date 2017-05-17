@@ -1,0 +1,190 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View"/>
+        <variable
+            name="handlers"
+            type="com.futchampionsstats.ui.leaderboards.UserProfileLeaderboardsFragment.UserProfileHandlers"/>
+        <variable
+            name="user"
+            type="com.futchampionsstats.models.leaderboards.User"/>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fc_panel1_bg_md"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/main_top_bar">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    android:id="@+id/back_btn"
+                    android:onClick="@{(v) -> handlers.goBack(v)}"
+                    android:layout_marginLeft="10dp" />
+
+
+            </RelativeLayout>
+
+            <com.arlib.floatingsearchview.FloatingSearchView
+                android:id="@+id/search_users_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:floatingSearch_hintTextColor="@color/davy_grey"
+                app:floatingSearch_leftActionMode="noLeftAction"
+                app:floatingSearch_showSearchKey="true"
+                app:floatingSearch_suggestionsListAnimDuration="250" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/user_profile_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_margin="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{user.username}"
+                        android:textColor="@color/black"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/user_console"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{user.console}"
+                        android:layout_below="@+id/user_name"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/user_region"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{user.region}"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:layout_below="@+id/user_console"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/rank_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:background="@drawable/border_bottom"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@id/user_region"
+                        >
+
+                        <TextView
+                            android:id="@+id/month"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Month"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:layout_weight="1.5"
+                            />
+
+                        <TextView
+                            android:id="@+id/overall_rank"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:text="Overall Rank"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/region_rank"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Region Rank"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/wins"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Wins"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/skill"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Skill"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:layout_weight="1"
+                            />
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/user_ranks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rank_header">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </RelativeLayout>
+
+
+
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

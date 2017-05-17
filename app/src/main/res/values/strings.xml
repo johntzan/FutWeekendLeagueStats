@@ -6,6 +6,8 @@
     <string name="new_game">New Game Stats</string>
     <string name="view_games">View Games</string>
     <string name="wl_finished">Start New Weekend League</string>
+    <string name="error_loading">An error occurred loading the leaderboards!</string>
+    <string name="error_retry">RETRY</string>
 
     <string-array name="formations_array">
         <item>4&#8211;1&#8211;2&#8211;1&#8211;2</item>
@@ -120,4 +122,6 @@
     <string name="confirm_edit">Confirm</string>
     <string name="view_all_games">View All Games</string>
     <string name="view_all_weekend_leagues">View All Weekend Leagues</string>
+    <string name="leaderboards">Leaderboards</string>
+    <string name="past_weekends">Past Weekends</string>
 </resources>

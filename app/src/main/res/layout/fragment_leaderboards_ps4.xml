@@ -1,0 +1,157 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View"/>
+        <variable
+            name="handlers"
+            type="com.futchampionsstats.ui.leaderboards.consoles_fragments.PS4LeaderboardsFragment.PS4LeaderboardsHandlers"/>
+
+    </data>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/top_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Top 100"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/leaderboards_selectors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_text"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/month_selector"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:ms_text_color="@color/black"
+            android:layout_marginRight="5dp"
+            android:layout_weight=".5"/>
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/region_selector"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            app:ms_text_color="@color/black"
+            android:layout_weight=".5"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/leaderboards_header"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@drawable/border_bottom"
+        android:layout_below="@id/leaderboards_selectors"
+        android:paddingLeft="5dp"
+        >
+
+        <TextView
+            android:id="@+id/rank"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Rank"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_weight=".5"
+            />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:textAlignment="viewStart"
+            android:text="User"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/wins"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Wins"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_weight=".5"
+            />
+
+        <TextView
+            android:id="@+id/skill"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Skill"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/region"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Region"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/leaderboards_header"
+        >
+
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:id="@+id/ps4_leaderboards_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_centerInParent="true"
+            android:background="@color/truetransparent"
+            app:mk_type="Worm"
+            app:mk_color="@color/colorPrimary"
+            android:visibility="visible"
+            />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ps4_leaderboards_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:scrollbars="vertical">
+
+
+    </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+
+</RelativeLayout>
+</layout>

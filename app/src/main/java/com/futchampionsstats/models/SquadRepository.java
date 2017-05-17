@@ -1,6 +1,7 @@
 package com.futchampionsstats.models;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.futchampionsstats.models.source.squads.SquadsDataSource;
 import com.futchampionsstats.models.source.squads.SquadsLocalDataSource;
@@ -21,6 +22,7 @@ public class SquadRepository implements SquadsDataSource{
 
     @Inject
     SquadRepository(@NonNull SquadsLocalDataSource squadsLocalDataSource){
+        Log.d("SquadRepository: ", "injecting Squad repository");
         mSquadsLocalDataSource = squadsLocalDataSource;
     }
 
