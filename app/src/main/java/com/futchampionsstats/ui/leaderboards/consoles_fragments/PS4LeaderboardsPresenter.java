@@ -38,7 +38,7 @@ public class PS4LeaderboardsPresenter implements PS4LeaderboardsContract.Present
             region = "row";
         }
         mPS4LeaderboardsView.showLoading();
-        mService.getTop100(month, region.toLowerCase(), "ps4", new Service.GetTop100Callback() {
+        mService.getTop100(month, region, "ps4", new Service.GetTop100Callback() {
             @Override
             public void onSuccess(Top100 top100) {
                 Log.d(TAG, "onSuccess: " + new Gson().toJson(top100));

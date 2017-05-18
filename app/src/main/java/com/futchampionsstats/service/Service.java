@@ -52,7 +52,7 @@ public class Service {
 
     public Subscription getTop100(String month, String region, String console, final GetTop100Callback callback){
 
-        return weekendLeagueService.getTop100(month, region, console)
+        return weekendLeagueService.getTop100(month.toLowerCase(), region.toLowerCase(), console)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Top100>() {

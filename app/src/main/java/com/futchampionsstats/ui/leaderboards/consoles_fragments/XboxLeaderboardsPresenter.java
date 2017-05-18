@@ -41,7 +41,7 @@ public class XboxLeaderboardsPresenter implements XboxLeaderboardsContract.Prese
             region = "row";
         }
         mXboxLeaderboardsView.showLoading();
-        mService.getTop100(month, region.toLowerCase(), "xbox", new Service.GetTop100Callback() {
+        mService.getTop100(month, region, "xbox", new Service.GetTop100Callback() {
             @Override
             public void onSuccess(Top100 top100) {
                 Log.d(TAG, "onSuccess: " + new Gson().toJson(top100));
