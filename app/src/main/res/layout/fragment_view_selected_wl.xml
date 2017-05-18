@@ -5,7 +5,7 @@
         <import type="com.futchampionsstats.models.WeekendLeague"/>
         <variable
             name="handlers"
-            type="com.futchampionsstats.ui.pastwls.ViewSelectedWLFragment.ViewSelectedWLFragmentHandlers"/>
+            type="com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLFragment.ViewSelectedWLFragmentHandlers"/>
         <variable
             name="weekendLeague"
             type="com.futchampionsstats.models.WeekendLeague"/>
@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_arrow_back_white_24dp"
                 android:id="@+id/back_btn"
-                android:onClick="@{handlers.wlFragmentClick}"
+                android:onClick="@{handlers::onBackBtnClick}"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 />
@@ -120,7 +120,7 @@
                         android:background="@color/truetransparent"
                         android:drawableRight="@drawable/ic_chevron_right_black_24dp"
                         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                        android:onClick="@{handlers.wlFragmentClick}"
+                        android:onClick="@{handlers::viewPastWLGamesBtnClick}"
                         />
 
 

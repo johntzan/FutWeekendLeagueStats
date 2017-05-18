@@ -1,4 +1,4 @@
-package com.futchampionsstats.ui.pastwls;
+package com.futchampionsstats.ui.past_wls.past_wl_view_games;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import com.futchampionsstats.R;
 import com.futchampionsstats.databinding.FragmentPastWlViewGameBinding;
 import com.futchampionsstats.models.Game;
-import com.futchampionsstats.utils.Constants;
 
-public class PastWLViewGameFragment extends Fragment {
+public class PastWLViewGameFragment extends Fragment implements PastWLViewGameContract.View{
 
 
     private OnPastWLViewGameFragmentInteractionListener mListener;
-    private Game game;
+
+    private PastWLViewGameContract.Presenter mPresenter;
+    private FragmentPastWlViewGameBinding binding;
 
     public PastWLViewGameFragment() {
         // Required empty public constructor
@@ -26,37 +27,40 @@ public class PastWLViewGameFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            game = (Game) getArguments().getSerializable(Constants.VIEW_PAST_WL_GAME);
-        }
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        FragmentPastWlViewGameBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_past_wl_view_game, container, false);
-        PastWLViewGameHandlers handlers = new PastWLViewGameHandlers();
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_past_wl_view_game, container, false);
 
-        binding.setGame(game);
+        PastWLViewGameHandlers handlers = new PastWLViewGameHandlers();
         binding.setHandlers(handlers);
 
 
         return binding.getRoot();
     }
 
-    public class PastWLViewGameHandlers{
-        public void onClick(View view) {
+    @Override
+    public void setPresenter(PastWLViewGameContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
 
-            Bundle b = new Bundle();
-            switch (view.getId()) {
-                case R.id.back_btn:
-                    b.putSerializable(Constants.BACK_BTN, Constants.BACK_BTN);
-                    break;
-            }
-            if (mListener != null) mListener.onPastWLViewGameFragmentInteraction(b);
+    @Override
+    public void showGame(Game game) {
+        binding.setGame(game);
+    }
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
+    public class PastWLViewGameHandlers{
+
+        public void onBackBtnClick(View view) {
+            if (mListener != null) mListener.onPastWLViewGameBackBtnClick();
         }
     }
 
@@ -72,12 +76,18 @@ public class PastWLViewGameFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
     public interface OnPastWLViewGameFragmentInteractionListener {
-        void onPastWLViewGameFragmentInteraction(Bundle args);
+        void onPastWLViewGameBackBtnClick();
     }
 }

@@ -5,6 +5,7 @@
     <color name="colorAccent">#fedb17</color>
 
     <color name="truetransparent">#00000000</color>
+    <color name="transparent30">#1A000000</color>
     <color name="black">#000000</color>
     <color name="true_blue1">#0064c8</color>
     <color name="azure1">#0078f0</color>
@@ -23,6 +24,7 @@
     <color name="indigo">#501478</color>
     <color name="davy_grey">#5b565656</color>
     <color name="grey">#565656</color>
+    <color name="light_grey">#d6d6d6</color>
     <color name="dark_magenta">#96148c</color>
     <color name="mordant_red_19">#b41400</color>
     <color name="silver">#bbbbbb</color>
@@ -43,5 +45,8 @@
     <color name="gray_btn_bg_pressed_color">#B6B6B6</color>
     <color name="blue_btn_bg_color">#AEDEF4</color>
     <color name="blue_btn_bg_pressed_color">#96BFD2</color>
+
+    <color name="xbox_green">#5dc21e</color>
+    <color name="ps_blue">#003791</color>
 
 </resources>

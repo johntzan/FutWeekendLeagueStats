@@ -423,6 +423,36 @@ public class Game extends BaseObservable implements Serializable{
                 !this.getUser_team_rating().equals("") && !this.getOpp_team_rating().equals("") && !this.getOpp_name().equals(""));
     }
 
+    public static String checkIfGameDataCorrect(Game game){
+        if(game.getGame_disconnected()){
+            return "Disconnect";
+        }
+        else if(game.checkIfNotNull() && game.checkIfNotEmpty()){
+            if(game.getUser_goals().equals(game.getOpp_goals())){
+                if(!game.isPenalties()){
+                    //game score is tie, but penalties not set, return error
+                    return "Game score was a tie but no penalties were filled out!";
+                }else{
+                    //game score is tie, penalties are checked
+                    if((game.getUser_pen_score()!=null && game.getOpp_pen_score()!=null) && !game.getUser_pen_score().equals(game.getOpp_pen_score())){
+                        //pen scores do not equal eachother && are not null, meaning there is a winner
+                        return "finished in pens";
+                    } else{
+                        //pens not filled in or equal
+                        return "Penalties not correctly set!";
+                    }
+                }
+            }
+            else{
+                //score indicates a winner
+                return "finished";
+            }
+
+        }else{
+            //values are not set
+            return "One or more fields were missed! Please fill out all fields to continue!";
+        }
+    }
 
     public void finished(){
         Log.d(TAG, "finished: " + this.getUser_goals() +  " opp: " + this.getOpp_goals());

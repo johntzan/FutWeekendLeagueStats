@@ -6,7 +6,10 @@
             type="com.futchampionsstats.models.WeekendLeague"/>
         <variable
             name="handlers"
-            type="com.futchampionsstats.ui.wl.ViewGamesFragment.ViewGamesHandlers"/>
+            type="com.futchampionsstats.ui.wl.view_games.ViewGamesFragment.ViewGamesHandlers"/>
+        <variable
+            name="emptyWeekendLeague"
+            type="boolean"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_arrow_back_white_24dp"
                 android:id="@+id/back_btn"
-                android:onClick="@{handlers.onClick}"
+                android:onClick="@{(v) -> handlers.goBack(v)}"
                 android:layout_marginLeft="10dp" />
 
             <TextView
@@ -54,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                android:visibility="@{weekendLeague.weekendLeague.size()==0 ? View.GONE : View.VISIBLE}"
+                android:visibility="@{emptyWeekendLeague ? View.GONE : View.VISIBLE}"
                 android:focusableInTouchMode="true"
                 android:clickable="true"
                 android:scrollbars="vertical" />
@@ -68,7 +71,7 @@
             android:paddingLeft="10dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:visibility="@{weekendLeague.weekendLeague.size()==0 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{emptyWeekendLeague ? View.VISIBLE : View.GONE}"
             android:paddingRight="10dp"
             >
 

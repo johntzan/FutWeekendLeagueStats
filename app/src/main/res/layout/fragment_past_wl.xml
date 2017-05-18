@@ -3,7 +3,7 @@
     <data>
         <import type="android.view.View"/>
         <import type="com.futchampionsstats.models.AllWeekendLeagues"/>
-        <variable name="handlers" type="com.futchampionsstats.ui.pastwls.PastWLFragment.PastWLFragmentHandlers"/>
+        <variable name="handlers" type="com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLFragment.PastWLFragmentHandlers"/>
         <variable name="allWeekendLeagues" type="com.futchampionsstats.models.AllWeekendLeagues"/>
 
     </data>
@@ -46,7 +46,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:background="@color/truetransparent"
-                android:onClick="@{handlers.pastWLFragmentClick}"
+                android:onClick="@{handlers::deleteAllWLsClick}"
                 android:src="@drawable/ic_delete_white_24dp"
                 android:visibility="@{AllWeekendLeagues.showWLsDeleteBtn(allWeekendLeagues) ? View.VISIBLE : View.GONE}"
                 android:layout_marginRight="10dp"
@@ -75,7 +75,7 @@
                 android:background="@color/truetransparent"
                 android:padding="15dp"
                 android:clickable="true"
-                android:onClick="@{handlers.pastWLFragmentClick}">
+                android:onClick="@{handlers::goToPastWeekendLeagues}">
 
                 <TextView
                     android:id="@+id/total_wls_no"

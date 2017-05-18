@@ -1,62 +1,53 @@
 package com.futchampionsstats.ui;
 
-import android.app.AlertDialog;
-import android.content.SharedPreferences;
+import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.Window;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
+import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
-import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.Game;
-import com.futchampionsstats.models.Squad;
 import com.futchampionsstats.models.WeekendLeague;
+import com.futchampionsstats.models.leaderboards.User;
+import com.futchampionsstats.ui.leaderboards.LeaderboardsFragment;
+import com.futchampionsstats.ui.leaderboards.LeaderboardsPresenter;
+import com.futchampionsstats.ui.leaderboards.UserProfileLeaderboardsFragment;
 import com.futchampionsstats.ui.mysquads.MySquadsFragment;
-import com.futchampionsstats.ui.pastwls.PastWLFragment;
-import com.futchampionsstats.ui.pastwls.PastWLViewGameFragment;
-import com.futchampionsstats.ui.pastwls.ViewPastWLGamesFragment;
-import com.futchampionsstats.ui.pastwls.ViewPastWLsFragment;
-import com.futchampionsstats.ui.pastwls.ViewSelectedWLFragment;
-import com.futchampionsstats.ui.wl.EditGameFragment;
-import com.futchampionsstats.ui.wl.NewGameFragment;
-import com.futchampionsstats.ui.wl.ViewGamesFragment;
-import com.futchampionsstats.ui.wl.WLFragment;
-import com.futchampionsstats.utils.Constants;
-import com.futchampionsstats.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.futchampionsstats.ui.mysquads.MySquadsPresenter;
+import com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLDetailPresenter;
+import com.futchampionsstats.ui.past_wls.past_wl_detail.PastWLFragment;
+import com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGameFragment;
+import com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGamePresenter;
+import com.futchampionsstats.ui.past_wls.view_past_wls.ViewPastWLsFragment;
+import com.futchampionsstats.ui.past_wls.view_past_wls.ViewPastWLsPresenter;
+import com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesFragment;
+import com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesPresenter;
+import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLFragment;
+import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLPresenter;
+import com.futchampionsstats.ui.wl.WeekendLeagueDetailFragment;
+import com.futchampionsstats.ui.wl.WeekendLeagueDetailPresenter;
+import com.futchampionsstats.ui.wl.edit_game.EditGameFragment;
+import com.futchampionsstats.ui.wl.edit_game.EditGamePresenter;
+import com.futchampionsstats.ui.wl.new_game.NewGameFragment;
+import com.futchampionsstats.ui.wl.new_game.NewGamePresenter;
+import com.futchampionsstats.ui.wl.view_games.ViewGamesFragment;
+import com.futchampionsstats.ui.wl.view_games.ViewGamesPresenter;
 
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
-public class MainActivity extends AppCompatActivity implements WLFragment.OnNewWLFragmentInteractionListener, NewGameFragment.OnNewGameFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements WeekendLeagueDetailFragment.OnNewWLFragmentInteractionListener, NewGameFragment.OnNewGameFragmentInteractionListener,
         ViewGamesFragment.OnViewGamesFragmentInteractionListener, EditGameFragment.OnEditGameFragmentInteractionListener,
         PastWLFragment.OnPastWLFragmentInteractionListener, MySquadsFragment.OnMySquadsFragmentInteractionListener,
         ViewPastWLsFragment.OnViewPastWLsFragmentInteractionListener, ViewPastWLGamesFragment.OnViewPastWLGamesFragmentInteractionListener,
-        PastWLViewGameFragment.OnPastWLViewGameFragmentInteractionListener, ViewSelectedWLFragment.OnViewSelectedWLFragmentInteractionListener
+        PastWLViewGameFragment.OnPastWLViewGameFragmentInteractionListener, ViewSelectedWLFragment.OnViewSelectedWLFragmentInteractionListener,
+        LeaderboardsFragment.OnLeaderboardsInteractionListener, UserProfileLeaderboardsFragment.OnUserProfileLeaderboardsInteractionListener
 {
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -66,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
     private BottomNavigationView mBottomNav;
     private int mSelectedItem;
 
-    private WLFragment wlFragment;
+    private WeekendLeagueDetailFragment weekendLeagueDetailFragment;
     private NewGameFragment newGameFragment;
     private ViewGamesFragment viewGamesFragment;
     private EditGameFragment editGameFragment;
@@ -76,8 +67,9 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
     private ViewPastWLGamesFragment viewPastWLGamesFragment;
     private PastWLViewGameFragment pastWLViewGameFragment;
     private ViewSelectedWLFragment viewSelectedWLFragment;
+    private LeaderboardsFragment leaderboardsFragment;
 
-    private WeekendLeague weekendLeague;
+    Dialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,24 +87,6 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
 
         MenuItem selectedItem;
 
-        weekendLeague = new WeekendLeague();
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(Constants.CURRENT_WL, null);
-        Type type = new TypeToken<WeekendLeague>() {}.getType();
-        WeekendLeague wl = gson.fromJson(json, type);
-
-        if(wl!=null && wl.getWeekendLeague()!=null){
-            Log.d(TAG, "onCreate: " + new Gson().toJson(wl.getWeekendLeague()));
-            weekendLeague = wl;
-        }
-        if(weekendLeague.getWeekendLeague()==null){
-            ArrayList<Game> games = new ArrayList<>();
-            weekendLeague.setWeekendLeague(games);
-
-            Log.d(TAG, "onCreate: weekendleague null");
-        }
-
         if (savedInstanceState != null) {
             Log.d(TAG, "onCreate: savedInstanceState!=null");
             mSelectedItem = savedInstanceState.getInt(SELECTED_ITEM, 1);
@@ -122,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
             selectedItem = mBottomNav.getMenu().getItem(1);
             selectedItem.setChecked(true);
 
-            wlFragment = new WLFragment();
+            weekendLeagueDetailFragment = new WeekendLeagueDetailFragment();
             newGameFragment = new NewGameFragment();
             viewGamesFragment = new ViewGamesFragment();
             editGameFragment = new EditGameFragment();
@@ -132,7 +106,12 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
             viewPastWLGamesFragment = new ViewPastWLGamesFragment();
             pastWLViewGameFragment = new PastWLViewGameFragment();
             viewSelectedWLFragment = new ViewSelectedWLFragment();
+            leaderboardsFragment = new LeaderboardsFragment();
+
+
         }
+
+        new WeekendLeagueDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), weekendLeagueDetailFragment);
 
         selectFragment(selectedItem);
 
@@ -147,35 +126,47 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
             case R.id.menu_past_wl:
                 if(pastWLFragment!=null){
                     frag = pastWLFragment;
-                    tag = "past_weekend_league_frag";
                 }
                 else{
                     pastWLFragment = new PastWLFragment();
                     frag = pastWLFragment;
-                    tag = "past_weekend_league_frag";
                 }
+                tag = "past_weekend_league_frag";
+                new PastWLDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository() , pastWLFragment);
                 break;
             case R.id.menu_current_wl:
-                if(wlFragment!=null){
-                    frag = wlFragment;
-                    tag = "weekend_league_frag";
+                if(weekendLeagueDetailFragment !=null){
+                    frag = weekendLeagueDetailFragment;
                 }
                 else{
-                    wlFragment = new WLFragment();
-                    frag = wlFragment;
-                    tag = "weekend_league_frag";
+                    weekendLeagueDetailFragment = new WeekendLeagueDetailFragment();
+                    frag = weekendLeagueDetailFragment;
                 }
+                tag = "weekend_league_frag";
                 break;
             case R.id.menu_my_squads:
+
                 if(mySquadsFragment!=null){
                     frag = mySquadsFragment;
-                    tag = "my_squads_frag";
                 }
                 else{
                     mySquadsFragment = new MySquadsFragment();
                     frag = mySquadsFragment;
-                    tag = "my_squads_frag";
                 }
+                tag = "my_squads_frag";
+                new MySquadsPresenter(((FutChampsApplication) getApplicationContext()).getSquadRepositoryComponent().getSquadRepository(), mySquadsFragment);
+                break;
+            case R.id.menu_leaderboards:
+
+                if(leaderboardsFragment!=null){
+                    frag = leaderboardsFragment;
+                }
+                else{
+                    leaderboardsFragment = new LeaderboardsFragment();
+                    frag = leaderboardsFragment;
+                }
+                tag = "leaderboards_frag";
+                new LeaderboardsPresenter(((FutChampsApplication) getApplicationContext()).getServiceComponent().getService(), leaderboardsFragment);
                 break;
         }
 
@@ -217,648 +208,183 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
         }
     }
 
+    /**
+     *  **************************** Weekend League Fragment interactions ****************************
+     */
+
     @Override
-    public void onNewWLFragmentInteraction(Bundle args) {
-        if (args != null) {
-            if(args.containsKey(Constants.NEW_GAME)){
-                newGameFragment = new NewGameFragment();
-                displayFragment(newGameFragment, "new_game_frag");
-            }
-            if(args.containsKey(Constants.VIEW_GAMES)){
+    public void onWLNewGameInteraction() {
+        newGameFragment = new NewGameFragment();
+        new NewGamePresenter(((FutChampsApplication) getApplicationContext()).getSquadRepositoryComponent().getSquadRepository(),
+                ((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(),
+                newGameFragment);
 
-                WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_GAMES);
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_GAMES, weekendLeague);
-                viewGamesFragment = new ViewGamesFragment();
-                viewGamesFragment.setArguments(b);
-                displayFragment(viewGamesFragment, "view_games_frag");
-
-            }
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.SAVE_WL_TO_DATA_FROM_CREATE)){
-                final WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.SAVE_WL_TO_DATA_FROM_CREATE);
-                Log.d(TAG, "onNewWLFragmentInteraction save wl: " + new Gson().toJson(weekendLeague));
-
-                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("Weekend League finished?");
-                pDialog.setContentText("No more games left this weekend, would you like to save and start a new Weekend League?");
-                pDialog.setConfirmText("Yes");
-                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: yes");
-                        if(wlFragment!=null && weekendLeague!=null){
-
-                            sweetAlertDialog
-                                    .setTitleText("Saved!")
-                                    .setContentText("Your Weekend League has been saved!")
-                                    .setConfirmText("OK")
-                                    .setConfirmClickListener(null)
-                                    .showCancelButton(false)
-                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-
-                            String date = new SimpleDateFormat("MM-dd-yyyy", Locale.US).format(new Date());
-                            Log.d(TAG, "onClick: Current time => " + date);
-
-                            weekendLeague.setDateOfWL(date);
-                            saveWeekendLeague(weekendLeague);
-                            wlFragment.clearWeekendLeague(weekendLeague);
-                        }
-                        else{
-                            Log.d(TAG, "onNewWLFragmentInteraction save wl: nulls");
-                        }
-
-                    }
-                });
-                pDialog.setCancelText("No");
-                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: no");
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                pDialog.setCancelable(true);
-                pDialog.setCanceledOnTouchOutside(true);
-                pDialog.show();
-            }
-            if(args.containsKey(Constants.SAVE_WL_TO_DATA)){
-                final WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.SAVE_WL_TO_DATA);
-                Log.d(TAG, "onNewWLFragmentInteraction save wl: " + new Gson().toJson(weekendLeague));
-
-                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("Save this Weekend League?");
-                pDialog.setContentText("Are you sure you would like to save this Weekend League? Doing so will clear out current Weekend League.");
-                pDialog.setConfirmText("Yes");
-                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: yes");
-                        if(wlFragment!=null && weekendLeague!=null){
-                            String date = new SimpleDateFormat("MM-dd-yyyy", Locale.US).format(new Date());
-                            Log.d(TAG, "onClick: Current time => " + date);
-
-                            sweetAlertDialog
-                                    .setTitleText("Saved!")
-                                    .setContentText("Your Weekend League has been saved!")
-                                    .setConfirmText("OK")
-                                    .setConfirmClickListener(null)
-                                    .showCancelButton(false)
-                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-
-                            weekendLeague.setDateOfWL(date);
-                            saveWeekendLeague(weekendLeague);
-                            wlFragment.clearWeekendLeague(weekendLeague);
-                        }
-                        else{
-                            Log.d(TAG, "onNewWLFragmentInteraction save wl: nulls");
-                        }
-                    }
-                });
-                pDialog.setCancelText("No");
-                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: no");
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                pDialog.setCancelable(true);
-                pDialog.setCanceledOnTouchOutside(true);
-                pDialog.show();
-
-
-            }
-            if(args.containsKey(Constants.NEW_WL)){
-                final WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.NEW_WL);
-                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("Clear this Weekend League?");
-                pDialog.setContentText("Are you sure you would like to delete this Weekend League data? Doing so will create a new Weekend League.");
-                pDialog.setConfirmText("Yes");
-                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: yes");
-                        if(wlFragment!=null && weekendLeague!=null){
-                            sweetAlertDialog
-                                    .setTitleText("Cleared!")
-                                    .setContentText("Weekend League data has been cleared!")
-                                    .setConfirmText("OK")
-                                    .setConfirmClickListener(null)
-                                    .showCancelButton(false)
-                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                            wlFragment.clearWeekendLeague(weekendLeague);
-                        }
-                        else{
-                            Log.d(TAG, "onNewWLFragmentInteraction new wl: nulls");
-                        }
-                    }
-                });
-                pDialog.setCancelText("No");
-                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: no");
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                pDialog.setCancelable(true);
-                pDialog.setCanceledOnTouchOutside(true);
-                pDialog.show();
-
-            }
-
-        }
-        else{
-            Log.d(TAG, "onNewWLFragmentInteraction: args null");
-        }
+        displayFragment(newGameFragment, "new_game_frag");
     }
 
     @Override
-    public void onNewGameFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.NEW_GAME)){
-                Game new_game = (Game) args.getSerializable(Constants.NEW_GAME);
-                if(wlFragment!=null){
-                    wlFragment.setNewGame(new_game);
+    public void onWLViewGamesInteraction() {
+        viewGamesFragment = new ViewGamesFragment();
+        new ViewGamesPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), viewGamesFragment);
 
+        displayFragment(viewGamesFragment, "view_games_frag");
+    }
 
-                    onBackPressed();
-                }
-            }
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
+    /**
+     *  **************************** NewGameFragment Interactions ****************************
+     */
 
-            if(args.containsKey(Constants.NEW_SQUAD)){
-
-                // TODO: 2/10/17 Refactor - Separate to be used in multple fragments as method
-
-                final AlertDialog add_new_squad_dialog;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                // Get the layout inflater
-                LayoutInflater inflater = this.getLayoutInflater();
-
-                View new_squad_dialog = inflater.inflate(R.layout.add_new_squad_dialog, null);
-
-                // Inflate and set the layout for the dialog
-                // Pass null as the parent view because its going in the dialog layout
-                builder.setCancelable(true);
-                builder.setView(new_squad_dialog);
-                builder.create();
-                add_new_squad_dialog = builder.show();
-
-                final MaterialEditText squad_name = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_name_edit);
-                final MaterialEditText squad_team_rating = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_team_rating_edit);
-                Button add_squad_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_add);
-                Button cancel_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_cancel);
-
-                final MaterialSpinner squadFormationSpinner = (MaterialSpinner) new_squad_dialog.findViewById(R.id.squad_formation_edit);
-                String[] myResArray = getResources().getStringArray(R.array.formations_array);
-                final List<String> formations = Arrays.asList(myResArray);
-
-                squadFormationSpinner.setItems(formations);
-                squadFormationSpinner.setSelectedIndex(0);
-
-                add_squad_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Squad new_squad = new Squad();
-                        if(squad_name.getText().toString().length()<1){
-                            squad_name.setError("Please fill out this field!");
-                        }
-                        else if(squad_team_rating.getText().toString().length()<1){
-                            squad_team_rating.setError("Please fill out this field!");
-                        }
-                        else{
-                            new_squad.setName(squad_name.getText().toString());
-                            new_squad.setTeam_rating(squad_team_rating.getText().toString());
-                            new_squad.setFormation(formations.get(squadFormationSpinner.getSelectedIndex()));
-
-                            if(newGameFragment!=null){
-                                newGameFragment.saveSquad(new_squad);
-                            }
-
-                            Log.d(TAG, "onClick new Squad: " + new Gson().toJson(new_squad));
-                            add_new_squad_dialog.dismiss();
-                        }
-
-                    }
-                });
-
-                cancel_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        add_new_squad_dialog.dismiss();
-                    }
-                });
-
-
-
-            }
-
-        }
+    @Override
+    public void onNewGameBackPressed() {
+        onBackPressed();
     }
 
     @Override
-    public void OnViewGamesFragmentInteractionListenerInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.VIEW_GAME)){
-                Game game = (Game) args.getSerializable(Constants.VIEW_GAME);
-                int pos = args.getInt(Constants.VIEW_GAME_POS, -1);
-                editGameFragment = new EditGameFragment();
-                    if(pos!=-1){
-                        Bundle b = new Bundle();
-                        b.putInt(Constants.VIEW_GAME_POS, pos);
-                        b.putSerializable(Constants.VIEW_GAME, game);
-                        editGameFragment.setArguments(b);
-                        displayFragment(editGameFragment, "edit_game_frag");
-                    }
+    public void onNewGameSaved() {
+        onBackPressed();
+    }
 
-            }
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-        }
+    /**
+     * **************************** ViewGamesFragment Interactions ****************************
+     */
+
+    @Override
+    public void showEditGame(Game game, int position) {
+
+        editGameFragment = new EditGameFragment();
+        new EditGamePresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), game, editGameFragment, position);
+
+        displayFragment(editGameFragment, "edit_game_frag");
     }
 
     @Override
-    public void onEditGameFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-                Utils.hideSoftInput(this);
-            }
-            if(args.containsKey(Constants.SAVE_GAME)){
-                Utils.hideSoftInput(this);
-
-                Game game = (Game) args.getSerializable(Constants.SAVE_GAME);
-                int pos = args.getInt(Constants.SAVE_GAME_POS, -1);
-
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-                Gson gson = new Gson();
-                String json = sharedPrefs.getString(Constants.CURRENT_WL, null);
-                Type type = new TypeToken<WeekendLeague>() {}.getType();
-                WeekendLeague wl = gson.fromJson(json, type);
-
-                if(wl!=null){
-                    Log.d(TAG, "onResume savegame: " + new Gson().toJson(wl.getWeekendLeague().size()));
-                    weekendLeague = wl;
-                }
-                Log.d(TAG, "onEditGameFragmentInteraction: " + pos + " size:" + weekendLeague.getWeekendLeague().size());
-                if(game!=null && pos !=-1){
-                    try{
-                        if(pos != weekendLeague.getWeekendLeague().size()){
-                            weekendLeague.getWeekendLeague().set(pos, game);
-                        }
-                    }
-                    catch (IndexOutOfBoundsException e){
-                        Log.d(TAG, "onEditGameFragmentInteraction: " + e);
-                    }
-
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
-                    String json2 = gson.toJson(weekendLeague);
-
-                    editor.putString(Constants.CURRENT_WL, json2);
-                    editor.apply();
-
-                }
-                else{
-                    Toast.makeText(this, "An Error occurred saving your changes. Please try again.", Toast.LENGTH_SHORT).show();
-                }
-
-                onBackPressed();
-            }
-        }
+    public void onViewGamesBackPressed() {
+        onBackPressed();
     }
 
-    private void saveWeekendLeague(WeekendLeague wl){
-        if(wl.getWeekendLeague()!=null) {
+    /**
+     * **************************** EditGamesFragment Interactions ****************************
+     */
 
-            Answers.getInstance().logCustom(new CustomEvent("Save Weekend League"));
-
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            Gson gson = new Gson();
-            String json = sharedPrefs.getString(Constants.ALL_WLS, null);
-            Type type = new TypeToken<AllWeekendLeagues>() {}.getType();
-            AllWeekendLeagues all_wls = gson.fromJson(json, type);
-
-            if(all_wls!=null && all_wls.getAllWeekendLeagues()!=null){
-                ArrayList<WeekendLeague> curr_wls = all_wls.getAllWeekendLeagues();
-                curr_wls.add(wl);
-
-                all_wls.setAllWeekendLeagues(curr_wls);
-            }
-            else{
-                all_wls = new AllWeekendLeagues();
-                ArrayList<WeekendLeague> wls = new ArrayList<>();
-                wls.add(wl);
-
-                all_wls.setAllWeekendLeagues(wls);
-            }
-
-
-            SharedPreferences.Editor editor = sharedPrefs.edit();
-            String json2 = gson.toJson(all_wls);
-            Log.d(TAG, "saveWeekendLeague: " + json2);
-
-            editor.putString(Constants.ALL_WLS, json2);
-            editor.apply();
-
-        }
+    @Override
+    public void onEditGameSaved() {
+        onBackPressed();
     }
 
     @Override
-    public void onPastWLFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.DELETE_WLS)){
-                final AllWeekendLeagues allWeekendLeagues= (AllWeekendLeagues) args.getSerializable(Constants.DELETE_WLS);
-                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("Delete Past Weekend Leagues?");
-                pDialog.setContentText("Are you sure you would like to delete all your past Weekend League Data?");
-                pDialog.setConfirmText("Yes");
-                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: yes");
-                        if(pastWLFragment!=null && allWeekendLeagues!=null){
-                            sweetAlertDialog
-                                    .setTitleText("Deleted!")
-                                    .setContentText("All previous Weekend League data has been deleted!")
-                                    .setConfirmText("OK")
-                                    .setConfirmClickListener(null)
-                                    .showCancelButton(false)
-                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                            pastWLFragment.clearAllWeekendLeague(allWeekendLeagues);
-                        }
-                        else{
-                            Log.d(TAG, "onNewWLFragmentInteraction new wl: nulls");
-                        }
-                    }
-                });
-                pDialog.setCancelText("No");
-                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        Log.d(TAG, "onClick: no");
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                pDialog.setCancelable(true);
-                pDialog.setCanceledOnTouchOutside(true);
-                pDialog.show();
-            }
+    public void onEditGameBackPressed() {
+        onBackPressed();
+    }
 
-            if(args.containsKey(Constants.VIEW_PAST_WLS)){
 
-                    viewPastWLsFragment = new ViewPastWLsFragment();
-                    displayFragment(viewPastWLsFragment, "view_past_wls");
+    /**
+     *  **************************** Past WL Detail Interactions ****************************
+     */
 
-            }
-        }
+    @Override
+    public void goToPastWeekendLeaguesList(){
+        viewPastWLsFragment = new ViewPastWLsFragment();
+        new ViewPastWLsPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), viewPastWLsFragment);
+        displayFragment(viewPastWLsFragment, "view_past_wls");
+    }
+
+    /**
+     *  **************************** View Past WLs List Interactions ****************************
+     */
+
+    @Override
+    public void onViewPastWLGame(Game game) {
+        pastWLViewGameFragment = new PastWLViewGameFragment();
+        new PastWLViewGamePresenter(game, pastWLViewGameFragment);
+        displayFragment(pastWLViewGameFragment, "view_past_wl_game");
     }
 
     @Override
-    public void onMySquadsFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.NEW_SQUAD)){
-
-                final AlertDialog add_new_squad_dialog;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                // Get the layout inflater
-                LayoutInflater inflater = this.getLayoutInflater();
-
-                View new_squad_dialog = inflater.inflate(R.layout.add_new_squad_dialog, null);
-
-                // Inflate and set the layout for the dialog
-                // Pass null as the parent view because its going in the dialog layout
-                builder.setCancelable(true);
-                builder.setView(new_squad_dialog);
-                builder.create();
-                add_new_squad_dialog = builder.show();
-
-                final MaterialEditText squad_name = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_name_edit);
-                final MaterialEditText squad_team_rating = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_team_rating_edit);
-                Button add_squad_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_add);
-                Button cancel_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_cancel);
-
-                final MaterialSpinner squadFormationSpinner = (MaterialSpinner) new_squad_dialog.findViewById(R.id.squad_formation_edit);
-                String[] myResArray = getResources().getStringArray(R.array.formations_array);
-                final List<String> formations = Arrays.asList(myResArray);
-
-                squadFormationSpinner.setItems(formations);
-                squadFormationSpinner.setSelectedIndex(0);
-
-                add_squad_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Squad new_squad = new Squad();
-                        if(squad_name.getText().toString().length()<1){
-                            squad_name.setError("Please fill out this field!");
-                        }
-                        else if(squad_team_rating.getText().toString().length()<1){
-                            squad_team_rating.setError("Please fill out this field!");
-                        }
-                        else{
-                            new_squad.setName(squad_name.getText().toString());
-                            new_squad.setTeam_rating(squad_team_rating.getText().toString());
-                            new_squad.setFormation(formations.get(squadFormationSpinner.getSelectedIndex()));
-
-                            if(mySquadsFragment!=null){
-                                mySquadsFragment.saveSquad(new_squad);
-                            }
-
-                            Log.d(TAG, "onClick new Squad: " + new Gson().toJson(new_squad));
-                            add_new_squad_dialog.dismiss();
-                        }
-
-                    }
-                });
-
-                cancel_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        add_new_squad_dialog.dismiss();
-                    }
-                });
-
-
-
-            }
-            if(args.containsKey(Constants.EDIT_SQUAD)){
-
-                Squad edit_squad = (Squad) args.getSerializable(Constants.EDIT_SQUAD);
-                final int squad_index = args.getInt(Constants.EDIT_SQUAD_INDEX);
-
-                if(edit_squad!=null){
-
-                    final AlertDialog add_new_squad_dialog;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    // Get the layout inflater
-                    LayoutInflater inflater = this.getLayoutInflater();
-
-                    View new_squad_dialog = inflater.inflate(R.layout.add_new_squad_dialog, null);
-
-                    // Inflate and set the layout for the dialog
-                    // Pass null as the parent view because its going in the dialog layout
-                    builder.setCancelable(true);
-                    builder.setView(new_squad_dialog);
-                    builder.create();
-                    add_new_squad_dialog = builder.show();
-
-                    TextView dialog_title = (TextView) new_squad_dialog.findViewById(R.id.add_new_squad_title);
-                    dialog_title.setText("Edit Squad");
-
-                    final MaterialEditText squad_name = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_name_edit);
-                    final MaterialEditText squad_team_rating = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_team_rating_edit);
-                    Button add_squad_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_add);
-                    add_squad_btn.setText("Confirm");
-                    Button cancel_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_cancel);
-
-                    final MaterialSpinner squadFormationSpinner = (MaterialSpinner) new_squad_dialog.findViewById(R.id.squad_formation_edit);
-                    String[] myResArray = getResources().getStringArray(R.array.formations_array);
-                    final List<String> formations = Arrays.asList(myResArray);
-
-                    squadFormationSpinner.setItems(formations);
-
-                    int edit_formation_index = 0;
-
-                    for (int i = 0; i < formations.size(); i++) {
-                        if(formations.get(i).equals(edit_squad.getFormation())){
-                            edit_formation_index = i;
-                        }
-                    }
-
-                    squad_name.setText(edit_squad.getName());
-                    squad_team_rating.setText(edit_squad.getTeam_rating());
-                    squadFormationSpinner.setSelectedIndex(edit_formation_index);
-
-                    add_squad_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Squad new_squad = new Squad();
-                            if(squad_name.getText().toString().length()<1){
-                                squad_name.setError("Please fill out this field!");
-                            }
-                            else if(squad_team_rating.getText().toString().length()<1){
-                                squad_team_rating.setError("Please fill out this field!");
-                            }
-                            else{
-                                new_squad.setName(squad_name.getText().toString());
-                                new_squad.setTeam_rating(squad_team_rating.getText().toString());
-                                new_squad.setFormation(formations.get(squadFormationSpinner.getSelectedIndex()));
-
-                                if(mySquadsFragment!=null){
-                                    mySquadsFragment.saveEditSquad(new_squad, squad_index);
-                                    Log.d(TAG, "onClick edit Squad: " + new Gson().toJson(new_squad));
-                                    add_new_squad_dialog.dismiss();
-                                }
-
-
-                            }
-
-                        }
-                    });
-
-                    cancel_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            add_new_squad_dialog.dismiss();
-                        }
-                    });
-
-
-
-                }
-            }
-        }
+    public void onViewWeekendLeagueDetail(WeekendLeague weekendLeague) {
+        viewSelectedWLFragment = new ViewSelectedWLFragment();
+        new ViewSelectedWLPresenter(weekendLeague, viewSelectedWLFragment);
+        displayFragment(viewSelectedWLFragment, "view_selected_past_wl");
     }
 
     @Override
-    public void onViewPastWLsFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.VIEW_WL)){
-                WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_WL);
+    public void onViewPastWLsBackBtnClick() {
+        onBackPressed();
+    }
 
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_SELECTED_PAST_WL, weekendLeague);
-                viewSelectedWLFragment = new ViewSelectedWLFragment();
-                viewSelectedWLFragment.setArguments(b);
-                displayFragment(viewSelectedWLFragment, "view_selected_past_wl");
+    /**
+     *  **************************** View Past WLs Games List Interactions ****************************
+     */
 
-            }
-            if(args.containsKey(Constants.VIEW_PAST_WL_GAME)){
-                Game game = (Game) args.getSerializable(Constants.VIEW_PAST_WL_GAME);
 
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_PAST_WL_GAME, game);
-                pastWLViewGameFragment = new PastWLViewGameFragment();
-                pastWLViewGameFragment.setArguments(b);
-                displayFragment(pastWLViewGameFragment, "view_past_wl_game");
-            }
-
-        }
+    @Override
+    public void onViewPastWLGamesBackBtnClick() {
+        onBackPressed();
     }
 
     @Override
-    public void onViewPastWLGamesFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.VIEW_PAST_WL_GAME)){
-                Game game = (Game) args.getSerializable(Constants.VIEW_PAST_WL_GAME);
+    public void onViewPastWLGamesGoToGame(Game game) {
+        pastWLViewGameFragment = new PastWLViewGameFragment();
+        new PastWLViewGamePresenter(game, pastWLViewGameFragment);
+        displayFragment(pastWLViewGameFragment, "view_past_wl_game");
+    }
 
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_PAST_WL_GAME, game);
-                pastWLViewGameFragment = new PastWLViewGameFragment();
-                pastWLViewGameFragment.setArguments(b);
-                displayFragment(pastWLViewGameFragment, "view_past_wl_game");
+    /**
+     *  **************************** Past WLs View Games Interactions ****************************
+     */
 
-            }
-        }
+    @Override
+    public void onPastWLViewGameBackBtnClick() {
+        onBackPressed();
+    }
+
+    /**
+     *  **************************** View Selected WL Interactions ****************************
+     */
+
+    @Override
+    public void onViewSelectedWLViewGames(WeekendLeague weekendLeague) {
+        viewPastWLGamesFragment = new ViewPastWLGamesFragment();
+        new ViewPastWLGamesPresenter(weekendLeague, viewPastWLGamesFragment);
+        displayFragment(viewPastWLGamesFragment, "view_past_wl_games");
     }
 
     @Override
-    public void onPastWLViewGameFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-        }
+    public void onViewSelectedWLBackBtnClick() {
+        onBackPressed();
     }
 
+
     @Override
-    public void onViewSelectedWLFragmentInteraction(Bundle args) {
-        if(args!=null){
-            if(args.containsKey(Constants.BACK_BTN)){
-                onBackPressed();
-            }
-            if(args.containsKey(Constants.VIEW_PAST_WL_GAMES)){
-                WeekendLeague weekendLeague = (WeekendLeague) args.getSerializable(Constants.VIEW_PAST_WL_GAMES);
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_PAST_WL_GAMES, weekendLeague);
-                viewPastWLGamesFragment = new ViewPastWLGamesFragment();
-                viewPastWLGamesFragment.setArguments(b);
-                displayFragment(viewPastWLGamesFragment, "view_past_wl_games");
-            }
-        }
+    public void showLoadingIndicator() {
+        alertDialog = new Dialog(this);
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alertDialog.setContentView(R.layout.loading_dialog);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
     }
+
+    /**
+     *  Leaderboard interactions
+     * */
+
+
+
+    @Override
+    public void goToUserProfileLeaderboards(User user) {
+        UserProfileLeaderboardsFragment userProfileLeaderboardsFragment = new UserProfileLeaderboardsFragment();
+        Bundle b = new Bundle();
+        b.putSerializable("user", user);
+        userProfileLeaderboardsFragment.setArguments(b);
+
+        if(alertDialog!=null) alertDialog.dismiss();
+
+        displayFragment(userProfileLeaderboardsFragment, "user_profile_leaderboards_frag");
+    }
+
+    /**
+     *  **************************** Interactions End ****************************
+     */
+
 
     @Override
     protected void onResume() {
@@ -874,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
     @Override
     public void onBackPressed() {
 
-        if(wlFragment!=null && wlFragment.isVisible()){
+        if(weekendLeagueDetailFragment !=null && weekendLeagueDetailFragment.isVisible()){
             //do nothing
         }
         else{
@@ -884,8 +410,8 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
                 // select home item
 
                 if((pastWLFragment!=null && pastWLFragment.isVisible()) ||
-                        mySquadsFragment!=null && mySquadsFragment.isVisible()){
-                    Log.d(TAG, "onBackPressed: pastWl || my squads is visible");
+                        (mySquadsFragment!=null && mySquadsFragment.isVisible())){
+                    Log.d(TAG, "onBackPressed: pastWl || my squads || leaderboards is visible");
                     super.onBackPressed();
                     selectFragment(homeItem);
                 }
@@ -897,8 +423,17 @@ public class MainActivity extends AppCompatActivity implements WLFragment.OnNewW
                         //handled in fragment, hiding searchview because its visible, instead of going back
                     }
                 }
+                else if(leaderboardsFragment!=null && leaderboardsFragment.isVisible()){
+                    if(leaderboardsFragment.handleBackPress()==0){
+                        super.onBackPressed();
+                        selectFragment(homeItem);
+                    }
+                    else{
+                        //do nothing, handled in fragment
+                    }
+                }
                 else{
-                    Log.d(TAG, "onBackPressed: not pastWl || mysquads");
+                    Log.d(TAG, "onBackPressed: not pastWl || mysquads || leaderboards");
                     super.onBackPressed();
                 }
             } else {

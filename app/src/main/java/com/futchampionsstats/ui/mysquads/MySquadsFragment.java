@@ -1,11 +1,10 @@
 package com.futchampionsstats.ui.mysquads;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,32 +13,35 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.SquadListAdapter;
 import com.futchampionsstats.databinding.FragmentMySquadsBinding;
 import com.futchampionsstats.models.Squad;
-import com.futchampionsstats.utils.Constants;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
-public class MySquadsFragment extends Fragment {
+public class MySquadsFragment extends Fragment implements MySquadsContract.View{
 
     public static final String TAG = MySquadsFragment.class.getSimpleName();
 
     private OnMySquadsFragmentInteractionListener mListener;
-    private ArrayList<Squad> mySquads;
     private SquadListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private RecyclerView squadsList;
 
-    private FragmentMySquadsBinding binding;
+    private FragmentMySquadsBinding mMySquadsBinding;
+    private MySquadsContract.Presenter mPresenter;
 
     public MySquadsFragment() {
         // Required empty public constructor
@@ -57,24 +59,22 @@ public class MySquadsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
 
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_squads, container, false);
+        mMySquadsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_squads, container, false);
         MySquadsHandlers handlers = new MySquadsHandlers();
-        binding.setHandlers(handlers);
+        mMySquadsBinding.setHandlers(handlers);
 
-        squadsList = (RecyclerView) binding.getRoot().findViewById(R.id.squads_list);
+        squadsList = (RecyclerView) mMySquadsBinding.getRoot().findViewById(R.id.squads_list);
 
-        return binding.getRoot();
+        return mMySquadsBinding.getRoot();
     }
 
-    private void setupAdapter(){
+    private void setupAdapter(final ArrayList<Squad> squads){
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         squadsList.setLayoutManager(mLayoutManager);
@@ -85,154 +85,221 @@ public class MySquadsFragment extends Fragment {
             @Override
             public void onEditClick(View view, int position) {
                 Log.d(TAG, "onEdit: " + position);
-                Bundle b = new Bundle();
-                b.putInt(Constants.EDIT_SQUAD_INDEX, position);
-                b.putSerializable(Constants.EDIT_SQUAD, mySquads.get(position));
-                if(mListener!=null) mListener.onMySquadsFragmentInteraction(b);
+                mPresenter.setSquadForEdit(position);
             }
 
             @Override
             public void onDeleteClick(View view, int position) {
                 Log.d(TAG, "onDelete: " + position);
-                deleteSquad(position);
+                mPresenter.deleteSquad(position);
             }
         };
 
-        mAdapter = new SquadListAdapter(getActivity(), mySquads, itemTouchListener);
+        mAdapter = new SquadListAdapter(getActivity(), squads, itemTouchListener);
         squadsList.setAdapter(mAdapter);
     }
 
     public class MySquadsHandlers{
 
-        public void onClick(View view){
-
-            Bundle b = new Bundle();
-            switch(view.getId()) {
-                case R.id.back_btn:
-                    b.putString(Constants.BACK_BTN, Constants.BACK_BTN);
-                    break;
-                case R.id.new_squad_btn:
-                    Log.d(TAG, "onClick: new squad");
-                    b.putString(Constants.NEW_SQUAD, Constants.NEW_SQUAD);
-                    break;
-                case R.id.squads_info_btn:
-                    SweetAlertDialog pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.NORMAL_TYPE);
-                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                    pDialog.setTitleText("My Squads Info");
-                    pDialog.setContentText("Create new squads, Edit by clicking on the squad and Delete by swiping on the squad and pressing delete.");
-                    pDialog.setConfirmText("Close");
-                    pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
-                        }
-                    });
-                    pDialog.setCancelable(true);
-                    pDialog.setCanceledOnTouchOutside(true);
-                    pDialog.show();
-                    break;
-            }
-            if(mListener!=null) mListener.onMySquadsFragmentInteraction(b);
+        public void infoBtnClick(View v){
+            showMySquadsInfoDialog();
         }
+        public void newSquadBtnClick(View v){
+            showAddNewSquadDialog(v);
+        }
+
+    }
+
+    @Override
+    public void setPresenter(MySquadsContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void setSquads(ArrayList<Squad> squads) {
+        mMySquadsBinding.setEmptySquads(false);
+        setupAdapter(squads);
+    }
+
+    @Override
+    public void showEmptySquads() {
+        mMySquadsBinding.setEmptySquads(true);
+    }
+
+    @Override
+    public void showEditSquad(Squad edit_squad, final int squad_index) {
+
+        if (edit_squad != null) {
+
+            final AlertDialog add_new_squad_dialog;
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            // Get the layout inflater
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+
+            View new_squad_dialog = inflater.inflate(R.layout.add_new_squad_dialog, null);
+
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            builder.setCancelable(true);
+            builder.setView(new_squad_dialog);
+            builder.create();
+            add_new_squad_dialog = builder.show();
+
+            TextView dialog_title = (TextView) new_squad_dialog.findViewById(R.id.add_new_squad_title);
+            dialog_title.setText(getActivity().getString(R.string.edit_squad));
+
+            final MaterialEditText squad_name = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_name_edit);
+            final MaterialEditText squad_team_rating = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_team_rating_edit);
+            Button add_squad_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_add);
+            add_squad_btn.setText(getActivity().getString(R.string.confirm_edit));
+            Button cancel_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_cancel);
+
+            final MaterialSpinner squadFormationSpinner = (MaterialSpinner) new_squad_dialog.findViewById(R.id.squad_formation_edit);
+            String[] myResArray = getResources().getStringArray(R.array.formations_array);
+            final List<String> formations = Arrays.asList(myResArray);
+
+            squadFormationSpinner.setItems(formations);
+
+            int edit_formation_index = 0;
+
+            for (int i = 0; i < formations.size(); i++) {
+                if (formations.get(i).equals(edit_squad.getFormation())) {
+                    edit_formation_index = i;
+                }
+            }
+
+            squad_name.setText(edit_squad.getName());
+            squad_team_rating.setText(edit_squad.getTeam_rating());
+            squadFormationSpinner.setSelectedIndex(edit_formation_index);
+
+            add_squad_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Squad new_squad = new Squad();
+                    if (squad_name.getText().toString().length() < 1) {
+                        squad_name.setError("Please fill out this field!");
+                    } else if (squad_team_rating.getText().toString().length() < 1) {
+                        squad_team_rating.setError("Please fill out this field!");
+                    } else {
+                        new_squad.setName(squad_name.getText().toString());
+                        new_squad.setTeam_rating(squad_team_rating.getText().toString());
+                        new_squad.setFormation(formations.get(squadFormationSpinner.getSelectedIndex()));
+
+                        mPresenter.editSquad(new_squad, squad_index);
+                        add_new_squad_dialog.dismiss();
+                    }
+
+                }
+            });
+
+            cancel_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    add_new_squad_dialog.dismiss();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void showMySquadsInfoDialog() {
+
+        SweetAlertDialog pDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("My Squads Info");
+        pDialog.setContentText("Create new squads, Edit by clicking on the squad and Delete by swiping on the squad and pressing delete.");
+        pDialog.setConfirmText("Close");
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                sweetAlertDialog.dismissWithAnimation();
+            }
+        });
+        pDialog.setCancelable(true);
+        pDialog.setCanceledOnTouchOutside(true);
+        pDialog.show();
+
+    }
+
+    @Override
+    public void showAddNewSquadDialog(View view) {
+
+        final AlertDialog add_new_squad_dialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        // Get the layout inflater
+        LayoutInflater inflater = LayoutInflater.from(view.getContext());
+
+        View new_squad_dialog = inflater.inflate(R.layout.add_new_squad_dialog, null);
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setCancelable(true);
+        builder.setView(new_squad_dialog);
+        builder.create();
+        add_new_squad_dialog = builder.show();
+
+        final MaterialEditText squad_name = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_name_edit);
+        final MaterialEditText squad_team_rating = (MaterialEditText) new_squad_dialog.findViewById(R.id.squad_team_rating_edit);
+        Button add_squad_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_add);
+        Button cancel_btn = (Button) new_squad_dialog.findViewById(R.id.new_squad_dialog_cancel);
+
+        final MaterialSpinner squadFormationSpinner = (MaterialSpinner) new_squad_dialog.findViewById(R.id.squad_formation_edit);
+        String[] myResArray = getResources().getStringArray(R.array.formations_array);
+        final List<String> formations = Arrays.asList(myResArray);
+
+        squadFormationSpinner.setItems(formations);
+        squadFormationSpinner.setSelectedIndex(0);
+
+        add_squad_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Squad new_squad = new Squad();
+                if(squad_name.getText().toString().length()<1){
+                    squad_name.setError("Please fill out this field!");
+                }
+                else if(squad_team_rating.getText().toString().length()<1){
+                    squad_team_rating.setError("Please fill out this field!");
+                }
+                else{
+                    new_squad.setName(squad_name.getText().toString());
+                    new_squad.setTeam_rating(squad_team_rating.getText().toString());
+                    new_squad.setFormation(formations.get(squadFormationSpinner.getSelectedIndex()));
+
+                    mPresenter.addNewSquad(new_squad);
+
+                    Log.d(TAG, "onClick new Squad: " + new Gson().toJson(new_squad));
+                    add_new_squad_dialog.dismiss();
+                }
+
+            }
+        });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                add_new_squad_dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //set presenter to binding -- not needed for now
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(Constants.SAVED_SQUADS, null);
-        Type type = new TypeToken<ArrayList<Squad>>() {}.getType();
-        ArrayList<Squad> squads = gson.fromJson(json, type);
-
-        if(squads!=null){
-            Log.d(TAG, "onResume viewSquads: " + new Gson().toJson(squads));
-            mySquads = squads;
-            binding.setSquads(mySquads);
-
-            setupAdapter();
-        }
-        else{
-            mySquads = new ArrayList<Squad>();
-            setupAdapter();
-        }
-
-    }
-
-    public void saveSquad(Squad squad){
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(Constants.SAVED_SQUADS, null);
-        Type type = new TypeToken<ArrayList<Squad>>() {}.getType();
-        ArrayList<Squad> saved_squads = gson.fromJson(json, type);
-
-        if(saved_squads!=null){
-            saved_squads.add(squad);
-        }
-        else{
-            saved_squads = new ArrayList<>();
-            saved_squads.add(squad);
-        }
-        mySquads = saved_squads;
-        binding.setSquads(mySquads);
-        mAdapter.updateList(mySquads);
-
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        String json2 = gson.toJson(saved_squads);
-        Log.d(TAG, "saveSquad: " + saved_squads);
-
-        editor.putString(Constants.SAVED_SQUADS, json2);
-        editor.apply();
-    }
-
-    public void saveEditSquad(Squad squad, int squad_index){
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(Constants.SAVED_SQUADS, null);
-        Type type = new TypeToken<ArrayList<Squad>>() {}.getType();
-        ArrayList<Squad> saved_squads = gson.fromJson(json, type);
-
-        if(saved_squads!=null){
-            saved_squads.set(squad_index, squad);
-        }
-
-        mySquads = saved_squads;
-        binding.setSquads(mySquads);
-        mAdapter.updateList(mySquads);
-
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        String json2 = gson.toJson(saved_squads);
-        Log.d(TAG, "editSquad: " + saved_squads);
-
-        editor.putString(Constants.SAVED_SQUADS, json2);
-        editor.apply();
-    }
-
-    public void deleteSquad(int squad_index){
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Gson gson = new Gson();
-        String json = sharedPrefs.getString(Constants.SAVED_SQUADS, null);
-        Type type = new TypeToken<ArrayList<Squad>>() {}.getType();
-        ArrayList<Squad> saved_squads = gson.fromJson(json, type);
-
-        if(saved_squads!=null){
-            saved_squads.remove(squad_index);
-        }
-
-        mySquads = saved_squads;
-        binding.setSquads(mySquads);
-        mAdapter.removeFromList(squad_index);
-
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        String json2 = gson.toJson(saved_squads);
-        Log.d(TAG, "editSquad: " + saved_squads);
-
-        editor.putString(Constants.SAVED_SQUADS, json2);
-        editor.apply();
+        mPresenter.start();
     }
 
     @Override
@@ -253,11 +320,11 @@ public class MySquadsFragment extends Fragment {
     }
 
     public interface OnItemTouchListener {
-        public void onEditClick(View view, int position);
-        public void onDeleteClick(View view, int position);
+         void onEditClick(View view, int position);
+         void onDeleteClick(View view, int position);
     }
 
     public interface OnMySquadsFragmentInteractionListener {
-        void onMySquadsFragmentInteraction(Bundle args);
+
     }
 }

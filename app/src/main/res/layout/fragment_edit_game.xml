@@ -3,8 +3,11 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
-        <variable name="handlers" type="com.futchampionsstats.ui.wl.EditGameFragment.EditGameHandlers"/>
+        <variable name="handlers" type="com.futchampionsstats.ui.wl.edit_game.EditGameFragment.EditGameHandlers"/>
         <variable name="game" type="com.futchampionsstats.models.Game"/>
+        <variable
+            name="presenter"
+            type="com.futchampionsstats.ui.wl.edit_game.EditGameContract.Presenter"/>
 
     </data>
 
@@ -35,7 +38,7 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_arrow_back_white_24dp"
                 android:id="@+id/back_btn"
-                android:onClick="@{handlers.onClick}"
+                android:onClick="@{(v) -> handlers.goBack(v)}"
                 android:layout_marginLeft="10dp" />
 
             <TextView
@@ -146,7 +149,6 @@
                         app:ms_text_color="@color/grey"
                         app:ms_arrow_tint="@color/grey"
                         app:ms_dropdown_height="350dp"
-                        EditOppFormationWatcher="@{game}"
                         android:layout_weight="1.00"
                         android:layout_marginRight="10dp"/>
 
@@ -774,10 +776,10 @@
                 android:hint="@string/rage_quit_hint"/>
 
             <CheckBox
+                android:id="@+id/edit_game_disconnect_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@={game.game_disconnected}"
-                GameDisconnectWatcher="@{game}"
                 android:text="@string/disconnected_from_ea_servers"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -823,7 +825,8 @@
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
-            android:onClick="@{handlers.onClick}"/>
+            android:onClick="@{(v) -> presenter.saveGame(v)}"
+            />
 
     </RelativeLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.futchampionsstats.ui.pastwls;
+package com.futchampionsstats.ui.past_wls.view_past_wls.games;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.GamesListAdapter;
 import com.futchampionsstats.databinding.FragmentViewPastWlGamesBinding;
+import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
-import com.futchampionsstats.utils.Constants;
 
-public class ViewPastWLGamesFragment extends Fragment {
+public class ViewPastWLGamesFragment extends Fragment implements ViewPastWLGamesContract.View{
 
 
     private OnViewPastWLGamesFragmentInteractionListener mListener;
@@ -26,17 +26,18 @@ public class ViewPastWLGamesFragment extends Fragment {
 
     FragmentViewPastWlGamesBinding binding;
 
-    private WeekendLeague weekendLeague;
     private GamesListAdapter mAdapter;
     private GamesListAdapter.RecyclerItemClickListener listener;
     private LinearLayoutManager mLayoutManager;
     private RecyclerView gamesList;
 
+    private ViewPastWLGamesContract.Presenter mPresenter;
+
     public ViewPastWLGamesFragment() {
         // Required empty public constructor
     }
 
-    public static ViewPastWLGamesFragment newInstance(String param1, String param2) {
+    public static ViewPastWLGamesFragment newInstance() {
         ViewPastWLGamesFragment fragment = new ViewPastWLGamesFragment();
         Bundle args = new Bundle();
 
@@ -47,9 +48,7 @@ public class ViewPastWLGamesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            weekendLeague = (WeekendLeague) getArguments().getSerializable(Constants.VIEW_PAST_WL_GAMES);
-        }
+
     }
 
     @Override
@@ -61,13 +60,32 @@ public class ViewPastWLGamesFragment extends Fragment {
         binding.setHandlers(handlers);
 
         gamesList = (RecyclerView) binding.getRoot().findViewById(R.id.wl_games_list);
-        binding.setWeekendLeague(weekendLeague);
-        setupAdapter();
 
         return binding.getRoot();
     }
 
-    private void setupAdapter(){
+    @Override
+    public void setPresenter(ViewPastWLGamesContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showWeekendLeague(WeekendLeague weekendLeague) {
+        binding.setWeekendLeague(weekendLeague);
+        setupAdapter(weekendLeague);
+    }
+
+    @Override
+    public void showWeekendLeagueGame(Game game) {
+        if(mListener!=null) mListener.onViewPastWLGamesGoToGame(game);
+    }
+
+    @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
+    private void setupAdapter(WeekendLeague weekendLeague){
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         gamesList.setLayoutManager(mLayoutManager);
@@ -80,15 +98,8 @@ public class ViewPastWLGamesFragment extends Fragment {
 
     public class ViewPastWLsGamesHandlers{
 
-        public void onClick(View view){
-
-            Bundle b = new Bundle();
-            switch(view.getId()) {
-                case R.id.back_btn:
-                    b.putString(Constants.BACK_BTN, Constants.BACK_BTN);
-                    break;
-            }
-            if(mListener!=null) mListener.onViewPastWLGamesFragmentInteraction(b);
+        public void onBackBtnClick(View view){
+            if(mListener!=null) mListener.onViewPastWLGamesBackBtnClick();
         }
     }
 
@@ -98,14 +109,18 @@ public class ViewPastWLGamesFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Log.d(TAG, "recyclerview onItemClick: " + position);
-                Bundle b = new Bundle();
-                b.putSerializable(Constants.VIEW_PAST_WL_GAME, weekendLeague.getWeekendLeague().get(position));
-                if(mListener!=null) mListener.onViewPastWLGamesFragmentInteraction(b);
+                mPresenter.getWeekendLeagueGameSelected(position);
             }
         };
 
         listener = new GamesListAdapter.RecyclerItemClickListener(getActivity(), itemClickListener);
         gamesList.addOnItemTouchListener(listener);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
     }
 
     @Override
@@ -127,6 +142,7 @@ public class ViewPastWLGamesFragment extends Fragment {
 
 
     public interface OnViewPastWLGamesFragmentInteractionListener {
-        void onViewPastWLGamesFragmentInteraction(Bundle args);
+        void onViewPastWLGamesBackBtnClick();
+        void onViewPastWLGamesGoToGame(Game game);
     }
 }

@@ -6,6 +6,8 @@
     <string name="new_game">New Game Stats</string>
     <string name="view_games">View Games</string>
     <string name="wl_finished">Start New Weekend League</string>
+    <string name="error_loading">An error occurred loading the leaderboards!</string>
+    <string name="error_retry">RETRY</string>
 
     <string-array name="formations_array">
         <item>4&#8211;1&#8211;2&#8211;1&#8211;2</item>
@@ -115,4 +117,11 @@
     <string name="opponent_info">Opponent Info</string>
     <string name="no_past_wls_string">No Past Weekend Leagues have been saved!</string>
     <string name="close">Close</string>
+    <string name="no_squads_added_yet_txt">No Squads have been added yet.  Use the create new squads button below to get started.</string>
+    <string name="edit_squad">Edit Squad</string>
+    <string name="confirm_edit">Confirm</string>
+    <string name="view_all_games">View All Games</string>
+    <string name="view_all_weekend_leagues">View All Weekend Leagues</string>
+    <string name="leaderboards">Leaderboards</string>
+    <string name="past_weekends">Past Weekends</string>
 </resources>

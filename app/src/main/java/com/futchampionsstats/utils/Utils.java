@@ -3,6 +3,7 @@ package com.futchampionsstats.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.IBinder;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.util.List;
@@ -19,6 +20,12 @@ public class Utils {
     public static void hideKeyboard(Context ctx, IBinder windowToken) {
         InputMethodManager mgr = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(windowToken, 0);
+    }
+
+    public static void openSoftInput(Context ctx, View view)
+    {
+        InputMethodManager inputManager = (InputMethodManager) ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
     /*

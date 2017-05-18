@@ -6,7 +6,7 @@
             type="com.futchampionsstats.models.WeekendLeague"/>
         <variable
             name="handlers"
-            type="com.futchampionsstats.ui.pastwls.ViewPastWLGamesFragment.ViewPastWLsGamesHandlers"/>
+            type="com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesFragment.ViewPastWLsGamesHandlers"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_back_white_24dp"
                     android:id="@+id/back_btn"
-                    android:onClick="@{handlers.onClick}"
+                    android:onClick="@{handlers::onBackBtnClick}"
                     android:layout_marginLeft="10dp" />
 
                 <TextView

@@ -1,7 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.view.View"/>
-        <variable name="handlers" type="com.futchampionsstats.ui.pastwls.PastWLViewGameFragment.PastWLViewGameHandlers"/>
+        <variable name="handlers" type="com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGameFragment.PastWLViewGameHandlers"/>
         <variable name="game" type="com.futchampionsstats.models.Game"/>
 
     </data>
@@ -33,7 +33,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_arrow_back_white_24dp"
                     android:id="@+id/back_btn"
-                    android:onClick="@{handlers.onClick}"
+                    android:onClick="@{handlers::onBackBtnClick}"
                     android:layout_marginLeft="10dp" />
 
                 <TextView
@@ -641,11 +641,11 @@
                         android:hint="@string/rage_quit_hint"/>
 
                     <CheckBox
+                        android:id="@+id/past_wl_game_disconnected"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="@={game.game_disconnected}"
                         android:enabled="false"
-                        GameDisconnectWatcher="@{game}"
                         android:text="@string/disconnected_from_ea_servers"/>
 
                     <TextView
