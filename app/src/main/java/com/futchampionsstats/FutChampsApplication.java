@@ -1,6 +1,7 @@
 package com.futchampionsstats;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -25,6 +26,8 @@ public class FutChampsApplication extends Application{
     private SquadRepositoryComponent mSquadRepositoryComponent;
     private ServiceComponent mServiceComponent;
 
+    private ConnectionDetector cd;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,6 +49,17 @@ public class FutChampsApplication extends Application{
                 .applicationModule(new ApplicationModule(getApplicationContext()))
                 .build();
 
+        cd = new ConnectionDetector(this);
+    }
+
+    public static FutChampsApplication getInstance(Context context) {
+        return (FutChampsApplication)context.getApplicationContext();
+    }
+
+
+    public boolean isInternetAvailable() {
+        // get Internet status
+        return cd.isConnectingToInternet();
     }
 
     public WeekendLeagueRepositoryComponent getWeekendLeagueRepository(){

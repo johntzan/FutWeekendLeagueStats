@@ -62,6 +62,8 @@ public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         if (data.get(position).getClass() == Game.class) {
             Game item = data.get(position);
+
+            holder.game_no.setText("#" + String.valueOf(position+1));
             if(item.getGame_disconnected()!=null && item.getGame_disconnected()){
                 holder.game_score.setText("D/C");
             }
@@ -76,11 +78,11 @@ public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.View
 
             if(item.getUser_won()!=null){
                 if(item.getUser_won()){
-                    holder.win_or_lose.setText("WIN");
+                    holder.win_or_lose.setText(R.string.win_txt);
                     holder.win_or_lose.setTextColor(holder.ctx.getResources().getColor(R.color.dark_cyan));
                 }
                 else{
-                    holder.win_or_lose.setText("LOSS");
+                    holder.win_or_lose.setText(R.string.loss_txt);
                     holder.win_or_lose.setTextColor(holder.ctx.getResources().getColor(R.color.scarlet));
                 }
             }
@@ -166,6 +168,7 @@ public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.View
         TextView game_score;
         TextView opponents_name;
         TextView win_or_lose;
+        TextView game_no;
         Context ctx;
 
         public ViewHolder(View v) {
@@ -174,6 +177,8 @@ public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.View
             game_score = (TextView) v.findViewById(R.id.game_score);
             opponents_name = (TextView) v.findViewById(R.id.opp_txt);
             win_or_lose = (TextView) v.findViewById(R.id.win_or_lose_txt);
+            game_no = (TextView) v.findViewById(R.id.game_no);
+
             ctx = v.getContext();
 
         }

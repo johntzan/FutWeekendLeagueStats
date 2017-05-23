@@ -57,8 +57,8 @@ android {
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
-            versionCode 10
-            versionName '1.4'
+            versionCode 11
+            versionName '1.5'
             resValue "string", "app_name", "FUT Weekend League Stats & Leaderboards"
         }
         staging {
@@ -68,7 +68,7 @@ android {
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
             versionCode 1
-            versionName '1.4'
+            versionName '1.5'
             resValue "string", "app_name", "FUT Weekend League Stats & Leaderboards"
         }
     }

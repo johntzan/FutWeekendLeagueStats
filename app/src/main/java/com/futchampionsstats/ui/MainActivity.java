@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
     private int mSelectedItem;
 
     private WeekendLeagueDetailFragment weekendLeagueDetailFragment;
+    private WeekendLeagueDetailPresenter mWeekendLeagueDetailPresenter;
     private NewGameFragment newGameFragment;
     private ViewGamesFragment viewGamesFragment;
     private EditGameFragment editGameFragment;
@@ -111,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
 
         }
 
-        new WeekendLeagueDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), weekendLeagueDetailFragment);
+        if(weekendLeagueDetailFragment!=null){
+            mWeekendLeagueDetailPresenter = new WeekendLeagueDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), weekendLeagueDetailFragment);
+        }
 
         selectFragment(selectedItem);
 
@@ -389,6 +392,9 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
     @Override
     protected void onResume() {
         super.onResume();
+        if(mWeekendLeagueDetailPresenter==null && weekendLeagueDetailFragment!=null){
+            mWeekendLeagueDetailPresenter = new WeekendLeagueDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), weekendLeagueDetailFragment);
+        }
     }
 
     @Override

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.UserProfileRankAdapter;
 import com.futchampionsstats.databinding.FragmentUserProfileLeaderboardsBinding;
@@ -66,6 +68,8 @@ public class UserProfileLeaderboardsFragment extends Fragment {
             console.setTextColor(getResources().getColor(R.color.ps_blue));
         }
         setupAdapter(user);
+
+        Answers.getInstance().logCustom(new CustomEvent("Searching for a user on leaderboards"));
 
         return view;
     }

@@ -1,10 +1,14 @@
 package com.futchampionsstats.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.IBinder;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.futchampionsstats.R;
 
 import java.util.List;
 
@@ -58,5 +62,21 @@ public class Utils {
             return sum;
         }
         return sum;
+    }
+
+    public static void showNoConnectionDialog(Context context){
+        if (context != null) {
+            new AlertDialog.Builder(context)
+                    .setTitle(context.getResources().getString(R.string.connection_error_title))
+                    .setMessage(context.getResources().getString(R.string.connection_error_message))
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+
+                    })
+                    .show();
+        }
     }
 }

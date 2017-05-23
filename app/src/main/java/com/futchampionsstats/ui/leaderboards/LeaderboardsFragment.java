@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.databinding.FragmentLeaderboardsBinding;
@@ -29,6 +31,7 @@ import com.futchampionsstats.ui.leaderboards.consoles_fragments.PS4LeaderboardsF
 import com.futchampionsstats.ui.leaderboards.consoles_fragments.PS4LeaderboardsPresenter;
 import com.futchampionsstats.ui.leaderboards.consoles_fragments.XboxLeaderboardsPresenter;
 import com.futchampionsstats.ui.leaderboards.consoles_fragments.XboxOneLeaderboardsFragment;
+import com.futchampionsstats.utils.Utils;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -83,7 +86,8 @@ public class LeaderboardsFragment extends Fragment implements LeaderboardsContra
 
         setupSearchView();
 
-        Log.d(TAG, "onCreateView: ");
+        Answers.getInstance().logCustom(new CustomEvent("Viewing Leaderboards"));
+        isConnectedToInternet();
 
         return view;
     }
@@ -307,6 +311,12 @@ public class LeaderboardsFragment extends Fragment implements LeaderboardsContra
             return 0;
         }
 
+    }
+
+    private void isConnectedToInternet(){
+        if (getContext()!=null && !FutChampsApplication.getInstance(getContext()).isInternetAvailable()){
+            Utils.showNoConnectionDialog(getContext());
+        }
     }
 
 

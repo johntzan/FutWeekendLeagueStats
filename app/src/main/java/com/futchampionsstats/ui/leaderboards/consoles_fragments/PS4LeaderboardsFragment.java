@@ -3,7 +3,6 @@ package com.futchampionsstats.ui.leaderboards.consoles_fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.LeaderboardsAdapter;
@@ -121,18 +121,8 @@ public class PS4LeaderboardsFragment extends Fragment implements PS4Leaderboards
 
     @Override
     public void showError() {
-        Snackbar.make(mBinding.getRoot(), R.string.error_loading, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.error_retry, retryClickListener)
-                .show(); // Don’t forget to show!
+        if(getContext()!=null) Toast.makeText(getContext(), R.string.error_loading_leaderboards, Toast.LENGTH_SHORT).show();
     }
-
-    View.OnClickListener retryClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // Do something here
-            mPresenter.start();
-        }
-    };
 
     @Override
     public boolean isActive() {

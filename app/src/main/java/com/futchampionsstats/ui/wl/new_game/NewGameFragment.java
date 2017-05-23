@@ -47,21 +47,10 @@ public class NewGameFragment extends Fragment implements NewGameContract.View {
 
     private NewGameContract.Presenter mPresenter;
 
-    public NewGameFragment() {
-        // Required empty public constructor
-    }
-
-
-    public static NewGameFragment newInstance(String param1, String param2) {
-        NewGameFragment fragment = new NewGameFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
 
         }
@@ -72,10 +61,12 @@ public class NewGameFragment extends Fragment implements NewGameContract.View {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_game, container, false);
+        mPresenter.start();
         NewGameHandlers handlers = new NewGameHandlers();
         binding.setHandlers(handlers);
 
         setupGameDisconnectCheckbox();
+
 
         return binding.getRoot();
     }
@@ -318,13 +309,12 @@ public class NewGameFragment extends Fragment implements NewGameContract.View {
         super.onActivityCreated(savedInstanceState);
 
         binding.setPresenter(mPresenter);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        mPresenter.start();
 
         View content = getActivity().findViewById(R.id.activity_main);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);

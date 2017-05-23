@@ -3,7 +3,6 @@ package com.futchampionsstats.ui.leaderboards.consoles_fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -119,18 +118,8 @@ public class XboxOneLeaderboardsFragment extends Fragment implements XboxLeaderb
 
     @Override
     public void showError() {
-        Snackbar.make(mBinding.getRoot(), R.string.error_loading, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.error_retry, retryClickListener)
-                .show(); // Don’t forget to show!
-    }
 
-    View.OnClickListener retryClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // Do something here
-            mPresenter.start();
-        }
-    };
+    }
 
     @Override
     public void setMonths(String[] months) {
