@@ -3,6 +3,7 @@ package com.futchampionsstats.ui.leaderboards.consoles_fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,8 @@ import com.futchampionsstats.models.leaderboards.Top100;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.Arrays;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class XboxOneLeaderboardsFragment extends Fragment implements XboxLeaderboardsContract.View{
 
@@ -41,7 +44,7 @@ public class XboxOneLeaderboardsFragment extends Fragment implements XboxLeaderb
         View view = inflater.inflate(R.layout.fragment_leaderboards_xboxone, container, false);
         mBinding = DataBindingUtil.bind(view);
 
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
 
         mBinding.setHandlers(new XboxLeaderboardsHandlers());
         xboxLeaderboardsView = mBinding.xboxLeaderboardsView;
@@ -90,8 +93,8 @@ public class XboxOneLeaderboardsFragment extends Fragment implements XboxLeaderb
     }
 
     @Override
-    public void setPresenter(XboxLeaderboardsContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull XboxLeaderboardsContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override

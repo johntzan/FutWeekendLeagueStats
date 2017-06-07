@@ -1,10 +1,13 @@
 package com.futchampionsstats.ui.leaderboards.consoles_fragments;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.futchampionsstats.models.leaderboards.Top100;
 import com.futchampionsstats.service.Service;
 import com.google.gson.Gson;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by yiannitzan on 5/12/17.
@@ -20,11 +23,11 @@ public class XboxLeaderboardsPresenter implements XboxLeaderboardsContract.Prese
     private Top100 mTop100;
     private String[] mMonths;
 
-    public XboxLeaderboardsPresenter(Service service, XboxLeaderboardsContract.View view) {
-        this.mService = service;
-        this.mXboxLeaderboardsView = view;
+    public XboxLeaderboardsPresenter(@NonNull Service service, @NonNull XboxLeaderboardsContract.View view) {
+        mService = checkNotNull(service);
+        mXboxLeaderboardsView = checkNotNull(view);
 
-        this.mXboxLeaderboardsView.setPresenter(this);
+        mXboxLeaderboardsView.setPresenter(this);
 
     }
 
@@ -40,14 +43,14 @@ public class XboxLeaderboardsPresenter implements XboxLeaderboardsContract.Prese
         if(region.equals("Rest of World")){
             region = "row";
         }
-        mXboxLeaderboardsView.showLoading();
+        if(mXboxLeaderboardsView.isActive()) mXboxLeaderboardsView.showLoading();
         mService.getTop100(month, region, "xbox", new Service.GetTop100Callback() {
             @Override
             public void onSuccess(Top100 top100) {
                 Log.d(TAG, "onSuccess: " + new Gson().toJson(top100));
-                mXboxLeaderboardsView.hideLoading();
+                if(mXboxLeaderboardsView.isActive()) mXboxLeaderboardsView.hideLoading();
                 mTop100 = top100;
-                mXboxLeaderboardsView.setXboxLeaderboards(top100);
+                if(mXboxLeaderboardsView.isActive()) mXboxLeaderboardsView.setXboxLeaderboards(top100);
             }
 
             @Override
@@ -63,7 +66,7 @@ public class XboxLeaderboardsPresenter implements XboxLeaderboardsContract.Prese
             @Override
             public void onSuccess(String[] months) {
                 mMonths = months;
-                mXboxLeaderboardsView.setMonths(months);
+                if(mXboxLeaderboardsView.isActive()) mXboxLeaderboardsView.setMonths(months);
             }
 
             @Override

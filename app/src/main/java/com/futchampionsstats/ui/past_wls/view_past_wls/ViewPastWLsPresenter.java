@@ -11,6 +11,8 @@ import com.futchampionsstats.models.source.WeekendLeagueDataSource;
 
 import java.util.ArrayList;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 4/18/17.
  */
@@ -23,9 +25,9 @@ public class ViewPastWLsPresenter implements ViewPastWLsContract.Presenter {
     private AllWeekendLeagues mAllWeekendLeagues;
     private ArrayList<Game> mAllGames;
 
-    public ViewPastWLsPresenter(WeekendLeagueRepository weekendLeagueRepository, @NonNull  ViewPastWLsContract.View view) {
-        mViewPastWLsView = view;
-        mWeekendLeagueRepository = weekendLeagueRepository;
+    public ViewPastWLsPresenter(@NonNull WeekendLeagueRepository weekendLeagueRepository, @NonNull  ViewPastWLsContract.View view) {
+        mViewPastWLsView = checkNotNull(view);
+        mWeekendLeagueRepository = checkNotNull(weekendLeagueRepository);
 
         mAllWeekendLeagues = new AllWeekendLeagues();
         mAllGames = new ArrayList<>();
@@ -81,7 +83,7 @@ public class ViewPastWLsPresenter implements ViewPastWLsContract.Presenter {
             }
             if(temp.size()>mAllGames.size()){
                 mAllGames = temp;
-                mViewPastWLsView.showAllGamesView(mAllGames);
+                if(mViewPastWLsView.isActive()) mViewPastWLsView.showAllGamesView(mAllGames);
             }
         }
     }
@@ -89,14 +91,14 @@ public class ViewPastWLsPresenter implements ViewPastWLsContract.Presenter {
     @Override
     public void getWeekendLeagueForDetail(int position) {
         if(mAllWeekendLeagues.getAllWeekendLeagues().size()>0){
-            mViewPastWLsView.showWeekendLeagueDetail(mAllWeekendLeagues.getAllWeekendLeagues().get(position), position);
+            if(mViewPastWLsView.isActive()) mViewPastWLsView.showWeekendLeagueDetail(mAllWeekendLeagues.getAllWeekendLeagues().get(position), position);
         }
     }
 
     @Override
     public void getGameForDetail(int position) {
         if(mAllGames!=null && mAllGames.size()>0){
-            mViewPastWLsView.showGameDetail(mAllGames.get(position), position);
+            if(mViewPastWLsView.isActive()) mViewPastWLsView.showGameDetail(mAllGames.get(position), position);
         }
     }
 

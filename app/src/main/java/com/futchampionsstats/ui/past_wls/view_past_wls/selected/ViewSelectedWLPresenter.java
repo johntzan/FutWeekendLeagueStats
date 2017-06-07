@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.futchampionsstats.models.WeekendLeague;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 4/19/17.
  */
@@ -13,9 +15,9 @@ public class ViewSelectedWLPresenter implements ViewSelectedWLContract.Presenter
     private WeekendLeague mWeekendLeague;
     private ViewSelectedWLContract.View mViewSelectedWLView;
 
-    public ViewSelectedWLPresenter(@NonNull WeekendLeague weekendLeague, ViewSelectedWLContract.View view) {
-        mViewSelectedWLView = view;
-        mWeekendLeague = weekendLeague;
+    public ViewSelectedWLPresenter(@NonNull WeekendLeague weekendLeague, @NonNull ViewSelectedWLContract.View view) {
+        mViewSelectedWLView = checkNotNull(view);
+        mWeekendLeague = checkNotNull(weekendLeague);
 
         mViewSelectedWLView.setPresenter(this);
     }

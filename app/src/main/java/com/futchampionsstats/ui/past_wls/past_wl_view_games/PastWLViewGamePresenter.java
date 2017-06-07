@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.futchampionsstats.models.Game;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 4/19/17.
  */
@@ -15,8 +17,8 @@ public class PastWLViewGamePresenter implements PastWLViewGameContract.Presenter
     private PastWLViewGameContract.View mPastWLViewGameView;
 
     public PastWLViewGamePresenter(@NonNull Game game, @NonNull PastWLViewGameContract.View view) {
-        mPastWLViewGameView = view;
-        mGame = game;
+        mPastWLViewGameView = checkNotNull(view);
+        mGame = checkNotNull(game);
 
         mPastWLViewGameView.setPresenter(this);
     }
@@ -28,8 +30,6 @@ public class PastWLViewGamePresenter implements PastWLViewGameContract.Presenter
 
     @Override
     public void getGame() {
-        if(mPastWLViewGameView.isActive()) {
-            mPastWLViewGameView.showGame(mGame);
-        }
+        if(mPastWLViewGameView.isActive()) mPastWLViewGameView.showGame(mGame);
     }
 }

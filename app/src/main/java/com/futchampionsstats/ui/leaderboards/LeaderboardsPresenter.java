@@ -12,6 +12,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 5/4/17.
  */
@@ -25,8 +27,8 @@ public class LeaderboardsPresenter implements LeaderboardsContract.Presenter{
     private SearchResults[] mSearchResults;
 
     public LeaderboardsPresenter(@NonNull Service service, @NonNull LeaderboardsContract.View view) {
-        mService = service;
-        mLeaderboardsView = view;
+        mService = checkNotNull(service);
+        mLeaderboardsView = checkNotNull(view);
 
         mLeaderboardsView.setPresenter(this);
     }
@@ -48,7 +50,7 @@ public class LeaderboardsPresenter implements LeaderboardsContract.Presenter{
                     Log.d(TAG, "showSearchSuggestions: " + result.getUsername());
                     suggestions.add(new SearchSuggestions(result.getUsername(), result.getConsole()));
                 }
-                mLeaderboardsView.showSearchSuggestions(suggestions);
+                if(mLeaderboardsView.isActive()) mLeaderboardsView.showSearchSuggestions(suggestions);
             }
 
             @Override
@@ -76,7 +78,7 @@ public class LeaderboardsPresenter implements LeaderboardsContract.Presenter{
                 @Override
                 public void onSuccess(User userResponse) {
                     Log.d(TAG, "onSuccess: " + new Gson().toJson(userResponse));
-                    mLeaderboardsView.showUserProfile(userResponse);
+                    if(mLeaderboardsView.isActive()) mLeaderboardsView.showUserProfile(userResponse);
                 }
 
                 @Override

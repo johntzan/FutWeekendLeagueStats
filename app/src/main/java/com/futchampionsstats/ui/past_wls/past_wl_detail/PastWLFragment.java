@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import com.futchampionsstats.databinding.FragmentPastWlBinding;
 import com.futchampionsstats.models.AllWeekendLeagues;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class PastWLFragment extends Fragment implements PastWLDetailContract.View{
 
@@ -69,8 +72,8 @@ public class PastWLFragment extends Fragment implements PastWLDetailContract.Vie
     }
 
     @Override
-    public void setPresenter(PastWLDetailContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull PastWLDetailContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -127,7 +130,7 @@ public class PastWLFragment extends Fragment implements PastWLDetailContract.Vie
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
     }
 
     @Override

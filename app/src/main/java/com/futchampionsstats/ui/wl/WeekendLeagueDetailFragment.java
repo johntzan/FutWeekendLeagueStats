@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class WeekendLeagueDetailFragment extends Fragment implements WeekendLeagueDetailContract.View{
 
@@ -75,8 +78,8 @@ public class WeekendLeagueDetailFragment extends Fragment implements WeekendLeag
     }
 
     @Override
-    public void setPresenter(WeekendLeagueDetailContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull WeekendLeagueDetailContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -237,7 +240,7 @@ public class WeekendLeagueDetailFragment extends Fragment implements WeekendLeag
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
 
     }
 

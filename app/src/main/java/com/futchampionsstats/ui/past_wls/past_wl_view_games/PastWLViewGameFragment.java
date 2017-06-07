@@ -3,6 +3,7 @@ package com.futchampionsstats.ui.past_wls.past_wl_view_games;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import com.futchampionsstats.R;
 import com.futchampionsstats.databinding.FragmentPastWlViewGameBinding;
 import com.futchampionsstats.models.Game;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class PastWLViewGameFragment extends Fragment implements PastWLViewGameContract.View{
 
@@ -43,8 +46,8 @@ public class PastWLViewGameFragment extends Fragment implements PastWLViewGameCo
     }
 
     @Override
-    public void setPresenter(PastWLViewGameContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull PastWLViewGameContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class PastWLViewGameFragment extends Fragment implements PastWLViewGameCo
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
     }
 
     @Override

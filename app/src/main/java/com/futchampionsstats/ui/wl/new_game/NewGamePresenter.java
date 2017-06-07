@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 3/17/17.
  */
@@ -33,9 +35,9 @@ public class NewGamePresenter implements NewGameContract.Presenter {
     private ArrayList<Squad> user_squads;
 
     public NewGamePresenter(@NonNull SquadRepository squadRepository, @NonNull WeekendLeagueRepository weekendLeagueRepository, @NonNull NewGameContract.View view){
-        mNewGameView = view;
-        mSquadRepository = squadRepository;
-        mWeekendLeagueRepository = weekendLeagueRepository;
+        mNewGameView = checkNotNull(view);
+        mSquadRepository = checkNotNull(squadRepository);
+        mWeekendLeagueRepository = checkNotNull(weekendLeagueRepository);
         Log.d(TAG, "NewGamePresenter: setting new presenter");
         mNewGameView.setPresenter(this);
     }
@@ -44,13 +46,13 @@ public class NewGamePresenter implements NewGameContract.Presenter {
     public void start() {
         setNewGame();
         getUserSquads();
-        mNewGameView.setFormationSpinner();
+        if(mNewGameView.isActive()) mNewGameView.setFormationSpinner();
     }
 
     @Override
     public void setNewGame() {
         mNewGame = new Game();
-        mNewGameView.setNewGameToView(mNewGame);
+        if(mNewGameView.isActive()) mNewGameView.setNewGameToView(mNewGame);
     }
 
     @Override
@@ -64,13 +66,13 @@ public class NewGamePresenter implements NewGameContract.Presenter {
                 if(squads!=null && squads.size()>0){
                     Log.d(TAG, "onSquadsLoaded: squads not null");
                     user_squads = squads;
-                    mNewGameView.setUserSquads(user_squads);
+                    if(mNewGameView.isActive()) mNewGameView.setUserSquads(user_squads);
                     setUserTeamUsing(0);
                 }
                 else{
                     squads = new ArrayList<>();
                     user_squads = squads;
-                    mNewGameView.setUserSquads(user_squads);
+                    if(mNewGameView.isActive()) mNewGameView.setUserSquads(user_squads);
                 }
             }
         });
@@ -79,7 +81,7 @@ public class NewGamePresenter implements NewGameContract.Presenter {
     @Override
     public void setDisconnected() {
         //set game to disconnected here if not using two way databinding
-        mNewGameView.showDisconnectWarning();
+        if(mNewGameView.isActive()) mNewGameView.showDisconnectWarning();
     }
 
     @Override
@@ -114,12 +116,12 @@ public class NewGamePresenter implements NewGameContract.Presenter {
                 mWeekendLeagueRepository.saveNewGame(mNewGame, new WeekendLeagueDataSource.OnGameSavedCallback() {
                     @Override
                     public void onGameSaved(WeekendLeague weekendLeague) {
-                        mNewGameView.saveGameSuccess();
+                        if(mNewGameView.isActive()) mNewGameView.saveGameSuccess();
                     }
 
                     @Override
                     public void onGameSaveError(WeekendLeague weekendLeague) {
-                        mNewGameView.showError("Error occurred saving your game, please try again!");
+                        if(mNewGameView.isActive()) mNewGameView.showError("Error occurred saving your game, please try again!");
                     }
                 });
 
@@ -134,12 +136,12 @@ public class NewGamePresenter implements NewGameContract.Presenter {
                 mWeekendLeagueRepository.saveNewGame(mNewGame, new WeekendLeagueDataSource.OnGameSavedCallback() {
                     @Override
                     public void onGameSaved(WeekendLeague weekendLeague) {
-                        mNewGameView.saveGameSuccess();
+                        if(mNewGameView.isActive()) mNewGameView.saveGameSuccess();
                     }
 
                     @Override
                     public void onGameSaveError(WeekendLeague weekendLeague) {
-                        mNewGameView.showError("Error occurred saving your game, please try again!");
+                        if(mNewGameView.isActive()) mNewGameView.showError("Error occurred saving your game, please try again!");
                     }
                 });
             }
@@ -148,24 +150,24 @@ public class NewGamePresenter implements NewGameContract.Presenter {
                 mWeekendLeagueRepository.saveNewGame(mNewGame, new WeekendLeagueDataSource.OnGameSavedCallback() {
                     @Override
                     public void onGameSaved(WeekendLeague weekendLeague) {
-                        mNewGameView.saveGameSuccess();
+                        if(mNewGameView.isActive()) mNewGameView.saveGameSuccess();
                     }
 
                     @Override
                     public void onGameSaveError(WeekendLeague weekendLeague) {
-                        mNewGameView.showError("Error occurred saving your game, please try again!");
+                        if(mNewGameView.isActive()) mNewGameView.showError("Error occurred saving your game, please try again!");
                     }
                 });
             }
             else{
-                mNewGameView.showError(gameDataCheck);
+                if(mNewGameView.isActive()) mNewGameView.showError(gameDataCheck);
             }
         }
     }
 
     @Override
     public void createNewSquad(View view) {
-            mNewGameView.showNewSquadDialog(view);
+        if(mNewGameView.isActive()) mNewGameView.showNewSquadDialog(view);
     }
 
     @Override

@@ -9,6 +9,8 @@ import com.futchampionsstats.models.source.squads.SquadsDataSource;
 
 import java.util.ArrayList;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 4/11/17.
  */
@@ -21,8 +23,8 @@ public class MySquadsPresenter implements MySquadsContract.Presenter {
     private ArrayList<Squad> mSquads;
 
     public MySquadsPresenter(@NonNull SquadRepository squadRepository, @NonNull MySquadsContract.View view){
-        mSquadRepository = squadRepository;
-        mMySquadsView = view;
+        mSquadRepository = checkNotNull(squadRepository);
+        mMySquadsView = checkNotNull(view);
         Log.d(TAG, "MySquadsPresenter: new");
         mMySquadsView.setPresenter(this);
     }
@@ -40,11 +42,11 @@ public class MySquadsPresenter implements MySquadsContract.Presenter {
                 if (squads!=null && squads.size()>0){
                     Log.d(TAG, "onSquadsLoaded: > 0");
                     mSquads = squads;
-                    mMySquadsView.setSquads(squads);
+                    if(mMySquadsView.isActive()) mMySquadsView.setSquads(squads);
                 }
                 else{
                     Log.d(TAG, "onSquadsLoaded: null");
-                    mMySquadsView.showEmptySquads();
+                    if(mMySquadsView.isActive()) mMySquadsView.showEmptySquads();
                 }
             }
         });
@@ -58,7 +60,7 @@ public class MySquadsPresenter implements MySquadsContract.Presenter {
 
     @Override
     public void setSquadForEdit(int squadIndex) {
-        mMySquadsView.showEditSquad(mSquads.get(squadIndex), squadIndex);
+        if(mMySquadsView.isActive()) mMySquadsView.showEditSquad(mSquads.get(squadIndex), squadIndex);
     }
 
     @Override

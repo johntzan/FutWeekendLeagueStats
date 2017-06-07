@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.futchampionsstats.models.WeekendLeague;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 4/19/17.
  */
@@ -14,8 +16,8 @@ public class ViewPastWLGamesPresenter implements ViewPastWLGamesContract.Present
     private ViewPastWLGamesContract.View mViewPastWLGamesView;
 
     public ViewPastWLGamesPresenter(@NonNull WeekendLeague weekendLeague, @NonNull ViewPastWLGamesContract.View view) {
-        mViewPastWLGamesView = view;
-        mWeekendLeague = weekendLeague;
+        mViewPastWLGamesView = checkNotNull(view);
+        mWeekendLeague = checkNotNull(weekendLeague);
 
         mViewPastWLGamesView.setPresenter(this);
     }

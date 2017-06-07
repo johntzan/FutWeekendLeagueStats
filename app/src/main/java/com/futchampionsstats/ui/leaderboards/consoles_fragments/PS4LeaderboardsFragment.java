@@ -3,6 +3,7 @@ package com.futchampionsstats.ui.leaderboards.consoles_fragments;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,8 @@ import com.futchampionsstats.models.leaderboards.Top100;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.Arrays;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class PS4LeaderboardsFragment extends Fragment implements PS4LeaderboardsContract.View{
 
@@ -43,7 +46,7 @@ public class PS4LeaderboardsFragment extends Fragment implements PS4Leaderboards
         View view = inflater.inflate(R.layout.fragment_leaderboards_ps4, container, false);
         mBinding = DataBindingUtil.bind(view);
 
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
 
         mBinding.setHandlers(new PS4LeaderboardsHandlers());
         ps4LeaderboardsView = mBinding.ps4LeaderboardsView;
@@ -93,8 +96,8 @@ public class PS4LeaderboardsFragment extends Fragment implements PS4Leaderboards
 
 
     @Override
-    public void setPresenter(PS4LeaderboardsContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull PS4LeaderboardsContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override

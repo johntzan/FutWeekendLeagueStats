@@ -35,13 +35,6 @@ public class UserProfileLeaderboardsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static UserProfileLeaderboardsFragment newInstance() {
-        UserProfileLeaderboardsFragment fragment = new UserProfileLeaderboardsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

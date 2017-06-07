@@ -10,6 +10,8 @@ import com.futchampionsstats.models.WeekendLeagueRepository;
 import com.futchampionsstats.models.source.WeekendLeagueDataSource;
 import com.google.gson.Gson;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 4/5/17.
  */
@@ -22,13 +24,13 @@ public class EditGamePresenter implements EditGameContract.Presenter {
     private EditGameContract.View mEditGameView;
     private int mGamePosition;
 
-    public EditGamePresenter(@NonNull WeekendLeagueRepository weekendLeagueRepository, @NonNull Game game, EditGameContract.View view, int gamePosition) {
-        mWeekendLeagueRepository = weekendLeagueRepository;
+    public EditGamePresenter(@NonNull WeekendLeagueRepository weekendLeagueRepository, @NonNull Game game, @NonNull EditGameContract.View view, int gamePosition) {
+        mWeekendLeagueRepository = checkNotNull(weekendLeagueRepository);
         mGame = new Game();
-        mGame = game;
+        mGame = checkNotNull(game);
         mGamePosition = gamePosition;
 
-        mEditGameView = view;
+        mEditGameView = checkNotNull(view);
         Log.d(TAG, "EditGamePresenter: NEW");
         mEditGameView.setPresenter(this);
     }
@@ -40,8 +42,10 @@ public class EditGamePresenter implements EditGameContract.Presenter {
 
     @Override
     public void setGameForEdit() {
-        mEditGameView.setGameForEdit(mGame);
-        mEditGameView.getOppFormationIndex(mGame);
+        if(mEditGameView.isActive()){
+            mEditGameView.setGameForEdit(mGame);
+            mEditGameView.getOppFormationIndex(mGame);
+        }
     }
 
     @Override
@@ -79,11 +83,11 @@ public class EditGamePresenter implements EditGameContract.Presenter {
                     saveGameToRepository(mGame, mGamePosition);
                 }
                 else{
-                    mEditGameView.showError(gameDataCheck);
+                    if(mEditGameView.isActive()) mEditGameView.showError(gameDataCheck);
                 }
             }
             catch (NumberFormatException e){
-                mEditGameView.showError(gameDataCheck);
+                if(mEditGameView.isActive()) mEditGameView.showError(gameDataCheck);
             }
         }
     }
@@ -95,19 +99,19 @@ public class EditGamePresenter implements EditGameContract.Presenter {
 
     @Override
     public void setDisconnected() {
-        mEditGameView.showDisconnectWarning();
+        if(mEditGameView.isActive()) mEditGameView.showDisconnectWarning();
     }
 
     private void saveGameToRepository(Game game, int gamePosition){
         mWeekendLeagueRepository.saveEditGame(game, gamePosition, new WeekendLeagueDataSource.OnGameSavedCallback() {
             @Override
             public void onGameSaved(WeekendLeague weekendLeague) {
-                mEditGameView.saveGameSuccess();
+                if(mEditGameView.isActive()) mEditGameView.saveGameSuccess();
             }
 
             @Override
             public void onGameSaveError(WeekendLeague weekendLeague) {
-                mEditGameView.showError("Error occurred saving your game, please try again!");
+                if(mEditGameView.isActive()) mEditGameView.showError("Error occurred saving your game, please try again!");
             }
         });
     }

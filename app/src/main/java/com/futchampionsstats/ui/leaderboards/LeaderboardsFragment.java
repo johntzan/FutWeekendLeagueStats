@@ -3,6 +3,7 @@ package com.futchampionsstats.ui.leaderboards;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -35,6 +36,8 @@ import com.futchampionsstats.utils.Utils;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class LeaderboardsFragment extends Fragment implements LeaderboardsContract.View{
@@ -218,8 +221,8 @@ public class LeaderboardsFragment extends Fragment implements LeaderboardsContra
 
 
     @Override
-    public void setPresenter(LeaderboardsContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull LeaderboardsContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -324,7 +327,7 @@ public class LeaderboardsFragment extends Fragment implements LeaderboardsContra
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
     }
 
     @Override

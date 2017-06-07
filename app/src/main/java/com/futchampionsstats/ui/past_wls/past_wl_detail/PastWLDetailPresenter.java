@@ -10,6 +10,8 @@ import com.futchampionsstats.ui.wl.WeekendLeagueDetailPresenter;
 
 import java.util.ArrayList;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 4/12/17.
  */
@@ -22,9 +24,9 @@ public class PastWLDetailPresenter implements PastWLDetailContract.Presenter {
     private WeekendLeagueRepository mWeekendLeagueRepository;
     private AllWeekendLeagues mCurrentAllWeekendLeagues;
 
-    public PastWLDetailPresenter(WeekendLeagueRepository weekendLeagueRepository, @NonNull PastWLDetailContract.View view) {
-        mPastWeekendLeaguesDetailView = view;
-        mWeekendLeagueRepository = weekendLeagueRepository;
+    public PastWLDetailPresenter(@NonNull WeekendLeagueRepository weekendLeagueRepository, @NonNull PastWLDetailContract.View view) {
+        mPastWeekendLeaguesDetailView = checkNotNull(view);
+        mWeekendLeagueRepository = checkNotNull(weekendLeagueRepository);
 
         mPastWeekendLeaguesDetailView.setPresenter(this);
     }
@@ -47,7 +49,7 @@ public class PastWLDetailPresenter implements PastWLDetailContract.Presenter {
             public void onAllWeekendLeaguesLoaded(AllWeekendLeagues weekendLeagues) {
                 mCurrentAllWeekendLeagues = weekendLeagues;
                 if(weekendLeagues!=null && weekendLeagues.getAllWeekendLeagues()!=null){
-                    mPastWeekendLeaguesDetailView.showPastWeekendLeagues(mCurrentAllWeekendLeagues);
+                    if(mPastWeekendLeaguesDetailView.isActive()) mPastWeekendLeaguesDetailView.showPastWeekendLeagues(mCurrentAllWeekendLeagues);
                 }
                 else{
                     weekendLeagues = new AllWeekendLeagues();
@@ -56,7 +58,7 @@ public class PastWLDetailPresenter implements PastWLDetailContract.Presenter {
 
                     mCurrentAllWeekendLeagues = weekendLeagues;
 
-                    mPastWeekendLeaguesDetailView.showEmptyWeekendLeagues(mCurrentAllWeekendLeagues);
+                    if(mPastWeekendLeaguesDetailView.isActive()) mPastWeekendLeaguesDetailView.showEmptyWeekendLeagues(mCurrentAllWeekendLeagues);
                 }
             }
         });

@@ -3,6 +3,7 @@ package com.futchampionsstats.ui.past_wls.view_past_wls.selected;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import com.futchampionsstats.R;
 import com.futchampionsstats.databinding.FragmentViewSelectedWlBinding;
 import com.futchampionsstats.models.WeekendLeague;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ViewSelectedWLFragment extends Fragment implements ViewSelectedWLContract.View{
 
@@ -51,8 +54,8 @@ public class ViewSelectedWLFragment extends Fragment implements ViewSelectedWLCo
     }
 
     @Override
-    public void setPresenter(ViewSelectedWLContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull ViewSelectedWLContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -95,7 +98,7 @@ public class ViewSelectedWLFragment extends Fragment implements ViewSelectedWLCo
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
     }
 
     @Override

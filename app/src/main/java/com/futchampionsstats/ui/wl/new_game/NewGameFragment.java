@@ -6,6 +6,7 @@ import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -34,6 +35,8 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 public class NewGameFragment extends Fragment implements NewGameContract.View {
 
@@ -61,19 +64,18 @@ public class NewGameFragment extends Fragment implements NewGameContract.View {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_game, container, false);
-        mPresenter.start();
         NewGameHandlers handlers = new NewGameHandlers();
         binding.setHandlers(handlers);
-
         setupGameDisconnectCheckbox();
 
+        checkNotNull(mPresenter).start();
 
         return binding.getRoot();
     }
 
     @Override
-    public void setPresenter(NewGameContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull NewGameContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override

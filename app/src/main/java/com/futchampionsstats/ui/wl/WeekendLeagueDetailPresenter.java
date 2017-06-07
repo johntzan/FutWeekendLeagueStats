@@ -11,6 +11,8 @@ import com.futchampionsstats.models.source.WeekendLeagueDataSource;
 
 import java.util.ArrayList;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 3/15/17.
  */
@@ -23,9 +25,9 @@ public class WeekendLeagueDetailPresenter implements WeekendLeagueDetailContract
     private WeekendLeagueRepository mWeekendLeagueRepository;
     private WeekendLeague mCurrentWeekendLeague;
 
-    public WeekendLeagueDetailPresenter(WeekendLeagueRepository weekendLeagueRepository, @NonNull WeekendLeagueDetailContract.View view){
-        mWeekendLeagueDetailView = view;
-        mWeekendLeagueRepository = weekendLeagueRepository;
+    public WeekendLeagueDetailPresenter(@NonNull WeekendLeagueRepository weekendLeagueRepository, @NonNull WeekendLeagueDetailContract.View view){
+        mWeekendLeagueDetailView = checkNotNull(view, "View should not be null");
+        mWeekendLeagueRepository = checkNotNull(weekendLeagueRepository, "Repository should not be null");
 
         mWeekendLeagueDetailView.setPresenter(this);
     }

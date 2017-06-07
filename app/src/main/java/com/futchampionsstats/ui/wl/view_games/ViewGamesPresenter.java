@@ -7,6 +7,8 @@ import com.futchampionsstats.models.WeekendLeague;
 import com.futchampionsstats.models.WeekendLeagueRepository;
 import com.futchampionsstats.models.source.WeekendLeagueDataSource;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by yiannitzan on 4/5/17.
  */
@@ -20,8 +22,8 @@ public class ViewGamesPresenter implements ViewGamesContract.Presenter{
 
 
     public ViewGamesPresenter(@NonNull WeekendLeagueRepository weekendLeagueRepository, @NonNull ViewGamesContract.View view) {
-        mWeekendLeagueRepository = weekendLeagueRepository;
-        mViewGamesView = view;
+        mWeekendLeagueRepository = checkNotNull(weekendLeagueRepository);
+        mViewGamesView = checkNotNull(view);
         Log.d(TAG, "ViewGamesPresenter: new");
         mViewGamesView.setPresenter(this);
     }
@@ -68,6 +70,6 @@ public class ViewGamesPresenter implements ViewGamesContract.Presenter{
 
     @Override
     public void editGame(int gamePosition) {
-        mViewGamesView.showEditGame(currentWeekendLeague.getWeekendLeague().get(gamePosition), gamePosition);
+        if(mViewGamesView.isActive()) mViewGamesView.showEditGame(currentWeekendLeague.getWeekendLeague().get(gamePosition), gamePosition);
     }
 }

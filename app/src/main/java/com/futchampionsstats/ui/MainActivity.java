@@ -112,10 +112,6 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
 
         }
 
-        if(weekendLeagueDetailFragment!=null){
-            mWeekendLeagueDetailPresenter = new WeekendLeagueDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), weekendLeagueDetailFragment);
-        }
-
         selectFragment(selectedItem);
 
     }
@@ -146,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
                     frag = weekendLeagueDetailFragment;
                 }
                 tag = "weekend_league_frag";
+                mWeekendLeagueDetailPresenter = new WeekendLeagueDetailPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), weekendLeagueDetailFragment);
                 break;
             case R.id.menu_my_squads:
 

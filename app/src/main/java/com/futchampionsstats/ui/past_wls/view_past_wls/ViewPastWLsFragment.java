@@ -3,6 +3,7 @@ package com.futchampionsstats.ui.past_wls.view_past_wls;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +32,8 @@ import com.futchampionsstats.utils.Utils;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract.View{
@@ -87,8 +90,8 @@ public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract
     }
 
     @Override
-    public void setPresenter(ViewPastWLsContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull ViewPastWLsContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -286,7 +289,7 @@ public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
     }
 
     public int handleBackPress(){

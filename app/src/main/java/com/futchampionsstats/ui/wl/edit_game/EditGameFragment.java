@@ -6,6 +6,7 @@ import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -30,6 +31,8 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class EditGameFragment extends Fragment implements EditGameContract.View{
 
     public static final String TAG = EditGameFragment.class.getSimpleName();
@@ -43,14 +46,6 @@ public class EditGameFragment extends Fragment implements EditGameContract.View{
 
     public EditGameFragment() {
         // Required empty public constructor
-    }
-
-
-    public static EditGameFragment newInstance() {
-        EditGameFragment fragment = new EditGameFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -76,13 +71,8 @@ public class EditGameFragment extends Fragment implements EditGameContract.View{
     }
 
     @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    @Override
-    public void setPresenter(EditGameContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull EditGameContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -250,7 +240,7 @@ public class EditGameFragment extends Fragment implements EditGameContract.View{
     public void onResume() {
         super.onResume();
 
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
 
         View content = getActivity().findViewById(R.id.activity_main);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) content.findViewById(R.id.navigation);
@@ -258,11 +248,6 @@ public class EditGameFragment extends Fragment implements EditGameContract.View{
             bottomNavigationView.setVisibility(View.GONE);
         }
 
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @Override

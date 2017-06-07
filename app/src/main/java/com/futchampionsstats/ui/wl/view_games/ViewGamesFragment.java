@@ -3,6 +3,7 @@ package com.futchampionsstats.ui.wl.view_games;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import com.futchampionsstats.adapters.GamesListAdapter;
 import com.futchampionsstats.databinding.FragmentGamesListBinding;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ViewGamesFragment extends Fragment implements ViewGamesContract.View{
 
@@ -56,14 +59,14 @@ public class ViewGamesFragment extends Fragment implements ViewGamesContract.Vie
         ViewGamesHandlers handlers = new ViewGamesHandlers();
         binding.setHandlers(handlers);
 
-        gamesList = (RecyclerView) binding.gamesList;
+        gamesList = binding.gamesList;
 
         return binding.getRoot();
     }
 
     @Override
-    public void setPresenter(ViewGamesContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull ViewGamesContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override

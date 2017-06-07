@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class MySquadsFragment extends Fragment implements MySquadsContract.View{
@@ -111,8 +114,8 @@ public class MySquadsFragment extends Fragment implements MySquadsContract.View{
     }
 
     @Override
-    public void setPresenter(MySquadsContract.Presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(@NonNull MySquadsContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 
     @Override
@@ -299,7 +302,7 @@ public class MySquadsFragment extends Fragment implements MySquadsContract.View{
     public void onResume() {
         super.onResume();
 
-        mPresenter.start();
+        checkNotNull(mPresenter).start();
     }
 
     @Override
