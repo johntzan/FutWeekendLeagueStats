@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.LeaderboardsAdapter;
 import com.futchampionsstats.databinding.FragmentLeaderboardsPs4Binding;
@@ -46,10 +47,18 @@ public class PS4LeaderboardsFragment extends Fragment implements PS4Leaderboards
         View view = inflater.inflate(R.layout.fragment_leaderboards_ps4, container, false);
         mBinding = DataBindingUtil.bind(view);
 
-        checkNotNull(mPresenter).start();
-
         mBinding.setHandlers(new PS4LeaderboardsHandlers());
         ps4LeaderboardsView = mBinding.ps4LeaderboardsView;
+
+        if(mPresenter!=null){
+            mPresenter.start();
+        }
+        else{
+            mPresenter = new PS4LeaderboardsPresenter((
+                        (FutChampsApplication) getContext().getApplicationContext()).getServiceComponent().getService(),
+                        this);
+            mPresenter.start();
+        }
 
         return view;
     }

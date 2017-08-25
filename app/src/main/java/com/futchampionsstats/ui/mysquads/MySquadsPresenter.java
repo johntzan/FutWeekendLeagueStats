@@ -60,7 +60,11 @@ public class MySquadsPresenter implements MySquadsContract.Presenter {
 
     @Override
     public void setSquadForEdit(int squadIndex) {
-        if(mMySquadsView.isActive()) mMySquadsView.showEditSquad(mSquads.get(squadIndex), squadIndex);
+        if(mMySquadsView.isActive()){
+            if(mSquads!=null && mSquads.size()>squadIndex){
+                mMySquadsView.showEditSquad(mSquads.get(squadIndex), squadIndex);
+            }
+        }
     }
 
     @Override

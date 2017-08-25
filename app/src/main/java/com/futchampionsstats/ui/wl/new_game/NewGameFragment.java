@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.databinding.FragmentNewGameBinding;
 import com.futchampionsstats.models.Game;
@@ -68,7 +69,15 @@ public class NewGameFragment extends Fragment implements NewGameContract.View {
         binding.setHandlers(handlers);
         setupGameDisconnectCheckbox();
 
-        checkNotNull(mPresenter).start();
+        if(mPresenter!=null) {
+            mPresenter.start();
+        }
+        else{
+            mPresenter = new NewGamePresenter( ( (FutChampsApplication) getContext().getApplicationContext()).getSquadRepositoryComponent().getSquadRepository(),
+                 ((FutChampsApplication) getContext().getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(),
+                 this);
+            mPresenter.start();
+        }
 
         return binding.getRoot();
     }

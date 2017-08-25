@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.GamesListAdapter;
 import com.futchampionsstats.adapters.PastWlsListAdapter;
@@ -76,7 +77,6 @@ public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract
         ViewPastWLsHandlers handlers = new ViewPastWLsHandlers();
         binding.setHandlers(handlers);
 
-
         searchView = (FloatingSearchView) binding.getRoot().findViewById(R.id.search_games_edit);
         searchIcon = (FloatingActionButton) binding.getRoot().findViewById(R.id.search_icon);
 
@@ -85,6 +85,15 @@ public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract
 
         pastWlsAllGamesList = (RecyclerView) binding.getRoot().findViewById(R.id.past_wls_all_games_list);
         pastWlsAllGamesList.setVisibility(View.GONE);
+
+        if(mPresenter!=null){
+            mPresenter.start();
+        }
+        else{
+            mPresenter = new ViewPastWLsPresenter(((FutChampsApplication) getContext().getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(),
+                    this);
+            mPresenter.start();
+        }
 
         return binding.getRoot();
     }
@@ -289,7 +298,6 @@ public class ViewPastWLsFragment extends Fragment implements ViewPastWLsContract
     @Override
     public void onResume() {
         super.onResume();
-        checkNotNull(mPresenter).start();
     }
 
     public int handleBackPress(){
