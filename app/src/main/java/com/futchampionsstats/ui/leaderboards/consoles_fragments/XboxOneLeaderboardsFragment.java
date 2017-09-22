@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.LeaderboardsAdapter;
 import com.futchampionsstats.databinding.FragmentLeaderboardsXboxoneBinding;
@@ -44,7 +45,15 @@ public class XboxOneLeaderboardsFragment extends Fragment implements XboxLeaderb
         View view = inflater.inflate(R.layout.fragment_leaderboards_xboxone, container, false);
         mBinding = DataBindingUtil.bind(view);
 
-        checkNotNull(mPresenter).start();
+        if(mPresenter!=null){
+            mPresenter.start();
+        }
+        else{
+            mPresenter = new XboxLeaderboardsPresenter((
+                    (FutChampsApplication) getContext().getApplicationContext()).getServiceComponent().getService(),
+                    this);
+            mPresenter.start();
+        }
 
         mBinding.setHandlers(new XboxLeaderboardsHandlers());
         xboxLeaderboardsView = mBinding.xboxLeaderboardsView;

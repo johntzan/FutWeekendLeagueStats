@@ -8,6 +8,7 @@ import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
 import com.futchampionsstats.models.WeekendLeagueRepository;
 import com.futchampionsstats.models.source.WeekendLeagueDataSource;
+import com.futchampionsstats.utils.Constants;
 import com.google.gson.Gson;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -45,6 +46,7 @@ public class EditGamePresenter implements EditGameContract.Presenter {
         if(mEditGameView.isActive()){
             mEditGameView.setGameForEdit(mGame);
             mEditGameView.getOppFormationIndex(mGame);
+            isOpponentSquad();
         }
     }
 
@@ -95,6 +97,30 @@ public class EditGamePresenter implements EditGameContract.Presenter {
     @Override
     public void setOpponentFormation(String formation) {
         mGame.setOpp_formation(formation);
+    }
+
+    @Override
+    public void setOpponentSquad(int squad){
+
+        if(mGame.getOpp_squad().contains(Constants.LEAGUE_ARRAY[squad])){
+            mGame.getOpp_squad().remove(mGame.getOpp_squad().indexOf(Constants.LEAGUE_ARRAY[squad]));
+        }
+        else{
+            mGame.getOpp_squad().add(Constants.LEAGUE_ARRAY[squad]);
+        }
+    }
+
+    @Override
+    public void isOpponentSquad(){
+
+        for(int i = 0; i < Constants.LEAGUE_ARRAY.length; i++) {
+            if(mGame.getOpp_squad().contains(Constants.LEAGUE_ARRAY[i])){
+                if(mEditGameView.isActive()){
+                    mEditGameView.setSquadToggle(i);
+                }
+            }
+        }
+
     }
 
     @Override

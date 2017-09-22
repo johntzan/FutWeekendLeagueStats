@@ -57,8 +57,8 @@ android {
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
-            versionCode 13
-            versionName '1.7'
+            versionCode 14
+            versionName '1.8'
             resValue "string", "app_name", "FUT Weekend League Stats & Leaderboards"
         }
         staging {
@@ -68,7 +68,7 @@ android {
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
             versionCode 1
-            versionName '1.7'
+            versionName '1.8'
             resValue "string", "app_name", "FUT Weekend League Stats & Leaderboards"
         }
     }
@@ -115,6 +115,8 @@ dependencies {
     compile 'com.github.githubwing:ByeBurger:1.2.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
     compile 'com.github.arimorty:floatingsearchview:2.0.3'
+    compile 'com.nex3z:flow-layout:1.0.0'
+
     compile 'com.tuyenmonkey:mkloader:1.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.google.code.gson:gson:2.7'

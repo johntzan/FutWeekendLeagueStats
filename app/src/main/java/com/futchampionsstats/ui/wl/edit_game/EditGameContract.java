@@ -20,6 +20,7 @@ public class EditGameContract {
 
         void getOppFormationIndex(Game game);
         void setFormationSpinner(int  oppFormationIndex);
+        void setSquadToggle(int squadToggle);
 
         //saving game related
         void saveGameSuccess();
@@ -37,6 +38,8 @@ public class EditGameContract {
 
         //squads related
         void setOpponentFormation(String formation);
+        void setOpponentSquad(int squad);
+        void isOpponentSquad();
 
         //disconnect
         void setDisconnected();

@@ -46,6 +46,7 @@ public interface NewGameContract {
         void saveNewSquad(Squad squad);
         void setUserTeamUsing(int position);
         void setOpponentFormation(String formation);
+        void setOpponentSquad(int squad);
 
         //disconnect
         void setDisconnected();

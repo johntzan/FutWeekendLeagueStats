@@ -70,7 +70,8 @@
     <string name="user_team_rating_hint">85</string>
     <string name="team_rating">Team Rating</string>
     <string name="opp_team_rating_hint">82</string>
-    <string name="opponent_name_team_name">Gamertag/Team Name</string>
+    <string name="opponent_name">Gamertag</string>
+    <string name="opponent_name_team_name">Team Name</string>
     <string name="opp_name_hint">Beast FC</string>
     <string name="results">Results</string>
     <string name="penalties">Penalties</string>
@@ -83,6 +84,7 @@
     <string name="game_complete">Game Complete</string>
     <string name="you">You</string>
     <string name="opponent">Opponent</string>
+    <string name="team_name">Team Name</string>
     <string name="score">Score</string>
     <string name="games_left_hint">40</string>
     <string name="games_left">Games Left</string>
@@ -131,4 +133,13 @@
     <string name="error_loading_leaderboards">There was an error loading the leaderboards, please try again later!</string>
     <string name="win_txt">WIN</string>
     <string name="loss_txt">LOSS</string>
+
+    <string name="epl">EPL</string>
+    <string name="serie_a">Serie A</string>
+    <string name="bundes">Bundes</string>
+    <string name="la_liga">La Liga</string>
+    <string name="ligue_1">Ligue 1</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="other">Other</string>
+    <string name="_1_nation">1 Nation</string>
 </resources>

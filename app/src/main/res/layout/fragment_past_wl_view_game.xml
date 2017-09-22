@@ -3,6 +3,7 @@
         <import type="android.view.View"/>
         <variable name="handlers" type="com.futchampionsstats.ui.past_wls.past_wl_view_games.PastWLViewGameFragment.PastWLViewGameHandlers"/>
         <variable name="game" type="com.futchampionsstats.models.Game"/>
+        <import type="android.text.TextUtils"/>
 
     </data>
 
@@ -94,6 +95,18 @@
                             android:textSize="18sp"
                             android:textAlignment="viewStart"
                             android:layout_gravity="start"
+                            android:hint="@string/opponent_name"
+                            android:textColor="@color/grey"
+                            android:layout_marginTop="10dp" />
+
+                        <TextView
+                            android:id="@+id/opp_team_name_edit"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text='@{"Team Name: " + (game.opp_team_name?? "No team name set.")}'
+                            android:textSize="18sp"
+                            android:textAlignment="viewStart"
+                            android:layout_gravity="start"
                             android:hint="@string/opponent_name_team_name"
                             android:textColor="@color/grey"
                             android:layout_marginTop="10dp" />
@@ -102,7 +115,7 @@
                             android:id="@+id/opp_team_edit"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
-                            android:text='@{"Squad: " + (game.opp_team ?? "No squad set.")}'
+                            android:text='@{"Squad: " + (TextUtils.join(", ", game.opp_squad) ?? "No squad set.")}'
                             android:textSize="18sp"
                             android:hint="@string/squad_name"
                             android:textColor="@color/grey"

@@ -12,6 +12,7 @@ import com.futchampionsstats.models.WeekendLeagueRepository;
 import com.futchampionsstats.models.source.WeekendLeagueDataSource;
 import com.futchampionsstats.models.source.squads.SquadsDataSource;
 import com.futchampionsstats.ui.wl.WeekendLeagueDetailPresenter;
+import com.futchampionsstats.utils.Constants;
 import com.futchampionsstats.utils.Utils;
 import com.google.gson.Gson;
 
@@ -94,6 +95,17 @@ public class NewGamePresenter implements NewGameContract.Presenter {
     @Override
     public void setOpponentFormation(String formation) {
         mNewGame.setOpp_formation(formation);
+    }
+
+    @Override
+    public void setOpponentSquad(int squad){
+
+        if(mNewGame.getOpp_squad().contains(Constants.LEAGUE_ARRAY[squad])){
+            mNewGame.getOpp_squad().remove(mNewGame.getOpp_squad().indexOf(Constants.LEAGUE_ARRAY[squad]));
+        }
+        else{
+            mNewGame.getOpp_squad().add(Constants.LEAGUE_ARRAY[squad]);
+        }
     }
 
     @Override

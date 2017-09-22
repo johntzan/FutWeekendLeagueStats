@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.futchampionsstats.R;
 import com.futchampionsstats.databinding.FragmentEditGameBinding;
@@ -119,6 +120,48 @@ public class EditGameFragment extends Fragment implements EditGameContract.View{
                 mPresenter.setOpponentFormation(item.toString());
             }
         });
+    }
+
+    @Override
+    public void setSquadToggle(int squadToggle) {
+
+        ToggleButton eplToggle = binding.eplToggle;
+        ToggleButton serieaToggle = binding.serieaToggle;
+        ToggleButton bundesToggle = binding.bundesToggle;
+        ToggleButton laligaToggle = binding.laligaToggle;
+        ToggleButton ligue1Toggle = binding.ligue1Toggle;
+        ToggleButton hybridToggle = binding.hybridToggle;
+        ToggleButton otherToggle = binding.otherToggle;
+        ToggleButton oneNationToggle = binding.oneNationToggle;
+
+        switch(squadToggle){
+            case 0:
+                eplToggle.setChecked(true);
+                break;
+            case 1:
+                serieaToggle.setChecked(true);
+                break;
+            case 2:
+                bundesToggle.setChecked(true);
+                break;
+            case 3:
+                laligaToggle.setChecked(true);
+                break;
+            case 4:
+                ligue1Toggle.setChecked(true);
+                break;
+            case 5:
+                hybridToggle.setChecked(true);
+                break;
+            case 6:
+                otherToggle.setChecked(true);
+                break;
+            case 7:
+                oneNationToggle.setChecked(true);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

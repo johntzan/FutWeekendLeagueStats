@@ -7,6 +7,7 @@ import android.util.Log;
 import com.futchampionsstats.BR;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
@@ -23,6 +24,9 @@ public class Game extends BaseObservable implements Serializable{
 
     @Bindable
     private String opp_name;
+
+    @Bindable
+    private String opp_team_name;
 
     @Bindable
     private String user_goals;
@@ -62,8 +66,9 @@ public class Game extends BaseObservable implements Serializable{
 
     @Bindable
     private String user_team;
+
     @Bindable
-    private String opp_team;
+    private ArrayList<String> opp_squad = new ArrayList<>();
 
     @Bindable
     private String user_formation;
@@ -92,6 +97,16 @@ public class Game extends BaseObservable implements Serializable{
 
     @Bindable
     private Boolean game_disconnected = false;
+
+    @Bindable
+    public String getOpp_team_name() {
+        return opp_team_name;
+    }
+
+    public void setOpp_team_name(String opp_team_name) {
+        this.opp_team_name = opp_team_name;
+        notifyPropertyChanged(BR.opp_team_name);
+    }
 
     @Bindable
     public String getUser_goals() {
@@ -215,12 +230,12 @@ public class Game extends BaseObservable implements Serializable{
     }
 
     @Bindable
-    public String getOpp_team() {
-        return opp_team;
+    public ArrayList<String> getOpp_squad() {
+        return opp_squad;
     }
 
-    public void setOpp_team(String opp_team) {
-        this.opp_team = opp_team;
+    public void setOpp_squad(ArrayList<String> opp_squad) {
+        this.opp_squad = opp_squad;
     }
 
     @Bindable
@@ -408,7 +423,7 @@ public class Game extends BaseObservable implements Serializable{
                 this.getUser_sog()!=null && this.getOpp_sog()!=null && this.getUser_possession()!=null && this.getOpp_possession()!=null &&
                 this.getUser_tackles()!=null && this.getOpp_tackles()!=null && this.getUser_corners()!=null && this.getOpp_corners()!=null &&
                 this.getUser_pass_acc()!=null && this.getOpp_pass_acc()!=null &&
-                this.getUser_team()!=null && this.getOpp_team()!=null && this.getUser_formation()!=null && this.getOpp_formation()!=null &&
+                this.getUser_team()!=null && this.getOpp_squad()!=null && this.getUser_formation()!=null && this.getOpp_formation()!=null &&
                 this.getUser_team_rating()!=null && this.getOpp_team_rating()!=null && this.getOpp_name()!=null);
 
     }
@@ -419,7 +434,7 @@ public class Game extends BaseObservable implements Serializable{
                 !this.getUser_sog().equals("") && !this.getOpp_sog().equals("") && !this.getUser_possession().equals("") && !this.getOpp_possession().equals("") &&
                 !this.getUser_tackles().equals("") && !this.getOpp_tackles().equals("") && !this.getUser_corners().equals("") && !this.getOpp_corners().equals("") &&
                 !this.getUser_pass_acc().equals("") && !this.getOpp_pass_acc().equals("") &&
-                !this.getUser_team().equals("") && !this.getOpp_team().equals("") && !this.getUser_formation().equals("")&& !this.getOpp_formation().equals("") &&
+                !this.getUser_team().equals("") && this.getOpp_squad().size()>0 && !this.getUser_formation().equals("")&& !this.getOpp_formation().equals("") &&
                 !this.getUser_team_rating().equals("") && !this.getOpp_team_rating().equals("") && !this.getOpp_name().equals(""));
     }
 

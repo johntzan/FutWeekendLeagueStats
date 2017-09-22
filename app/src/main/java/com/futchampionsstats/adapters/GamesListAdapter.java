@@ -87,13 +87,13 @@ public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.View
                 }
             }
 
+            String opp_name = (item.getOpp_name()!=null ? item.getOpp_name() : holder.ctx.getResources().getString(R.string.opponent) )
+                    +
+                    (item.getOpp_team_name()!=null ? "/" + item.getOpp_team_name() : "" );
 
-            if(item.getOpp_name()!=null){
-                holder.opponents_name.setText(item.getOpp_name());
-            }
-            else{
-                holder.opponents_name.setText(R.string.opponent);
-            }
+
+            holder.opponents_name.setText(opp_name);
+
 
         }
 
@@ -150,11 +150,15 @@ public class GamesListAdapter extends RecyclerView.Adapter<GamesListAdapter.View
 
             String searchString = constraint.toString();
             for (Game game : fullData){
-                if(game.getOpp_name()!=null){
-                    if(game.getOpp_name().toLowerCase().contains(searchString.toLowerCase())){
+
+                String oppName = (game.getOpp_name()!=null ? game.getOpp_name() : "")
+                        + " " +
+                        (game.getOpp_team_name()!=null ? game.getOpp_team_name() : "");
+
+                if(oppName.toLowerCase().contains(searchString.toLowerCase())){
                         results.add(game);
-                    }
                 }
+
             }
         }
         return results;

@@ -107,6 +107,32 @@
                     android:textAlignment="viewStart"
                     android:layout_gravity="start"
                     app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="@string/opponent_name"
+                    app:met_baseColor="@color/grey"
+                    app:met_textColorHint="@color/grey"
+                    app:met_textColor="@color/grey"
+                    app:met_underlineColor="@color/grey"
+                    app:met_floatingLabelTextColor="@color/scarlet"
+                    android:hint="@string/opponent_name"
+                    android:textColorHint="@color/scarlet"
+                    />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/opp_team_name_edit"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@={game.opp_team_name}"
+                    android:inputType="text"
+                    android:padding="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="16sp"
+                    android:layout_weight="1"
+                    android:imeOptions="actionNext"
+                    android:selectAllOnFocus="true"
+                    android:textAlignment="viewStart"
+                    android:layout_gravity="start"
+                    app:met_floatingLabel="highlight"
                     app:met_floatingLabelText="@string/opponent_name_team_name"
                     app:met_baseColor="@color/grey"
                     app:met_textColorHint="@color/grey"
@@ -178,32 +204,165 @@
 
                 </LinearLayout>
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/opp_team_edit"
+                <TextView
+                    android:id="@+id/opponent_team_type"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:text="@={game.opp_team}"
-                    android:inputType="text"
-                    android:padding="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="16sp"
-                    android:layout_weight="1"
-                    android:imeOptions="actionNext"
-                    android:selectAllOnFocus="true"
-                    android:textAlignment="viewStart"
                     android:layout_gravity="start"
-                    app:met_floatingLabel="highlight"
-                    app:met_floatingLabelText="@string/squad_name"
-                    app:met_baseColor="@color/grey"
-                    app:met_textColorHint="@color/grey"
-                    app:met_textColor="@color/grey"
-                    app:met_underlineColor="@color/grey"
-                    app:met_floatingLabelTextColor="@color/scarlet"
-                    android:hint="@string/squad_name"
-                    android:textColorHint="@color/scarlet"
-                    />
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="Squad Type / Leagues"
+                    android:textColor="@color/grey"
+                    android:textSize="14sp"/>
+
+                <com.nex3z.flowlayout.FlowLayout
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:flChildSpacing="auto"
+                    app:flChildSpacingForLastRow="align"
+                    app:flRowSpacing="4dp">
+
+                    <ToggleButton
+                        android:id="@+id/epl_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_btn_selector"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="@{() -> presenter.setOpponentSquad(0)}"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@drawable/toggle_btn_text_color_selector"
+                        android:textOff="@string/epl"
+                        android:textOn="@string/epl"/>
+
+                    <ToggleButton
+                        android:id="@+id/seriea_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_btn_selector"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="@{() -> presenter.setOpponentSquad(1)}"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@drawable/toggle_btn_text_color_selector"
+                        android:textOff="@string/serie_a"
+                        android:textOn="@string/serie_a"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/bundes_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_btn_selector"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="@{() -> presenter.setOpponentSquad(2)}"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@drawable/toggle_btn_text_color_selector"
+                        android:textOff="@string/bundes"
+                        android:textOn="@string/bundes"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/laliga_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_btn_selector"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="@{() -> presenter.setOpponentSquad(3)}"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@drawable/toggle_btn_text_color_selector"
+                        android:textOff="@string/la_liga"
+                        android:textOn="@string/la_liga"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/ligue1_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_btn_selector"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="@{() -> presenter.setOpponentSquad(4)}"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@drawable/toggle_btn_text_color_selector"
+                        android:textOff="@string/ligue_1"
+                        android:textOn="@string/ligue_1"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/hybrid_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_btn_selector"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="@{() -> presenter.setOpponentSquad(5)}"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@drawable/toggle_btn_text_color_selector"
+                        android:textOff="@string/hybrid"
+                        android:textOn="@string/hybrid"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/other_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_btn_selector"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="@{() -> presenter.setOpponentSquad(6)}"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@drawable/toggle_btn_text_color_selector"
+                        android:textOff="@string/other"
+                        android:textOn="@string/other"
+                        />
+
+                    <ToggleButton
+                        android:id="@+id/one_nation_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/toggle_btn_selector"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="@{() -> presenter.setOpponentSquad(7)}"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:textColor="@drawable/toggle_btn_text_color_selector"
+                        android:textOff="@string/_1_nation"
+                        android:textOn="@string/_1_nation"
+                        />
+
+
+                </com.nex3z.flowlayout.FlowLayout>
 
             </LinearLayout>
 
