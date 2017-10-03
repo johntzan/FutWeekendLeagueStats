@@ -134,6 +134,8 @@
     <string name="win_txt">WIN</string>
     <string name="loss_txt">LOSS</string>
 
+    <string name="facebook_app_id">276934669462684</string>
+
     <string name="epl">EPL</string>
     <string name="serie_a">Serie A</string>
     <string name="bundes">Bundes</string>

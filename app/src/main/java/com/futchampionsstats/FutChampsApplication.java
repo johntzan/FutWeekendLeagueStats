@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.stetho.Stetho;
 import com.futchampionsstats.models.DaggerSquadRepositoryComponent;
 import com.futchampionsstats.models.DaggerWeekendLeagueRepositoryComponent;
@@ -36,6 +38,9 @@ public class FutChampsApplication extends Application{
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
         }
+
+        FacebookSdk.sdkInitialize(this);
+        AppEventsLogger.activateApp(this);
 
         mWeekendLeagueRepository = DaggerWeekendLeagueRepositoryComponent.builder()
                 .applicationModule(new ApplicationModule(getApplicationContext()))
