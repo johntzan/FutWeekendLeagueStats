@@ -92,33 +92,33 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-        <RelativeLayout
-            android:id="@+id/games_left_layout"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/truetransparent"
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/games_left_no"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/games_left_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{WeekendLeague.getGamesLeft(weekendLeague)}"
-                android:textSize="28sp"
-                android:layout_centerHorizontal="true"
-                android:textAlignment="center"
-                android:gravity="center"/>
+                android:background="@color/truetransparent"
+                android:padding="20dp">
 
-            <TextView
-                android:id="@+id/games_left_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/games_left"
-                android:textSize="20sp"
-                android:layout_below="@id/games_left_no"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                />
+                <TextView
+                    android:id="@+id/games_left_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@{WeekendLeague.getGamesLeft(weekendLeague)}"
+                    android:textAlignment="center"
+                    android:textSize="28sp"/>
+
+                <TextView
+                    android:id="@+id/games_left_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/games_left_no"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/games_left"
+                    android:textSize="20sp"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
