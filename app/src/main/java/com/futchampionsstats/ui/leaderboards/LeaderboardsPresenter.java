@@ -66,11 +66,15 @@ public class LeaderboardsPresenter implements LeaderboardsContract.Presenter{
         SearchResults userProfile = new SearchResults();
         Log.d(TAG, "getResultFromSuggestion: " + user);
 
-        for (SearchResults result : mSearchResults) {
-            if (result.getUsername().equals(user)) {
-                Log.d(TAG, "getResultFromSuggestion: " + result.getId() + "/" + result.getUsername());
-                userProfile = result;
+        if(mSearchResults!=null){
+
+            for (SearchResults result : mSearchResults) {
+                if (result.getUsername().equals(user)) {
+                    Log.d(TAG, "getResultFromSuggestion: " + result.getId() + "/" + result.getUsername());
+                    userProfile = result;
+                }
             }
+
         }
 
         if(userProfile.getId()!=null){

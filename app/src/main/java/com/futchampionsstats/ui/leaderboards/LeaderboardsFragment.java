@@ -327,7 +327,15 @@ public class LeaderboardsFragment extends Fragment implements LeaderboardsContra
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        checkNotNull(mPresenter).start();
+        if(mPresenter!=null){
+            mPresenter.start();
+        }
+        else{
+            mPresenter = new LeaderboardsPresenter((
+                    (FutChampsApplication) getContext().getApplicationContext()).getServiceComponent().getService(),
+                    this);
+            mPresenter.start();
+        }
     }
 
     @Override

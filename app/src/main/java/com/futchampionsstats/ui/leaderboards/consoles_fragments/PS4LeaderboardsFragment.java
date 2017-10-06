@@ -78,7 +78,7 @@ public class PS4LeaderboardsFragment extends Fragment implements PS4Leaderboards
     }
 
     public void setupSpinners(final String[] months){
-        final String[] regions = new String[]{"All", "Americas", "Europe", "Rest of World"};
+        final String[] regions = new String[]{"Americas", "Europe", "Rest of World"};
         final MaterialSpinner regionSelector = mBinding.regionSelector;
         regionSelector.setItems(Arrays.asList(regions));
         regionSelector.setSelectedIndex(0);

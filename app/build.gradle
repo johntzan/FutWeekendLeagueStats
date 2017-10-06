@@ -47,6 +47,7 @@ android {
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            testProguardFile 'proguard-project-test.pro'
             buildConfigField 'String', 'API_URL', '"https://fut-weekend-league-stats.herokuapp.com/"'
+//            buildConfigField 'String', 'API_URL', '"http://10.0.0.14:8080/"'
             testCoverageEnabled true
         }
     }
@@ -57,7 +58,7 @@ android {
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
-            versionCode 15
+            versionCode 16
             versionName '1.8'
             resValue "string", "app_name", "FUT Weekend League Stats & Leaderboards"
         }
