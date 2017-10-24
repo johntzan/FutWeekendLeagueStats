@@ -17,6 +17,7 @@ import com.futchampionsstats.R;
 import com.futchampionsstats.adapters.LeaderboardsAdapter;
 import com.futchampionsstats.databinding.FragmentLeaderboardsXboxoneBinding;
 import com.futchampionsstats.models.leaderboards.Top100;
+import com.futchampionsstats.utils.Constants;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.Arrays;
@@ -76,7 +77,7 @@ public class XboxOneLeaderboardsFragment extends Fragment implements XboxLeaderb
     }
 
     public void setupSpinners(final String[] months){
-        final String[] regions = new String[]{"Americas", "Europe", "Rest of World"};
+        final String[] regions = Constants.REGIONS_ARRAY;
         final MaterialSpinner regionSelector = mBinding.regionSelector;
         regionSelector.setItems(Arrays.asList(regions));
         regionSelector.setSelectedIndex(0);

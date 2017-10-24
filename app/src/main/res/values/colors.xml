@@ -7,6 +7,7 @@
     <color name="truetransparent">#00000000</color>
     <color name="transparent30">#1A000000</color>
     <color name="black">#000000</color>
+    <color name="dark_grey">#363946</color>
     <color name="true_blue1">#0064c8</color>
     <color name="azure1">#0078f0</color>
     <color name="dark_cyan">#009688</color>

@@ -11,4 +11,6 @@ public class Constants {
     public static final String SAVED_SQUADS = "saved_squads";
 
     public static final String[] LEAGUE_ARRAY = {"EPL", "Serie A", "Bundes", "La Liga", "Ligue 1", "Hybrid", "Other", "1 Nation"};
+
+    public static final String[] REGIONS_ARRAY = {"All", "Americas", "Europe", "Rest of World"};
 }

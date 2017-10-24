@@ -1,88 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="5dp"
+    app:contentPaddingLeft="10dp"
+    app:contentPaddingRight="10dp"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_margin="10dp"
-    android:background="@color/white"
-    android:paddingEnd="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingStart="10dp">
+    android:background="@color/white">
 
-    <TextView
-        android:id="@+id/you_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:text="@string/you"
-        android:textColor="@color/black"
-        android:textSize="22sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/chevron"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_chevron_right_black_24dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true" />
+        <TextView
+            android:id="@+id/you_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="@string/you"
+            android:textColor="@color/black"
+            android:textSize="22sp"/>
 
-    <TextView
-        android:id="@+id/game_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/you_txt"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/you_txt"
-        android:layout_toRightOf="@+id/you_txt"
-        android:text="0 : 0"
-        android:textColor="@color/black"
-        android:textSize="22sp" />
+        <ImageView
+            android:id="@+id/chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chevron_right_black_24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true" />
 
-    <TextView
-        android:id="@+id/opp_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@id/game_score"
-        android:layout_toLeftOf="@id/chevron"
-        android:layout_toRightOf="@+id/game_score"
-        android:layout_toStartOf="@id/chevron"
-        android:text="@string/opponent"
-        android:textColor="@color/black"
-        android:textSize="22sp" />
+        <TextView
+            android:id="@+id/game_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/you_txt"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/you_txt"
+            android:layout_toRightOf="@+id/you_txt"
+            android:text="0 : 0"
+            android:textColor="@color/black"
+            android:textSize="22sp"/>
 
-    <TextView
-        android:id="@+id/game_no"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:text="#"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/opp_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/game_score"
+            android:layout_toLeftOf="@id/chevron"
+            android:layout_toRightOf="@+id/game_score"
+            android:layout_toStartOf="@id/chevron"
+            android:text="@string/opponent"
+            android:textColor="@color/black"
+            android:textSize="22sp"/>
 
-    <TextView
-        android:id="@+id/win_or_lose_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/game_no"
-        android:layout_toEndOf="@id/game_no"
-        android:text="WIN"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/game_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:text="#"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/win_or_lose_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/game_no"
+            android:layout_toEndOf="@id/game_no"
+            android:text="WIN"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

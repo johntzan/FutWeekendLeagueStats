@@ -1,183 +1,195 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="200dp"
     android:layout_margin="10dp"
     android:background="@color/white"
-    android:paddingLeft="10dp"
-    android:paddingStart="10dp"
-    android:layout_height="200dp">
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="5dp"
+    app:contentPaddingLeft="10dp"
+    app:contentPaddingRight="10dp">
 
-    <ImageView
-        android:id="@+id/chevron"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_chevron_right_black_24dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:adjustViewBounds="false"
-        android:cropToPadding="false" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:text="DATE OF WEEKEND LEAGUE"
-        android:id="@+id/past_wl_date"
-        android:textColor="@color/colorPrimary"
-        android:textSize="22sp" />
-
-    <TextView
-        android:text="Games Played"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/separator"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/past_wl_gp_txt"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textAlignment="center" />
-
-    <TextView
-        android:text="88"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_total_gs"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:layout_below="@+id/separator"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/past_wl_gw_txt"
-        android:layout_toLeftOf="@id/past_wl_gw_txt"
-        android:textAlignment="center"
-        android:layout_alignRight="@+id/past_wl_total_gs_txt"
-        android:layout_alignEnd="@+id/past_wl_total_gs_txt" />
-
-    <TextView
-        android:text="Goals/Shot\n(Opp)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_g_ratio_txt"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_alignBottom="@+id/past_wl_total_gc_txt"
-        android:layout_toRightOf="@+id/past_wl_total_gc_txt"
-        android:layout_alignTop="@+id/past_wl_total_gc_txt"
-        android:layout_toLeftOf="@+id/chevron"
-        android:layout_toStartOf="@+id/chevron" />
-
-    <TextView
-        android:text="0.36(0.32)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_g_ratio"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_above="@+id/past_wl_g_ratio_txt"
-        android:layout_alignLeft="@+id/past_wl_g_ratio_txt"
-        android:layout_alignStart="@+id/past_wl_g_ratio_txt"
-        android:layout_alignTop="@+id/past_wl_total_gc"
-        android:layout_toLeftOf="@+id/chevron"
-        android:layout_toStartOf="@+id/chevron" />
-
-    <View
-        android:id="@+id/separator"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/chevron"
-        android:layout_toStartOf="@+id/chevron"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="Total Goals\nScored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_total_gs_txt"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_below="@+id/past_wl_total_gs"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <ImageView
+            android:id="@+id/chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            android:src="@drawable/ic_chevron_right_black_24dp"/>
 
-    <TextView
-        android:text="Total Goals\n Conceded"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_total_gc_txt"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_below="@+id/past_wl_total_gc"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/past_wl_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:text="DATE OF WEEKEND LEAGUE"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"/>
 
-    <TextView
-        android:text="25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_total_gc"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_alignBaseline="@+id/past_wl_total_gs"
-        android:layout_alignBottom="@+id/past_wl_total_gs"
-        android:layout_alignLeft="@+id/past_wl_total_gc_txt"
-        android:layout_alignStart="@+id/past_wl_total_gc_txt"
-        android:layout_alignRight="@+id/past_wl_total_gc_txt"
-        android:layout_alignEnd="@+id/past_wl_total_gc_txt" />
+        <TextView
+            android:id="@+id/past_wl_gp_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/separator"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/games_played"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
 
-    <TextView
-        android:text="Games Won"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_gw_txt"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_alignBaseline="@+id/past_wl_gp_txt"
-        android:layout_alignBottom="@+id/past_wl_gp_txt"
-        android:layout_alignRight="@+id/past_wl_total_gc"
-        android:layout_alignEnd="@+id/past_wl_total_gc" />
+        <TextView
+            android:id="@+id/past_wl_total_gs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/past_wl_total_gs_txt"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/past_wl_total_gs_txt"
+            android:layout_below="@+id/separator"
+            android:layout_toLeftOf="@+id/past_wl_gw_txt"
+            android:layout_toStartOf="@+id/past_wl_gw_txt"
+            android:text="88"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
 
-    <TextView
-        android:text="31"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_gw"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:layout_alignTop="@+id/past_wl_gp"
-        android:layout_alignRight="@+id/past_wl_gw_txt"
-        android:layout_alignEnd="@+id/past_wl_gw_txt"
-        android:layout_alignLeft="@+id/past_wl_gw_txt"
-        android:layout_alignStart="@+id/past_wl_gw_txt" />
+        <TextView
+            android:id="@+id/past_wl_g_ratio_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/past_wl_total_gc_txt"
+            android:layout_alignTop="@+id/past_wl_total_gc_txt"
+            android:layout_toLeftOf="@+id/chevron"
+            android:layout_toRightOf="@+id/past_wl_total_gc_txt"
+            android:layout_toStartOf="@+id/chevron"
+            android:text="@string/goals_shot_n_opp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
 
-    <TextView
-        android:text="40"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/past_wl_gp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:layout_above="@+id/past_wl_gp_txt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/past_wl_gp_txt"
-        android:layout_alignEnd="@+id/past_wl_gp_txt" />
+        <TextView
+            android:id="@+id/past_wl_g_ratio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/past_wl_g_ratio_txt"
+            android:layout_alignLeft="@+id/past_wl_g_ratio_txt"
+            android:layout_alignStart="@+id/past_wl_g_ratio_txt"
+            android:layout_alignTop="@+id/past_wl_total_gc"
+            android:layout_toLeftOf="@+id/chevron"
+            android:layout_toStartOf="@+id/chevron"
+            android:text="0.36(0.32)"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/chevron"
+            android:layout_toStartOf="@+id/chevron"
+            android:background="@color/black"/>
+
+        <TextView
+            android:id="@+id/past_wl_total_gs_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/past_wl_total_gs"
+            android:text="@string/total_goals_nscored"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/past_wl_total_gc_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/past_wl_total_gc"
+            android:layout_centerHorizontal="true"
+            android:text="@string/total_goals_n_conceded"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/past_wl_total_gc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/past_wl_total_gs"
+            android:layout_alignBottom="@+id/past_wl_total_gs"
+            android:layout_alignEnd="@+id/past_wl_total_gc_txt"
+            android:layout_alignLeft="@+id/past_wl_total_gc_txt"
+            android:layout_alignRight="@+id/past_wl_total_gc_txt"
+            android:layout_alignStart="@+id/past_wl_total_gc_txt"
+            android:text="25"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/past_wl_gw_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/past_wl_gp_txt"
+            android:layout_alignBottom="@+id/past_wl_gp_txt"
+            android:layout_alignEnd="@+id/past_wl_total_gc"
+            android:layout_alignRight="@+id/past_wl_total_gc"
+            android:text="Games Won"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/past_wl_gw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/past_wl_gw_txt"
+            android:layout_alignLeft="@+id/past_wl_gw_txt"
+            android:layout_alignRight="@+id/past_wl_gw_txt"
+            android:layout_alignStart="@+id/past_wl_gw_txt"
+            android:layout_alignTop="@+id/past_wl_gp"
+            android:text="31"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/past_wl_gp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/past_wl_gp_txt"
+            android:layout_alignEnd="@+id/past_wl_gp_txt"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/past_wl_gp_txt"
+            android:text="40"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+

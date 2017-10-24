@@ -33,7 +33,7 @@ public class XboxLeaderboardsPresenter implements XboxLeaderboardsContract.Prese
 
     @Override
     public void start() {
-            getXboxLeaderboards("current", "americas");
+            getXboxLeaderboards("current", "all");
             getMonths();
     }
 

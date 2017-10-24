@@ -74,12 +74,21 @@
                 android:textStyle="bold"
                 android:text="@string/teams_info"/>
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="@color/white"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:contentPadding="5dp"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -366,13 +375,23 @@
 
             </LinearLayout>
 
+            </android.support.v7.widget.CardView>
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:contentPadding="5dp"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="5dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/user_team_used_txt"
@@ -437,6 +456,22 @@
 
 
             </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/dark_grey"
+            android:layout_marginTop="5dp"
+            app:contentPadding="5dp"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -838,6 +873,9 @@
                     android:inputType="number"/>
             </LinearLayout>
 
+        </LinearLayout>
+        </android.support.v7.widget.CardView>
+
             <View
                 android:layout_width="300dp"
                 android:layout_height="2dp"
@@ -846,6 +884,20 @@
                 android:layout_gravity="center_horizontal">
 
             </View>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/dark_grey"
+            android:layout_marginBottom="100dp"
+            app:contentPadding="5dp"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -937,8 +989,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="90dp"
+                android:layout_marginTop="5dp"
                 android:inputType="text"
                 android:imeOptions="actionDone"
                 android:text="@={game.game_notes}"
@@ -955,6 +1006,9 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp" />
+
+        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    google()
 }
 
 
@@ -24,12 +25,12 @@ android {
             storePassword 'futchamps'
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.weekendleague.stats"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -58,8 +59,8 @@ android {
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
             targetSdkVersion 25
-            versionCode 16
-            versionName '1.8'
+            versionCode 17
+            versionName '1.8.1'
             resValue "string", "app_name", "FUT Weekend League Stats & Leaderboards"
         }
         staging {
@@ -97,32 +98,31 @@ dependencies {
     })
 
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
         transitive = true;
     }
 
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'cn.pedant.sweetalert:library:1.3'
     compile 'com.jaredrummler:material-spinner:1.1.0'
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
-    compile 'com.github.githubwing:ByeBurger:1.2.3'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
-    compile 'com.github.arimorty:floatingsearchview:2.0.3'
+    compile 'com.android.support.constraint:constraint-layout:1.1.0-beta3'
+    compile 'com.github.arimorty:floatingsearchview:2.0.4'
     compile 'com.nex3z:flow-layout:1.0.0'
 
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     compile 'com.tuyenmonkey:mkloader:1.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.2.0'

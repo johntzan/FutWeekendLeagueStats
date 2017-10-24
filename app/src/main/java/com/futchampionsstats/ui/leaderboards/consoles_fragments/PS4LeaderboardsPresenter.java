@@ -30,7 +30,7 @@ public class PS4LeaderboardsPresenter implements PS4LeaderboardsContract.Present
 
     @Override
     public void start() {
-            getPS4Leaderboards("current", "americas");
+            getPS4Leaderboards("current", "all");
             getMonths();
     }
 

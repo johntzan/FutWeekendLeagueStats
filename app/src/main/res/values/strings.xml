@@ -134,6 +134,20 @@
     <string name="win_txt">WIN</string>
     <string name="loss_txt">LOSS</string>
 
+    <string name="total_goals_n_conceded">Total Goals\nConceded</string>
+    <string name="total_goals_nscored">Total Goals\nScored</string>
+    <string name="goals_shot_n_opp">Goals/Shot\n(Opp)</string>
+
+    <string name="month">Month</string>
+    <string name="overall_rank">Overall Rank</string>
+    <string name="region_rank">Region Rank</string>
+    <string name="wins">Wins</string>
+    <string name="skill">Skill</string>
+    <string name="top_100">Fut Champions Top 100</string>
+    <string name="rank">Rank</string>
+    <string name="user">User</string>
+    <string name="region">Region</string>
+
     <string name="facebook_app_id">276934669462684</string>
 
     <string name="epl">EPL</string>
@@ -144,4 +158,5 @@
     <string name="hybrid">Hybrid</string>
     <string name="other">Other</string>
     <string name="_1_nation">1 Nation</string>
+
 </resources>
