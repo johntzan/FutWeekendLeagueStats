@@ -75,10 +75,10 @@ public class WeekendLeague extends BaseObservable implements Serializable{
     public static String getGamesLeft(WeekendLeague wl){
 
         if(wl!=null){
-            return String.valueOf(40 - wl.getWeekendLeague().size());
+            return String.valueOf(30 - wl.getWeekendLeague().size());
         }
         else{
-            return "40";
+            return "30";
         }
     }
 

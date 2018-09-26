@@ -21,8 +21,6 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.futchampionsstats.FutChampsApplication;
 import com.futchampionsstats.R;
 import com.futchampionsstats.databinding.FragmentLeaderboardsBinding;
@@ -89,7 +87,6 @@ public class LeaderboardsFragment extends Fragment implements LeaderboardsContra
 
         setupSearchView();
 
-        Answers.getInstance().logCustom(new CustomEvent("Viewing Leaderboards"));
         isConnectedToInternet();
 
         return view;

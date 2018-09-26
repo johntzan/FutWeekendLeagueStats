@@ -23,6 +23,7 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         design:itemBackground="@color/colorPrimary"
         design:itemIconTint="@drawable/nav_item_color_state"
         design:itemTextColor="@drawable/nav_item_color_state"

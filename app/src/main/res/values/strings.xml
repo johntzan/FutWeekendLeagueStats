@@ -158,5 +158,10 @@
     <string name="hybrid">Hybrid</string>
     <string name="other">Other</string>
     <string name="_1_nation">1 Nation</string>
+    <string name="main_app_info">Main App Info</string>
+    <string name="info">Info</string>
+    <string name="app_info">App Info</string>
+    <string name="terms_conditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="privacy_policy">Privacy Policy</string>
 
 </resources>

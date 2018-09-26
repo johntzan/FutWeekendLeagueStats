@@ -33,6 +33,7 @@ import com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesFrag
 import com.futchampionsstats.ui.past_wls.view_past_wls.games.ViewPastWLGamesPresenter;
 import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLFragment;
 import com.futchampionsstats.ui.past_wls.view_past_wls.selected.ViewSelectedWLPresenter;
+import com.futchampionsstats.ui.wl.InfoFragment;
 import com.futchampionsstats.ui.wl.WeekendLeagueDetailFragment;
 import com.futchampionsstats.ui.wl.WeekendLeagueDetailPresenter;
 import com.futchampionsstats.ui.wl.edit_game.EditGameFragment;
@@ -228,6 +229,12 @@ public class MainActivity extends AppCompatActivity implements WeekendLeagueDeta
         new ViewGamesPresenter(((FutChampsApplication) getApplicationContext()).getWeekendLeagueRepository().getWeekendLeagueRepository(), viewGamesFragment);
 
         displayFragment(viewGamesFragment, "view_games_frag");
+    }
+
+    @Override
+    public void goToMainAppInfo() {
+        InfoFragment infoFragment = new InfoFragment();
+        displayFragment(infoFragment, "info");
     }
 
     /**

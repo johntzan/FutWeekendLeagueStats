@@ -6,6 +6,7 @@ import android.util.Log;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -15,7 +16,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.futchampionsstats.BuildConfig.API_URL;
@@ -32,6 +33,8 @@ public class ServiceModule {
     Retrofit provideCall(){
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
+                .writeTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
                 .addInterceptor(new Interceptor() {
                     @Override
                     public okhttp3.Response intercept(Chain chain) throws IOException {
@@ -58,7 +61,7 @@ public class ServiceModule {
                 .baseUrl(API_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
                 .build();
     }

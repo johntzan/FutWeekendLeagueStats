@@ -98,7 +98,7 @@ public class WeekendLeagueDetailPresenter implements WeekendLeagueDetailContract
                 }
                 if (weekendLeague != null &&  weekendLeague.getWeekendLeague()!=null) {
                     Log.d(TAG, "addNewGame: wl not null");
-                    if (weekendLeague.getWeekendLeague().size()< 40){
+                    if (weekendLeague.getWeekendLeague().size()< 30){
                         mWeekendLeagueDetailView.showNewGame();
                     }
                     else{

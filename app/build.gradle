@@ -1,20 +1,5 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
-}
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-    google()
-}
-
 
 android {
     signingConfigs {
@@ -25,15 +10,15 @@ android {
             storePassword 'futchamps'
         }
     }
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.weekendleague.stats"
-        minSdkVersion 15
-        targetSdkVersion 26
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -52,25 +37,24 @@ android {
             testCoverageEnabled true
         }
     }
+    flavorDimensions "version"
     productFlavors {
         prod {
-            minSdkVersion 15
+            dimension "version"
             applicationId 'com.weekendleague.stats.prod'
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
-            targetSdkVersion 25
-            versionCode 17
-            versionName '1.8.1'
+            versionCode 18
+            versionName '1.9'
             resValue "string", "app_name", "FUT Weekend League Stats & Leaderboards"
         }
         staging {
-            minSdkVersion 15
+            dimension "version"
             applicationId 'com.weekendleague.stats.staging'
             signingConfig signingConfigs.debug
             proguardFile 'proguard-rules.pro'
-            targetSdkVersion 25
             versionCode 1
-            versionName '1.8'
+            versionName '1.9'
             resValue "string", "app_name", "FUT Weekend League Stats & Leaderboards"
         }
     }
@@ -92,47 +76,51 @@ gradle.projectsEvaluated {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
-        transitive = true;
-    }
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
+    implementation 'com.jaredrummler:material-spinner:1.2.5'
+    implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
+    implementation 'com.github.arimorty:floatingsearchview:2.0.4'
+    implementation 'com.nex3z:flow-layout:1.0.0'
 
-    compile 'com.facebook.stetho:stetho:1.5.0'
-    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    compile 'com.android.support:support-v4:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    compile 'com.getbase:floatingactionbutton:1.10.1'
-    compile 'cn.pedant.sweetalert:library:1.3'
-    compile 'com.jaredrummler:material-spinner:1.1.0'
-    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
-    compile 'com.android.support.constraint:constraint-layout:1.1.0-beta3'
-    compile 'com.github.arimorty:floatingsearchview:2.0.4'
-    compile 'com.nex3z:flow-layout:1.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
 
-    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 
-    compile 'com.tuyenmonkey:mkloader:1.2.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
-    compile 'com.squareup.retrofit2:converter-scalars:2.2.0'
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.3.0'
-    compile 'com.artemzin.rxjava:proguard-rules:1.3.0.0'
-    compile "com.google.guava:guava:20.0"
-    compile 'com.google.dagger:dagger:2.10'
+    implementation 'com.tuyenmonkey:mkloader:1.2.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.2.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+    implementation 'com.artemzin.rxjava:proguard-rules:1.3.0.0'
+    implementation "com.google.guava:guava:20.0"
+    implementation 'com.google.dagger:dagger:2.11'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
-    provided 'javax.annotation:jsr250-api:1.0'
-    compile 'javax.inject:javax.inject:1'
-    testCompile 'junit:junit:4.12'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    implementation 'javax.inject:javax.inject:1'
+    testImplementation 'junit:junit:4.12'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
+
+apply plugin: 'com.google.gms.google-services'

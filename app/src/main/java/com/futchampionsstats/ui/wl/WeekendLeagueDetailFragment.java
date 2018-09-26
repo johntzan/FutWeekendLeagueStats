@@ -69,6 +69,10 @@ public class WeekendLeagueDetailFragment extends Fragment implements WeekendLeag
             if(mListener!=null) mListener.onWLViewGamesInteraction();
         }
 
+        public void infoBtnClick(View v){
+            if(mListener!=null) mListener.goToMainAppInfo();
+        }
+
         public void saveWeekendLeagueButtonClick(View v){
             showSaveWLDialog();
         }
@@ -254,6 +258,7 @@ public class WeekendLeagueDetailFragment extends Fragment implements WeekendLeag
 
         void onWLNewGameInteraction();
         void onWLViewGamesInteraction();
+        void goToMainAppInfo();
 
     }
 }

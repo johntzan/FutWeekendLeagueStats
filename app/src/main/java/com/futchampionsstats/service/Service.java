@@ -6,10 +6,9 @@ import com.futchampionsstats.models.leaderboards.SearchResults;
 import com.futchampionsstats.models.leaderboards.Top100;
 import com.futchampionsstats.models.leaderboards.User;
 
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yiannitzan on 5/3/17.
@@ -25,40 +24,32 @@ public class Service {
         this.weekendLeagueService = weekendLeagueService;
     }
 
-    public Subscription getUserProfile(String username, String id, final GetUserCallback callback){
+    public void getUserProfile(String username, String id, final GetUserCallback callback){
 
-        return weekendLeagueService.getUserProfile(username, id)
+        weekendLeagueService.getUserProfile(username, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<User>() {
+                .subscribe(new DisposableSingleObserver<User>() {
                     @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "onCompleted: ");
+                    public void onSuccess(User user) {
+                        callback.onSuccess(user);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "onNext: " + e.getMessage());
                         callback.onError(e);
-                    }
-
-                    @Override
-                    public void onNext(User user) {
-
-                        callback.onSuccess(user);
                     }
                 });
     }
 
-    public Subscription getTop100(String month, String region, String console, final GetTop100Callback callback){
+    public void getTop100(String month, String region, String console, final GetTop100Callback callback){
 
-        return weekendLeagueService.getTop100(month.toLowerCase(), region.toLowerCase(), console)
+        weekendLeagueService.getTop100(month.toLowerCase(), region.toLowerCase(), console)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Top100>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+                .retry(2)
+                .subscribe(new DisposableSingleObserver<Top100>() {
 
                     @Override
                     public void onError(Throwable e) {
@@ -67,7 +58,7 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(Top100 top100) {
+                    public void onSuccess(Top100 top100) {
 
                         callback.onSuccess(top100);
                     }
@@ -75,15 +66,12 @@ public class Service {
     }
 
 
-    public Subscription getUserSearchResults(String query, final GetSearchResultsCallback callback){
+    public void getUserSearchResults(String query, final GetSearchResultsCallback callback){
 
-        return weekendLeagueService.getUserSearchResults(query)
+        weekendLeagueService.getUserSearchResults(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchResults[]>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+                .subscribe(new DisposableSingleObserver<SearchResults[]>() {
 
                     @Override
                     public void onError(Throwable e) {
@@ -92,36 +80,29 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(SearchResults[] searchResults) {
+                    public void onSuccess(SearchResults[] searchResults) {
 
                         callback.onSuccess(searchResults);
                     }
                 });
     }
 
-    public Subscription getMonths(final GetMonthsCallback callback){
-        return weekendLeagueService.getMonthsAvailable()
+    public void getMonths(final GetMonthsCallback callback){
+        weekendLeagueService.getMonthsAvailable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String[]>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
+                .subscribe(new DisposableSingleObserver<String[]>() {
                     @Override
                     public void onError(Throwable e) {
                         callback.onError(e);
                     }
 
                     @Override
-                    public void onNext(String[] response) {
+                    public void onSuccess(String[] response) {
                         callback.onSuccess(response);
                     }
                 });
     }
-
-
 
     public interface GetUserCallback{
         void onSuccess(User userResponse);

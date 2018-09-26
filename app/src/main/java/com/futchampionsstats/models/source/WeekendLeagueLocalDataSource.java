@@ -6,8 +6,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.futchampionsstats.models.AllWeekendLeagues;
 import com.futchampionsstats.models.Game;
 import com.futchampionsstats.models.WeekendLeague;
@@ -70,7 +68,6 @@ public class WeekendLeagueLocalDataSource implements WeekendLeagueDataSource{
     public void saveWeekendLeague(WeekendLeague wl, OnWeekendLeagueSavedCallBack callBack) {
 
         if(wl!=null){
-            Answers.getInstance().logCustom(new CustomEvent("Save Weekend League"));
 
             Gson gson = new Gson();
             String json = mSharedPrefs.getString(Constants.ALL_WLS, null);
@@ -142,8 +139,6 @@ public class WeekendLeagueLocalDataSource implements WeekendLeagueDataSource{
 
             editor.putString(Constants.CURRENT_WL, json2);
             editor.apply();
-
-            Answers.getInstance().logCustom(new CustomEvent("Saved New Game"));
 
             callback.onGameSaved(wl);
         }
